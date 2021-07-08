@@ -12,8 +12,9 @@
 ;; ui
 (setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
+
 ;font
-(setq doom-font (font-spec :family "mononoki" :size 20 :weight 'semi-light)
+(setq doom-font (font-spec :family "mononoki" :size 20 :weight 'regular)
       doom-big-font (font-spec :family "mononoki")
 )
 
