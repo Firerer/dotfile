@@ -19,7 +19,7 @@
 )
 
 ;; dirs
-(setq org-directory "~/org/")
+(setq org-directory "~/Documents/org/")
 (setq projectile-project-search-path "~/Documents/codes/")
 (setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"))
 ;; Here are some additional functions/macros that could help you configure Doom:
