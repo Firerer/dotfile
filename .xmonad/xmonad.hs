@@ -27,7 +27,7 @@ myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
 --myWorkspaces    = ["\63083", "\63288", "\63306", "\61723", "\63107", "\63601", "\63391", "\61713", "\61884"]
 myNormalBorderColor  = "#3b4050"
 myFocusedBorderColor = "#bc96da"
-myGaps = [(L,0), (R,0), (U,0), (D,0)]
+myGaps = [(L,0), (R,0), (U,30), (D,0)]
 myWindowGaps = 5
 myStartupHook = do
   spawnOnce "lxsession &"
@@ -36,7 +36,7 @@ myStartupHook = do
   spawnOnce "greenclip daemon" -- clipboard
   spawnOnce "dunst"
   spawn "exec ~/bin/lock.sh"
-  spawn "xsetroot -cursor_name left_ptr"
+  --spawn "xsetroot -cursor_name left_ptr"
   spawnOnce "polybar example &"
   spawnOnce "emacs --deamon &"
 
