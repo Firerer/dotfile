@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -Wno-missing-signatures #-}
+{-# OPTIONS_GHC -Wno-missing-signatures -Wno-unused-imports #-}
 
 import XMonad
 import qualified XMonad.StackSet as W
@@ -13,6 +13,7 @@ import XMonad.Layout.Gaps(gaps, setGaps, GapMessage(DecGap, ToggleGaps, IncGap))
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 
 import Control.Monad ( join, when )
+-- import Control.Parallel
 import Data.Monoid ()
 import Data.Maybe (maybeToList)
 import qualified Data.Map        as M
@@ -30,16 +31,15 @@ myFocusedBorderColor = "#bc96da"
 myGaps = [(L,0), (R,0), (U,30), (D,0)]
 myWindowGaps = 5
 myStartupHook = do
-  spawnOnce "lxsession &"
-  spawnOnce "nitrogen --restore &"
-  spawnOnce "picom --experimental-backends"
-  spawnOnce "greenclip daemon" -- clipboard
-  spawnOnce "dunst"
-  spawn "exec ~/bin/lock.sh"
-  --spawn "xsetroot -cursor_name left_ptr"
-  spawnOnce "polybar example &"
-  spawnOnce "emacs --deamon &"
-
+   spawnOnce "lxsession &"
+   spawnOnce "nitrogen --restore &"
+   spawnOnce "picom"
+   spawnOnce "polybar example &"
+   spawnOnce "dunst"
+   spawnOnce "greenclip daemon" -- clipboard
+   spawn "exec ~/bin/lock.sh"
+   spawn "xsetroot -cursor_name left_ptr"
+   spawnOnce "emacs --daemon"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -53,117 +53,104 @@ restart_xmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --rest
 
 -- To see key masks :
 -- `$ xev` or look up`Graphics.X11.Types.KeyMask`
+-- M means a frequent keybinding
+-- M-S means reset/moving
+-- M-C means control
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-
-    -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-    -- lock screen
-    -- (fn , pause) is sleep, system default keybinding
-    , ((0, xK_Pause), spawn "betterlockscreen -l")
+    [
+    -- Quit xmonad
+    ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess) )
+    -- Restart xmonad
+    , ((modm, xK_q), restart_xmonad)
+    -- close focused window
+    , ((modm .|. shiftMask, xK_c     ), kill) -- deprecate
+    , ((modm .|. controlMask, xK_k     ), kill)
+    , ((modm , xK_d     ), kill)
+    ------------
+    --- APPS
+    ------------
     -- open apps
     , ((modm, xK_o), rofi_launcher)
-    -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
+    , ((modm, 0), rofi_launcher)
+    -- launch a terminal
+    , ((modm , xK_Return), spawn $ XMonad.terminal conf)
+    -- lock screen
+    , ((0, xK_Pause), spawn "betterlockscreen -l")
     -- Screenshot
     , ((0,                    xK_Print), maimcopy)
     , ((modm,                 xK_Print), maimsave)
     -- clipboard
     , ((modm .|. shiftMask, xK_a     ), clipboardy)
-
-    -- GAPS!!!
+    -----------
+    --- GAPS
+    -----------
     , ((modm .|. controlMask, xK_g), sendMessage $ ToggleGaps)               -- fullscreen, some app support F11 as well
     , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps myGaps) -- reset the GapSpec
-    
-    , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
-    , ((modm .|. shiftMask, xK_Up     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
-    
-    , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 U)              -- increment the top gap
-    , ((modm .|. shiftMask, xK_Up), sendMessage $ DecGap 10 U)           -- decrement the top gap
-
-    , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 10 D)              -- increment the bottom gap
-    , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 10 D)           -- decrement the bottom gap
-
-    , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 10 R)              -- increment the right-hand gap
-    , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 10 R)           -- decrement the right-hand gap
-
-     -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
-
-    --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-
-    -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
-
-    -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-
-    -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
-
-    -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
-
-    -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
-
-    -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
-
-    -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j), windows W.swapDown  )
-
-    -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k), windows W.swapUp    )
-
-    -- Shrink the master area
-    , ((modm, xK_h), sendMessage Shrink)
-
-    -- Expand the master area
-    , ((modm, xK_l), sendMessage Expand)
-
-    -- Push window back into tiling
-    , ((modm, xK_t), withFocused $ windows . W.sink)
-
-    -- Increment the number of windows in the master area
-    , ((modm, xK_comma), sendMessage (IncMasterN 1))
-
-    -- Deincrement the number of windows in the master area
-    , ((modm, xK_period), sendMessage (IncMasterN (-1)))
-
+    -- , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
+    -- , ((modm .|. shiftMask, xK_Up     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
+    -- , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 U)              -- increment the top gap
+    -- , ((modm .|. shiftMask, xK_Up), sendMessage $ DecGap 10 U)           -- decrement the top gap
+    -- , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 10 D)              -- increment the bottom gap
+    -- , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 10 D)           -- decrement the bottom gap
+    -- , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 10 R)              -- increment the right-hand gap
+    -- , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 10 R)           -- decrement the right-hand gap
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
     --
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
-
-    -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess) )
-
-    -- Restart xmonad
-    , ((modm              , xK_q     ), restart_xmonad)
-
+    -----------
+    --- WINDOWS
+    -----------
+    -- Rotate through the available layout algorithms
+    , ((modm,               xK_space ), sendMessage NextLayout)
+    -- Reset the layouts on the current workspace to default
+    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+    -- Resize viewed windows to the correct size
+    , ((modm,               xK_n     ), refresh)
+    -- Move focus to the next window
+    , ((modm,               xK_j     ), windows W.focusDown)
+    -- Move focus to the previous window
+    , ((modm,               xK_k     ), windows W.focusUp  )
+    -- Reset focus to the master window
+    -- , ((modm .|. shiftMask, xK_m     ), windows W.focusMaster  )
+    -- Reset the focused window and the master window
+    , ((modm .|. shiftMask, xK_m), windows W.swapMaster)
+    -- Swap the focused window with the next window
+    , ((modm .|. controlMask, xK_j), windows W.swapDown  )
+    -- Swap the focused window with the previous window
+    , ((modm .|. controlMask, xK_k), windows W.swapUp    )
+    -- Shrink the master area
+    , ((modm .|. controlMask, xK_h), sendMessage Shrink)
+    -- Expand the master area
+    , ((modm .|. controlMask, xK_l), sendMessage Expand)
+    -- Reset window back into tiling
+    , ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink)
+    -- Increment the number of windows in the master area
+    , ((modm .|. controlMask, xK_comma), sendMessage (IncMasterN 1))
+    -- Deincrement the number of windows in the master area
+    , ((modm .|. controlMask, xK_period), sendMessage (IncMasterN (-1)))
+    ------------
+    --- MORE KEYS
+    ------------
     -- Audio keys
     , ((0,                    xF86XK_AudioPlay), spawn "playerctl play-pause")
     , ((0,                    xF86XK_AudioPrev), spawn "playerctl previous")
     , ((0,                    xF86XK_AudioNext), spawn "playerctl next")
-    , ((0,                    xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume 0 +5%")
-    , ((0,                    xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume 0 -5%")
-    , ((0,                    xF86XK_AudioMute), spawn "pactl set-sink-mute 0 toggle")
-
+    , ((0,                    xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume 1 +5%")
+    , ((0,                    xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume 1 -5%")
+    , ((0,                    xF86XK_AudioMute), spawn "pactl set-sink-mute 1 toggle")
     -- Brightness keys
     , ((0,                    xF86XK_MonBrightnessUp), spawn "brightnessctl s +10%")
     , ((0,                    xF86XK_MonBrightnessDown), spawn "brightnessctl s 10-%")
     ]
     ++
-
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    [((mod2 .|. modm, num), windows $ func workspace)
+        | (workspace, num) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+        , (func, mod2) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
-
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
@@ -265,16 +252,13 @@ defaults = def {
         workspaces         = myWorkspaces,
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
-
       -- key bindings
         keys               = myKeys,
         mouseBindings      = myMouseBindings,
-
       -- hooks, layouts
         manageHook = myManageHook, 
         layoutHook = gaps myGaps
             $ spacingRaw False (Border myWindowGaps 0 myWindowGaps 0) True (Border 0 myWindowGaps 0 myWindowGaps) True
-          --  $ spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True
             $ smartBorders $ myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
