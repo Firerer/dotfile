@@ -64,3 +64,12 @@
 
 ;; rust
 (setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"))
+
+;; python
+(use-package! lsp
+  :init
+  (setq lsp-pyls-plugins-pylint-enabled t)
+  (setq lsp-pyls-plugins-autopep8-enabled nil)
+  (setq lsp-pyls-plugins-yapf-enabled t)
+  (setq lsp-pyls-plugins-pyflakes-enabled nil)
+)
