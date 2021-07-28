@@ -25,12 +25,34 @@
       user-mail-address "liudi12631@email.com")
 
 ;; ui
-(setq doom-theme 'doom-one)
+(setq doom-theme 'base16-google-dark)
+;; (setq doom-theme 'doom-one)
+
 (setq display-line-numbers-type 'relative)
+
 ;; font
 (setq doom-font (font-spec :family "mononoki" :size 20 :weight 'regular)
       ;; doom-big-font (font-spec :family "mononoki" :size 40 :weight 'Bold)
+        doom-unicode-font (font-spec :family "Unifont")
 )
+
+;; input
+;; TODO emcas unable to accept input in chinese mode
+(setq fcitx-remote-command "fcitx5-remote")
+;; (pyim-default-scheme 'microsoft-shuangpin)
+
+;; (if (posframe-workable-p)
+;;     (setq pyim-page-tooltip 'posframe)
+;;   (setq pyim-page-tooltip 'popup))
+
+
+;; (setq lsp-clients-clangd-args '("-j=3"
+;;                                 "--background-index"
+;;                                 "--clang-tidy"
+;;                                 "--completion-style=detailed"
+;;                                 "--header-insertion=never"
+;;                                 "--header-insertion-decorators=0"))
+;; (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; dirs

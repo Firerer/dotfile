@@ -29,7 +29,7 @@ myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
 myNormalBorderColor  = "#3b4050"
 myFocusedBorderColor = "#bc96da"
 myGaps = [(L,0), (R,0), (U,30), (D,0)]
-myWindowGaps = 5
+myWindowGaps = 2
 myStartupHook = do
    spawnOnce "lxsession &"
    spawnOnce "nitrogen --restore &"
@@ -45,33 +45,34 @@ myStartupHook = do
 -- Key bindings. Add, modify or remove key bindings here.
 --
 clipboardy :: MonadIO m => m () -- Don't question it 
-clipboardy = spawn "rofi -modi \"\63053 :greenclip print\" -show \"\63053 \" -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
+clipboardy = spawn "rofi -modi clipboard:(greenclip print) -show clipboard -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
 maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
-maimsave = spawn "maim -s ~/Desktop/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
-rofi_launcher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
-restart_xmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
+maimsave = spawn "maim -s ~/Pictures/ScreenShots/$(date +%H:%M:%S_%Y-%m-%d).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
+rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
+restartXmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
+volumeUp = "pactl set-sink-volume (pacmd list-sinks | grep -e '*' | cut -c 12-13) +5%"
+volumeDown = "pactl set-sink-volume (pacmd list-sinks | grep -e '*' | cut -c 12-13) -5%"
 
 -- To see key masks :
 -- `$ xev` or look up`Graphics.X11.Types.KeyMask`
 -- M means a frequent keybinding
 -- M-S means reset/moving
 -- M-C means control
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     [
     -- Quit xmonad
-    ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess) )
+    ((modm .|. shiftMask, xK_q), io exitSuccess)
     -- Restart xmonad
-    , ((modm, xK_q), restart_xmonad)
+    , ((modm, xK_q), restartXmonad)
     -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill) -- deprecate
     , ((modm .|. controlMask, xK_k     ), kill)
     , ((modm , xK_d     ), kill)
     ------------
     --- APPS
     ------------
     -- open apps
-    , ((modm, xK_o), rofi_launcher)
-    , ((modm, 0), rofi_launcher)
+    , ((modm, xK_o), rofiLauncher)
+    , ((modm, 0), rofiLauncher)
     -- launch a terminal
     , ((modm , xK_Return), spawn $ XMonad.terminal conf)
     -- lock screen
@@ -84,7 +85,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -----------
     --- GAPS
     -----------
-    , ((modm .|. controlMask, xK_g), sendMessage $ ToggleGaps)               -- fullscreen, some app support F11 as well
+    , ((modm .|. controlMask, xK_g), sendMessage ToggleGaps)               -- fullscreen, some app support F11 as well
     , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps myGaps) -- reset the GapSpec
     -- , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
     -- , ((modm .|. shiftMask, xK_Up     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
@@ -137,8 +138,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((0,                    xF86XK_AudioPlay), spawn "playerctl play-pause")
     , ((0,                    xF86XK_AudioPrev), spawn "playerctl previous")
     , ((0,                    xF86XK_AudioNext), spawn "playerctl next")
-    , ((0,                    xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume 1 +5%")
-    , ((0,                    xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume 1 -5%")
+    , ((0,                    xF86XK_AudioRaiseVolume), spawn volumeUp)
+    , ((0,                    xF86XK_AudioLowerVolume), spawn volumeDown)
     , ((0,                    xF86XK_AudioMute), spawn "pactl set-sink-mute 1 toggle")
     -- Brightness keys
     , ((0,                    xF86XK_MonBrightnessUp), spawn "brightnessctl s +10%")
@@ -161,7 +162,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
 --
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
+myMouseBindings XConfig {XMonad.modMask = modm} = M.fromList
     -- mod-button1, Set the window to floating mode and move by dragging
     [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
                                        >> windows W.shiftMaster))
@@ -198,6 +199,9 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , className =? "Nm-connection-editor" --> doFloat -- network manager
+    , className =? "Lxsession-edit" --> doFloat
+    , className =? "Lxsession-default-apps" --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , isFullscreen --> doFullFloat
@@ -284,7 +288,3 @@ addEWMHFullscreen   = do
     wms <- getAtom "_NET_WM_STATE"
     wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
     mapM_ addNETSupported [wms, wfs]
-
--- TODO: start from xdm, copyed from @randomthoughts
--- ln -s ~/.xmonad/bin/xsession ~/.xsession
--- # Logout, login from lightdm/xdm/kdm/gdm
