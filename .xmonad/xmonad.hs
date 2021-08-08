@@ -13,7 +13,7 @@ import XMonad.Layout.Gaps(gaps, setGaps, GapMessage(DecGap, ToggleGaps, IncGap))
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 
 import Control.Monad ( join, when )
--- import Control.Parallel
+import Control.Parallel
 import Data.Monoid ()
 import Data.Maybe (maybeToList)
 import qualified Data.Map        as M
@@ -24,8 +24,8 @@ myFocusFollowsMouse = True
 myClickJustFocuses = False
 myBorderWidth   = 2
 myModMask       = mod4Mask
-myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
---myWorkspaces    = ["\63083", "\63288", "\63306", "\61723", "\63107", "\63601", "\63391", "\61713", "\61884"]
+-- myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
+myWorkspaces    = ["\63083", "\63288", "\63306", "\61723", "\63107", "\63601", "\63391", "\61713", "\61884"]
 myNormalBorderColor  = "#3b4050"
 myFocusedBorderColor = "#bc96da"
 myGaps = [(L,0), (R,0), (U,30), (D,0)]
@@ -33,25 +33,21 @@ myWindowGaps = 2
 myStartupHook = do
    spawnOnce "lxsession &"
    spawnOnce "nitrogen --restore &"
-   spawnOnce "picom"
+   spawnOnce "picom &"
    spawnOnce "polybar example &"
-   spawnOnce "dunst"
-   spawnOnce "greenclip daemon" -- clipboard
-   spawn "exec ~/bin/lock.sh"
-   spawn "xsetroot -cursor_name left_ptr"
-   spawnOnce "emacs --daemon"
+   spawnOnce "dunst &"
+   -- spawn "exec ~/bin/lock.sh"
+   spawn "xsetroot -cursor_name left_ptr &"
+   spawnOnce "emacs --daemon &"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
-clipboardy :: MonadIO m => m () -- Don't question it 
-clipboardy = spawn "rofi -modi clipboard:(greenclip print) -show clipboard -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
+maimcopy :: MonadIO m => m () -- Don't question it
 maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
-maimsave = spawn "maim -s ~/Pictures/ScreenShots/$(date +%H:%M:%S_%Y-%m-%d).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
+maimsave = spawn "maim -s ~/Pictures/ScreenShots/$(date +%H:%M:%S_%Y-%m-%d).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
 rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
 restartXmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
-volumeUp = "pactl set-sink-volume (pacmd list-sinks | grep -e '*' | cut -c 12-13) +5%"
-volumeDown = "pactl set-sink-volume (pacmd list-sinks | grep -e '*' | cut -c 12-13) -5%"
 
 -- To see key masks :
 -- `$ xev` or look up`Graphics.X11.Types.KeyMask`
@@ -81,7 +77,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     , ((0,                    xK_Print), maimcopy)
     , ((modm,                 xK_Print), maimsave)
     -- clipboard
-    , ((modm .|. shiftMask, xK_a     ), clipboardy)
+    -- , ((modm .|. shiftMask, xK_a     ), clipboardy)
     -----------
     --- GAPS
     -----------
@@ -138,8 +134,8 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     , ((0,                    xF86XK_AudioPlay), spawn "playerctl play-pause")
     , ((0,                    xF86XK_AudioPrev), spawn "playerctl previous")
     , ((0,                    xF86XK_AudioNext), spawn "playerctl next")
-    , ((0,                    xF86XK_AudioRaiseVolume), spawn volumeUp)
-    , ((0,                    xF86XK_AudioLowerVolume), spawn volumeDown)
+    , ((0,                    xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+ unmute")
+    , ((0,                    xF86XK_AudioLowerVolume), spawn "amixer set Master 5%- unmute")
     , ((0,                    xF86XK_AudioMute), spawn "pactl set-sink-mute 1 toggle")
     -- Brightness keys
     , ((0,                    xF86XK_MonBrightnessUp), spawn "brightnessctl s +10%")
@@ -266,7 +262,8 @@ defaults = def {
             $ smartBorders $ myLayout,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
-        startupHook        = myStartupHook >> addEWMHFullscreen
+        -- NOTE: run addEWMHFullscreen before other apps so that they can get xprops
+        startupHook        = addEWMHFullscreen >> myStartupHook
     }
 
 -- the sxiv app (and maybe others) believes that fullscreen is not supported,
@@ -279,7 +276,7 @@ addNETSupported x   = withDisplay $ \dpy -> do
     a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
     a               <- getAtom "ATOM"
     liftIO $ do
-       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+       sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
        when (fromIntegral x `notElem` sup) $
          changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
 
