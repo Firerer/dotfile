@@ -8,7 +8,7 @@ alias memoinfo="free -m"
 
 alias dotconfig='/usr/bin/git --git-dir=/home/firer/.cfg/ --work-tree=/home/firer'
 
-# replace exa with ls
+# replace ls with exa
 alias ls="exa --icons --sort=type"
 alias la="exa --icons --sort=type -a"
 alias ll="exa --icons --sort=type --header -la"
