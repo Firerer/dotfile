@@ -36,23 +36,17 @@
         doom-unicode-font (font-spec :family "Unifont")
 )
 
+;;;;;;;;;
+;; egonomic
+;;;;;;;;;
+
+;; (add-to-list 'lsp-file-watch-ignored-directories "\\usr\\include\\'")
+
+;; vterm TODO: open fish by default
+;; (setq vterm--term 'fish-mode)
+
 ;; input
 ;; TODO emcas unable to accept input in chinese mode
-(setq fcitx-remote-command "fcitx5-remote")
-;; (pyim-default-scheme 'microsoft-shuangpin)
-
-;; (if (posframe-workable-p)
-;;     (setq pyim-page-tooltip 'posframe)
-;;   (setq pyim-page-tooltip 'popup))
-
-
-;; (setq lsp-clients-clangd-args '("-j=3"
-;;                                 "--background-index"
-;;                                 "--clang-tidy"
-;;                                 "--completion-style=detailed"
-;;                                 "--header-insertion=never"
-;;                                 "--header-insertion-decorators=0"))
-;; (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; dirs
