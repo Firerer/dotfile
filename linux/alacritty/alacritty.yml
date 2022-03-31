@@ -4,7 +4,7 @@ env:
   TERM: alacritty
 
 shell:
-  program: /usr/bin/fish
+  program: /usr/bin/zsh
 
 window:
   padding:
@@ -31,7 +31,7 @@ font:
     # family: Source Code Pro
     family: Mononoki
 
-  size: 16
+  size: 14
 
 # Base16 Google Dark - alacritty color config
 # Seth Wright (http://sethawright.com)
@@ -69,7 +69,7 @@ colors:
     white:   '0xffffff'
 
 draw_bold_text_with_bright_colors: false
-background_opacity: 1
+window_opacity: 1
 
 cursor:
     # Values for `shape`:
