@@ -1,1 +1,1 @@
-stow -D linux
+stow -D linux/*

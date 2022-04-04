@@ -41,7 +41,7 @@
 ;;;;;;;;;
 ;; vterm
 ;;;;;;;;;
-;; vterm TODO: open fish by default
+;; vterm TODO: open zsh by default
 
 
 ;;;;;;;;;
@@ -55,7 +55,7 @@
 ;; (make-directory "")
 
 ;; projectile
-(setq projectile-project-search-path "~/Documents/codes/")
+(setq projectile-project-search-path "~/Documents/code/")
 
 ;; org
 (setq org-directory "~/Documents/org/"
@@ -66,7 +66,7 @@
 ;; (org-roam-db-autosync-mode)
 
 ;; rust
-(setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"))
+;; (setq racer-rust-src-path (concat (getenv "HOME") "/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library"))
 
 ;; python
 ;; (use-package! lsp

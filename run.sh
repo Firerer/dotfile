@@ -1,1 +1,2 @@
-stow linux -D linux -t ~/.config
+stow -S ./linux/config -t ~/.config
+stow -S ./linux/home -t ~

@@ -76,7 +76,7 @@ cursor:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-  style: Beam
+  style: Block
   vi_mode_style: Block
 
 live_config_reload: true
