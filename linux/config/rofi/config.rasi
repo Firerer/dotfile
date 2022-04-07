@@ -3,6 +3,7 @@
 // rofi -dump-config > ~/.config/rofi/config.rasi
 // rofi-theme-selector
 // base16: https://gitlab.com/jordiorlando/base16-rofi
+@theme "/usr/share/rofi/themes/fancy.rasi"
 configuration {
 	modi: "run,drun,window";
 /*	width: 50;*/
@@ -60,7 +61,7 @@ configuration {
 /*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
 /*	show-match: true;*/
-	theme: "/usr/share/rofi/themes/fancy.rasi";
+	// theme: "/usr/share/rofi/themes/fancy.rasi";
 /*  theme: "$HOME/.config/rofi/launcher/style"; */
 /*	color-normal: ;*/
 /*	color-urgent: ;*/

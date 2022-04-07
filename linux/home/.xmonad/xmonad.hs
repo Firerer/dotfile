@@ -14,7 +14,6 @@ import XMonad.Layout.Gaps(gaps, setGaps, GapMessage(DecGap, ToggleGaps, IncGap))
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
 
 import Control.Monad ( join, when )
-import Control.Parallel
 import Data.Monoid ()
 import Data.List
 import Data.Maybe (maybeToList)
@@ -26,8 +25,8 @@ myFocusFollowsMouse = True
 myClickJustFocuses = False
 myBorderWidth   = 2
 myModMask       = mod4Mask
--- myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
-myWorkspaces    = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61884"]
+myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
+-- myWorkspaces    = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61884"]
 myNormalBorderColor  = "#3b4050"
 myFocusedBorderColor = "#bc96da"
 myGaps = [(L,0), (R,0), (U,30), (D,0)]
@@ -36,8 +35,8 @@ myStartupHook = addEWMHFullscreen >> do
    -- NOTE: move these start up process to .xinitrc file make polybar xworkspace module run successfully. why?
    -- spawnOnce "lxsession &"
    -- spawnOnce "nitrogen --random --set-zoom-fill &" -- "nitrogen --restore &"
-   -- spawnOnce "picom &"
-   -- spawnOnce "dunst &"
+   spawnOnce "picom &"
+   spawnOnce "dunst &"
    -- -- spawn "exec ~/bin/lock.sh"
    -- spawn "xsetroot -cursor_name left_ptr &"
    -- spawnOnce "emacs --daemon &"
@@ -73,6 +72,7 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
 maimcopy :: MonadIO m => m () -- Don't question it
 maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 maimsave = spawn "maim -s ~/Pictures/ScreenShots/$(date +%%Y-%m-%d_H:%M:%S).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
+rofiLauncher :: MonadIO m => m ()
 rofiLauncher = spawn "rofi -show drun"
 -- rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
 restartXmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
@@ -96,7 +96,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     ------------
     -- open apps
     , ((modm, xK_o), rofiLauncher)
-    , ((modm, 0), rofiLauncher)
+    --, ((modm, xK_o), spawn "krunner")
     -- launch a terminal
     , ((modm , xK_Return), spawn $ XMonad.terminal conf)
     -- lock screen
@@ -142,9 +142,9 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     -- Reset the focused window and the master window
     , ((modm .|. shiftMask, xK_m), windows W.swapMaster)
     -- Swap the focused window with the next window
-    , ((modm .|. controlMask, xK_j), windows W.swapDown  )
+    , ((modm .|. shiftMask, xK_j), windows W.swapDown  )
     -- Swap the focused window with the previous window
-    , ((modm .|. controlMask, xK_k), windows W.swapUp    )
+    , ((modm .|. shiftMask, xK_k), windows W.swapUp    )
     -- Shrink the master area
     , ((modm .|. controlMask, xK_h), sendMessage Shrink)
     -- Expand the master area

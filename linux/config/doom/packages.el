@@ -7,6 +7,7 @@
 ;(package! some-package)
 (package! base16-theme)
 (package! rainbow-mode)
+(package! ein)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

@@ -36,28 +36,27 @@
       doom-unicode-font (font-spec :family "Unifont")
       )
 
-;; (+org-pretty-mode toggle) TODO map to SPC t p
 
-;;;;;;;;;
-;; vterm
-;;;;;;;;;
-;; vterm TODO: open zsh by default
-
-
-;;;;;;;;;
-;; lsp
-;;;;;;;;;
-;; TODO: (add-to-list 'lsp-file-watch-ignored-directories "\\usr\\include\\'")
+;; pdf
+(setq pdf-view-midnight-colors '("#f8f8f2" . "#282a36"))
 
 ;; input
 ;; TODO emcas unable to accept input in chinese mode
 
-;; (make-directory "")
-
 ;; projectile
 (setq projectile-project-search-path "~/Documents/code/")
 
+;; vterm
+(setq vterm-shell "/usr/bin/zsh")
+
+;;;;;;;;;
+;; lsp
+;;;;;;;;;
+
+;; TODO: (add-to-list 'lsp-file-watch-ignored-directories "\\usr\\include\\'")
+
 ;; org
+;; (+org-pretty-mode toggle) TODO map to SPC t p
 (setq org-directory "~/Documents/org/"
 
       ;; org-roam
@@ -76,3 +75,6 @@
 ;;   (setq lsp-pyls-plugins-yapf-enabled t)
 ;;   (setq lsp-pyls-plugins-pyflakes-enabled nil)
 ;; )
+
+;; R
+;; (add-to-list 'polymode-mode-name-aliases '(R . ein:notebook))
