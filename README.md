@@ -1,2 +1,7 @@
 # dotfile
-TODO
+
+```bash
+# under project root
+stow .
+`
+
