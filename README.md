@@ -3,5 +3,5 @@
 ```bash
 # under project root
 stow .
-`
+```
 
