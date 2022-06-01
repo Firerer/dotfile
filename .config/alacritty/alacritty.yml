@@ -1,0 +1,60 @@
+#Alacritty:
+
+import:
+-  ./dracula.yml
+#-  ./base16.yml
+
+ENV:
+  TERM: alacritty
+
+shell:
+  program: /usr/bin/zsh
+
+window:
+  padding:
+    x: 15
+    y: 15
+
+    dynamic_padding:  true
+    decoration: none
+opacity: 0.5
+
+font:
+  normal:
+    # family: Source Code Pro
+    family: Mononoki
+
+  bold:
+    # family: Source Code Pro
+    family: Mononoki
+
+  italic:
+    # family: Source Code Pro
+    family: Mononoki
+
+  bold_italic:
+    # family: Source Code Pro
+    family: Mononoki
+
+  size: 14
+
+draw_bold_text_with_bright_colors: false
+window_opacity: 1
+
+cursor:
+    # Values for `shape`:
+    #   - ▇ Block
+    #   - _ Underline
+    #   - | Beam
+  style: Block
+  vi_mode_style: Block
+
+live_config_reload: true
+                 
+key_bindings:
+
+  - { key: Key0, mods: Control, action: ResetFontSize }
+
+  - { key: Equals, mods: Control, action: IncreaseFontSize }
+
+  - { key: Minus, mods: Control, action: DecreaseFontSize }
