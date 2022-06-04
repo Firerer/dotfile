@@ -140,6 +140,7 @@ function addpath(){
 ### PATH
 addpath "$HOME/.bin" \
     "$HOME/.local/bin" \
+    "$HOME/.emacs.d/bin" \
     "$HOME/.cargo/bin"
 
 ### ALIASES ###
