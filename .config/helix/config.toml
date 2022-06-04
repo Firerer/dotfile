@@ -4,6 +4,7 @@ theme = "onedark"
 line-number = "relative"
 shell = ["zsh", "-c"]
 auto-pairs = true
+true-color = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -12,11 +13,18 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+max-depth = 15
 
 [keys.normal]
-ret = ["open_below", "normal_mode"]
+"ret" = ["open_below", "normal_mode"]
+"C-w" = { C-d = "wclose" }
+"C-s" = ":w"
+
+[keys.normal.space]
+# space mode
+"space" = "file_picker"  
+"q" = ":config-reload" 
 
 [keys.insert]
 j = { j = "normal_mode"}
-
 

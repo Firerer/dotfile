@@ -42,7 +42,7 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
  local dark_cyan  = "#8be9fd"
 
 local theme                                     = {}
-theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
+theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/dracula"
 theme.wallpaper                                 = theme.confdir .. "/wall.png"
 
 theme.font                                      = "mononoki"
