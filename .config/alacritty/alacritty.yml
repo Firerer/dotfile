@@ -1,8 +1,8 @@
 #Alacritty:
 
-import:
--  ./dracula.yml
-#-  ./base16.yml
+#import:
+  #-  ./dracula.yml
+  #-  ./base16.yml
 
 ENV:
   TERM: alacritty

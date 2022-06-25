@@ -32,9 +32,10 @@ myNormalBorderColor  = "#3b4050"
 myFocusedBorderColor = "#bc96da"
 myGaps = [(L,0), (R,0), (U,30), (D,0)]
 myWindowGaps = 2
-myStartupHook = addEWMHFullscreen >> do
-   -- spawnOnce "lxsession &" -- conflicts with polybar ewmh module
-   spawnOnce "picom &"
+myStartupHook = do
+   addEWMHFullscreen
+   spawnOnce "lxsession &" -- conflicts with polybar ewmh module
+   -- spawnOnce "picom &"
    spawnOnce "dunst &"
    spawnOnce "fcitx5 &"
    spawnOnce "feh --bg-fill ~/Pictures/wallpapers/alone-girl-artwork-l9.jpg"
@@ -55,14 +56,14 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     ]
     ++ [fmap (c `isInfixOf`) className --> doFloat | c <- floatClassInfixes ]
     ++ [fmap (c `isInfixOf`) resource --> doFloat | c <- floatResourceInfixes ]
-    ++ [fmap (c `isInfixOf`) className --> doShift (myWorkspaces !! (i-1)) | (c, i) <- shfitClassInfixes ]
+    ++ [fmap (c ==) className --> doShift (myWorkspaces !! (i-1)) | (c, i) <- shfitClassInfixes ]
     )
     where
       floatClassInfixes = ["hiped", "MPlayer", "Gimp", "pavucontrol"]
       floatResourceInfixes = ["Dialog", "control"]
       -- TODO: some shifts are not working
       shfitClassInfixes = [("zoom", 3),
-                           ("Steam", 4), ("lutris", 4), ("Battle.net", 4),
+                           ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4),
                            ("Discord", 5), ("VirtualBox", 6), ("Spotify", 9)]
 
 ------------------------------------------------------------------------
@@ -72,7 +73,7 @@ maimcopy :: MonadIO m => m () -- Don't question it
 maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 maimsave = spawn "maim -s ~/Pictures/ScreenShots/$(date +%%Y-%m-%d_H:%M:%S).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
 rofiLauncher :: MonadIO m => m ()
-rofiLauncher = spawn "rofi -show drun"
+rofiLauncher = spawn "rofi -show combi"
 -- rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
 restartXmonad = spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
 
@@ -88,8 +89,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     -- Restart xmonad
     , ((modm, xK_q), restartXmonad)
     -- close focused window
-    , ((modm .|. controlMask, xK_k     ), kill)
-    , ((modm , xK_d     ), kill)
+    , ((modm , xK_d), kill)
     ------------
     --- APPS
     ------------
@@ -110,6 +110,7 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     -----------
     --- GAPS
     -----------
+    , ((modm, xK_f), toggleFull)
     , ((modm .|. controlMask, xK_g), sendMessage ToggleGaps)               -- fullscreen, some app support F11 as well
     , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps myGaps) -- reset the GapSpec
     -- , ((modm .|. controlMask, xK_Up), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
@@ -245,15 +246,7 @@ myLogHook = return ()
 -----------------------------------------------------------------------
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main = xmonad . fullscreenSupport . docks $ ewmh defaults
-
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults = def {
+main = xmonad . fullscreenSupport . docks $ ewmh def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -272,7 +265,6 @@ defaults = def {
         logHook            = myLogHook,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook
-        -- startupHook        = myStartupHook
     }
 
 -- the sxiv app (and maybe others) believes that fullscreen is not supported,
@@ -294,6 +286,13 @@ addEWMHFullscreen   = do
     wms <- getAtom "_NET_WM_STATE"
     wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
     mapM_ addNETSupported [wms, wfs]
+
+toggleFull = withFocused (\windowId -> do
+    { floats <- gets (W.floating . windowset);
+        if windowId `M.member` floats
+        then withFocused $ windows . W.sink
+        else withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1) })
+
 
 --mkDbusClient :: IO D.Client
 --mkDbusClient = do

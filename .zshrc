@@ -128,6 +128,8 @@ export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mod
 export XDG_CONFIG_DIR="$HOME/.config"
 export XDG_CONFIG_HOME="$HOME/.config"
 
+export PYTHONPATH="."
+
 function addpath(){
     for var in "$@"
     do
@@ -146,6 +148,7 @@ addpath "$HOME/.bin" \
 ### ALIASES ###
 
 # vim and emacs
+alias vim="nvim"
 alias em="/usr/bin/emacs -nw"
 alias emacs="emacsclient -c -a 'emacs'"
 alias cp="cp -i"                          # confirm before overwriting something

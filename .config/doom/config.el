@@ -50,12 +50,7 @@
 ;; TODO emcas unable to accept input in chinese mode
 
 ;; projectile
-(setq projectile-project-search-path '("~/Documents/code" "~/StudioProjects/")
-      projectile-indexing-method 'alien)
-;; projectile-ignored-project-function (lambda (project-root)
-;;                                               (cl-dolist (deny '("\\.git" "\\.rustup" "\\.cargo" "go/pkg" "vendor" ".emacs.d/ignore" ".emacs.d/elpa"))
-;;                                                 (when (string-match-p deny project-root)
-;;                                                   (cl-return t))))
+(setq projectile-project-search-path '("~/Documents/code" "~/StudioProjects/"))
 
 
 ;; vterm
@@ -70,17 +65,6 @@
 ;; org
 ;; (+org-pretty-mode toggle) TODO map to SPC t p
 (setq org-directory "~/Documents/note/pages/org/")
-
-;; rust
-
-;; python
-;; (use-package! lsp
-;;   :init
-;;   (setq lsp-pyls-plugins-pylint-enabled t)
-;;   (setq lsp-pyls-plugins-autopep8-enabled nil)
-;;   (setq lsp-pyls-plugins-yapf-enabled t)
-;;   (setq lsp-pyls-plugins-pyflakes-enabled nil)
-;; )
 
 (setq lsp-pylsp-plugins-pydocstyle-enabled nil)
 (setq lsp-volar-take-over-mode t)
