@@ -28,23 +28,26 @@
 (setq user-full-name "Di Liu"
       user-mail-address "liudi12631@email.com"
 
-      doom-theme 'doom-dracula
+      doom-theme 'doom-one
       display-line-numbers-type 'relative
-      ;; font
-      doom-font (font-spec :family "mononoki" :size 20 :weight 'regular)
-      ;; doom-big-font (font-spec :family "mononoki" :size 40 :weight 'Bold)
-      ;; doom-unicode-font (font-spec :family "Unifont")
-      ;; everywhere
-      ;; emacs-everywhere-markdown-windows
+
+      doom-font (font-spec :family "CodeNewRoman Nerd Font" :size 22 :weight 'regular)
+      doom-unicode-font doom-font
       )
 
 (map! :n "C-t" nil
       :map vterm-mode-map "C-t" nil
       :map global-map "C-t" nil
-      :g "C-t" :desc "toggle term" #'+vterm/toggle)
+      :g "C-t" :desc "toggle term" #'+vterm/toggle
+      :map evil-motion-state-map "C-e" nil
+      :g "C-e" :desc "toglle explore" #'+treemacs/toggle
+      )
+;; TODO C-/ comment
 
 ;; pdf
 (setq pdf-view-midnight-colors '("#f8f8f2" . "#282a36"))
+(add-hook 'pdf-view-mode-hook (lambda () (pdf-view-midnight-minor-mode)))
+
 
 ;; input
 ;; TODO emcas unable to accept input in chinese mode
@@ -52,6 +55,9 @@
 ;; projectile
 (setq projectile-project-search-path '("~/Documents/code" "~/StudioProjects/"))
 
+
+;; org
+(setq org-directory "~/Documents/note/pages/org/")
 
 ;; vterm
 (setq vterm-shell "/usr/bin/zsh")
@@ -61,10 +67,7 @@
 ;;;;;;;;;
 
 ;; TODO: (add-to-list 'lsp-file-watch-ignored-directories "\\usr\\include\\'")
-
-;; org
-;; (+org-pretty-mode toggle) TODO map to SPC t p
-(setq org-directory "~/Documents/note/pages/org/")
-
-(setq lsp-pylsp-plugins-pydocstyle-enabled nil)
+;; reference: https://emacs-lsp.github.io/lsp-mode/page/lsp-pylsp/
+(setq lsp-pylsp-plugins-pydocstyle-enabled nil
+      lsp-pylsp-plugins-flake8-max-line-length 100)
 (setq lsp-volar-take-over-mode t)

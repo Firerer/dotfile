@@ -1,0 +1,15 @@
+
+font:
+  normal:
+    family: CodeNewRoman Nerd Font
+
+  bold:
+    family: CodeNewRoman Nerd Font
+
+  italic:
+    family: CodeNewRoman Nerd Font
+
+  bold_italic:
+    family: CodeNewRoman Nerd Font
+
+  size: 14

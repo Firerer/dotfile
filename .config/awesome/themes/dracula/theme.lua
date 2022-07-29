@@ -45,8 +45,8 @@ local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/dracula"
 theme.wallpaper                                 = theme.confdir .. "/wall.png"
 
-theme.font                                      = "mononoki"
-theme.icon_theme                                = "gnome"
+theme.font                                      = "Roboto"
+theme.icon_theme                                = "candy-icons"
 theme.menu_bg_normal                            = bg_alt
 theme.menu_bg_focus                             = bg_alt
 
@@ -293,9 +293,6 @@ theme.mpd = lain.widget.mpd({
 })
 
 function theme.at_screen_connect(s)
-    -- Quake application
-    s.quake = lain.util.quake({ app = awful.util.terminal })
-
     -- If wallpaper is a function, call it with the screen
     local wallpaper = theme.wallpaper
     if type(wallpaper) == "function" then
@@ -325,7 +322,9 @@ function theme.at_screen_connect(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.focused, awful.util.tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(19), bg = theme.bg_normal, fg = theme.fg_normal })
+    s.mywibox = awful.wibar({ position = "top", screen = s,
+                              height = dpi(25),  opacity = 1,
+                              bg = theme.bg_normal, fg = theme.fg_normal })
 
     -- Add widgets to the wibox
     s.mywibox:setup {

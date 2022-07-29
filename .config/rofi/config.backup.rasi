@@ -1,5 +1,3 @@
-/*-*- mode: css; -*-*/
-
 // rofi -dump-config > ~/.config/rofi/config.rasi
 // rofi-theme-selector
 // base16: https://gitlab.com/jordiorlando/base16-rofi
@@ -7,18 +5,20 @@
 @theme "./Dracula.rasi"
 
 configuration {
-    modi: "run,drun,window";
+    /* font: "mononoki 14"; */
+    combi-modi: "drun,run";
+    modi: "combi,window";
+    icon-theme: "candy-icon";
+    show-icons: true;
     /* width: 50;*/
     /* lines: 15;*/
     /* columns: 1;*/
-       font: "mononoki 14";
     /* bw: 1;*/
     /* location: 0;*/
     /* padding: 5;*/
     /* yoffset: 0;*/
     /* xoffset: 0;*/
     /* fixed-num-lines: true;*/
-       show-icons: true;
     /* terminal: "rofi-sensible-terminal";*/
     /* ssh-client: "ssh";*/
     /* ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
@@ -27,10 +27,9 @@ configuration {
     /* run-shell-command: "{terminal} -e {cmd}";*/
     /* window-command: "wmctrl -i -R {window}";*/
     /* window-match-fields: "all";*/
-       icon-theme: "candy-icon";
     /* drun-match-fields: "name,generic,exec,categories,keywords";*/
     /* drun-categories: ;*/
-       // drun-show-actions: true;
+   // drun-show-actions: true;
     /* drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
     /* drun-url-launcher: "xdg-open";*/
        disable-history: false;
@@ -39,12 +38,11 @@ configuration {
     // sorting-method: "normal";
     /* case-sensitive: false;*/
     /* cycle: true;*/
-       sidebar-mode: true;
+     //  sidebar-mode: true;
     /* eh: 1;*/
     /* auto-select: false;*/
     /* parse-hosts: false;*/
     /* parse-known-hosts: true;*/
-    /* combi-modi: "window,run";*/
     /* matching: "normal";*/
     /* tokenize: true;*/
     /* m: "-5";*/
@@ -63,7 +61,6 @@ configuration {
     /* window-format: "{w}    {c}   {t}";*/
     /* click-to-exit: true;*/
     /* show-match: true;*/
-       // theme: "/usr/share/rofi/themes/fancy.rasi";
     /* theme: "$HOME/.config/rofi/launcher/style"; */
     /* color-normal: ;*/
     /* color-urgent: ;*/
@@ -161,3 +158,4 @@ configuration {
     /* me-accept-custom: "Control+MouseDPrimary";*/
 }
 
+/*-*- mode: css; -*-*/
