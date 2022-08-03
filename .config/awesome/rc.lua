@@ -11,9 +11,7 @@ local awful         = require("awful")
 local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
--- local menubar       = require("menubar")
 
-local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
                       require("awful.hotkeys_popup.keys")
@@ -81,13 +79,6 @@ awful.spawn.with_shell(
 -- }}}
 
 -- {{{ Variable definitions
--- theme
-local themes = {
-    "dracula"          -- 1
-}
-
-local chosen_theme = themes[1]
--- beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 beautiful.init(gears.filesystem.get_themes_dir() .. "gtk/theme.lua")
 
 local modkey       = "Mod4"
@@ -96,7 +87,7 @@ local terminal     = "alacritty"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "emacs"
-local browser      = "google-chrome-stable"
+-- local browser      = "google-chrome-stable"
 local hide_titlebar = true
 
 awful.util.terminal = terminal
@@ -175,23 +166,20 @@ awful.util.mymainmenu = freedesktop.menu.build {
 }
 
 -- Hide the menu when the mouse leaves it
--- awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function()
---     if not awful.util.mymainmenu.active_child or
---        (awful.util.mymainmenu.wibox ~= mouse.current_wibox and
---        awful.util.mymainmenu.active_child.wibox ~= mouse.current_wibox) then
---         awful.util.mymainmenu:hide()
---     else
---         awful.util.mymainmenu.active_child.wibox:connect_signal("mouse::leave",
---         function()
---             if awful.util.mymainmenu.wibox ~= mouse.current_wibox then
---                 awful.util.mymainmenu:hide()
---             end
---         end)
---     end
--- end)
-
--- Set the Menubar terminal for applications that require it
---menubar.utils.terminal = terminal
+awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function()
+    if not awful.util.mymainmenu.active_child or
+       (awful.util.mymainmenu.wibox ~= mouse.current_wibox and
+       awful.util.mymainmenu.active_child.wibox ~= mouse.current_wibox) then
+        awful.util.mymainmenu:hide()
+    else
+        awful.util.mymainmenu.active_child.wibox:connect_signal("mouse::leave",
+        function()
+            if awful.util.mymainmenu.wibox ~= mouse.current_wibox then
+                awful.util.mymainmenu:hide()
+            end
+        end)
+    end
+end)
 
 -- }}}
 
@@ -263,10 +251,6 @@ globalkeys = mytable.join(
               {description = "view next", group = "nav"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "nav"}),
-    -- awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-    --           {description = "view  previous nonempty", group = "tag"}),
-    -- awful.key({ modkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-    --           {description = "view  previous nonempty", group = "tag"}),
 
     -- Window browsing
     awful.key({ modkey,           }, "j", function () awful.client.focus.byidx( 1) end,
@@ -339,22 +323,6 @@ globalkeys = mytable.join(
     awful.key({ modkey           }, ",", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
-    -- On-the-fly useless gaps change
-    awful.key({ altkey, "Control" }, "=", function () lain.util.useless_gaps_resize(1) end,
-              {description = "increment useless gaps", group = "tag"}),
-    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end,
-              {description = "decrement useless gaps", group = "tag"}),
-
-    -- Dynamic tagging
-    awful.key({ modkey, "Shift" }, "n", function () lain.util.add_tag() end,
-              {description = "add new tag", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Left", function () lain.util.move_tag(-1) end,
-              {description = "move tag to the left", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Right", function () lain.util.move_tag(1) end,
-              {description = "move tag to the right", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "d", function () lain.util.delete_tag() end,
-              {description = "delete tag", group = "tag"}),
-
     -- window sizing
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -384,18 +352,7 @@ globalkeys = mytable.join(
     -- Show help
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    -- awful.key({ modkey }, "q", function () awful.spawn(browser) end,
-    --           {description = "run browser", group = "launcher"}),
-    -- Menu
-    -- awful.key({ modkey,           }, "w", function () awful.util.mymainmenu:show() end,
-              -- {description = "show main menu", group = "awesome"}),
-    -- Dropdown application
-    -- awful.key({ modkey, }, "z", function () awful.spawn.with_shell("qmk_flash.sh") end,
-    --           {description = "dropdown application", group = "launcher"}),
-    -- Default
-    -- [[ Menubar
-    -- awful.key({ modkey }, "p", function() menubar.show() end,
-    --           {description = "show the menubar", group = "launcher"}),
+
 -- "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 -- "maim -s ~/Pictures/ScreenShots/$(date +%%Y-%m-%d_H:%M:%S).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
     --]]

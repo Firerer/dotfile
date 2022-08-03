@@ -14,7 +14,7 @@ plugins=(
     themes
     dotenv
     man
-    vi-mode
+    # vi-mode
     # custom
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -22,12 +22,14 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+#tmux plugin
+ZSH_TMUX_AUTOSTART="true"
 
 # User configuration
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -77,10 +79,10 @@ then
   alias l.='ll | rg "\.\w+"' # only hidden files
 fi
 
-# bindkey -s '^[z' 'fg ^M'
-# bindkey -s '^o' 'nvim $(fzf)^M'
-bindkey -v
-export KEYTIMEOUT=1
+bindkey -s '^[z' 'fg ^M'
+bindkey -s '^o' 'nvim $(fzf)^M'
+# bindkey -v
+# export KEYTIMEOUT=1
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
