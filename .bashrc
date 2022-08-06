@@ -1,45 +1,47 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source /usr/share/nvm/init-nvm.sh
+### enviroment ###
 
-export ALTERNATE_EDITOR=""                        # setting for emacsclient
-export EDITOR="vim"              # $EDITOR use Emacs in terminal
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
 export XDG_CONFIG_DIR="$HOME/.config"
 export XDG_CONFIG_HOME="$HOME/.config"
 
-### PROMPT
-# This is commented out if using starship prompt
-PS1='[\u@\h \W]\$ '
+# Compilation flags
+export ARCHFLAGS="-arch x86_64"
+
+# add working dir to PYTHONPATH
+export PYTHONPATH="."
+
+function addpath(){
+    for var in "$@"
+    do
+        if [ -d "$var" ] ;
+            then PATH="$var:$PATH"
+        fi
+    done
+}
 
 ### PATH
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d "$HOME/.cargo/bin" ] ;
-  then PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-# if [ -d "$HOME/Applications" ] ;
-#   then PATH="$HOME/Applications:$PATH"
-# fi
+addpath "$HOME/.bin" \
+    "$HOME/.local/bin" \
+    "$HOME/.emacs.d/bin" \
+    "$HOME/.cargo/bin" \
+    "$HOME/Android/Sdk/build-tools/30.0.3" # android SDK tools
 
 ### ALIASES ###
 
 # vim and emacs
-alias em="/usr/bin/emacs -nw"
-alias emacs="emacsclient -c -a 'emacs'"
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
-alias free='free -m'                      # show sizes in MB
-#alias np='nano -w PKGBUILD'
-#alias more=less
+alias free='free -h'                      # show sizes in MB
+alias rustrepl='evcxr'                      # show sizes in MB
 
 # Changing "ls" to "exa"
 if command -v exa &> /dev/null
@@ -49,105 +51,14 @@ then
   alias ll='exa -la --color=always --group-directories-first --icons'  # long format
   alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
   alias l.='exa -a --icons| egrep "^\."'
-fi
-
-colors() {
-  local fgc bgc vals seq0
-
-  printf "Color escapes are %s\n" '\e[${value};...;${value}m'
-  printf "Values 30..37 are \e[33mforeground colors\e[m\n"
-  printf "Values 40..47 are \e[43mbackground colors\e[m\n"
-  printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
-
-  # foreground colors
-  for fgc in {30..37}; do
-    # background colors
-    for bgc in {40..47}; do
-      fgc=${fgc#37} # white
-      bgc=${bgc#40} # black
-
-      vals="${fgc:+$fgc;}${bgc}"
-      vals=${vals%%;}
-
-      seq0="${vals:+\e[${vals}m}"
-      printf "  %-9s" "${seq0:-(default)}"
-      printf " ${seq0}TEXT\e[m"
-      printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
-    done
-    echo; echo
-  done
-}
-
-[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
-
-# Change the window title of X terminals
-case ${TERM} in
-  xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-    ;;
-  screen*)
-    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-    ;;
-esac
-
-use_color=true
-
-# Set colorful PS1 only on colorful terminals.
-# dircolors --print-database uses its own built-in database
-# instead of using /etc/DIR_COLORS.  Try to use the external file
-# first to take advantage of user additions.  Use internal bash
-# globbing instead of external grep binary.
-safe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
-match_lhs=""
-[[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
-[[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
-[[ -z ${match_lhs}    ]] \
-  && type -P dircolors >/dev/null \
-  && match_lhs=$(dircolors --print-database)
-[[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
-
-if ${use_color} ; then
-  # Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-
-  if [[ ${EUID} == 0 ]] ; then
-    PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-  else
-    PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
-  fi
-
-  alias ls='ls --color=auto'
-  alias grep='grep --colour=auto'
-  alias egrep='egrep --colour=auto'
-  alias fgrep='fgrep --colour=auto'
 else
-  if [[ ${EUID} == 0 ]] ; then
-    # show root@ when we don't have colors
-    PS1='\u@\h \W \$ '
-  else
-    PS1='\u@\h \w \$ '
-  fi
+  alias la='ls -a --color=always --group-directories-first --icons'  # all files and dirs
+  alias ll='ls -la --color=always --group-directories-first --icons'  # long format
+  alias lt='ls -aT --color=always --group-directories-first --icons' # tree listing
+  alias l.='ls -a --icons| egrep "^\."'
 fi
 
-unset use_color safe_term match_lhs sh
-
-
-xhost +local:root > /dev/null 2>&1
-
-# Bash won't get SIGWINCH if another process is in the foreground.
-# Enable checkwinsize so that bash will check the terminal size when
-# it regains control.  #65623
-# http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
-#shopt -s checkwinsize
-
-#shopt -s expand_aliases
-
-# export QT_SELECT=4
-
-# Enable history appending instead of overwriting.  #139609
-#shopt -s histappend
-
-#
-# # ex - archive extractor
+### ex - archive extractor ###
 # # usage: ex <file>
 ex ()
 {
@@ -171,18 +82,12 @@ ex ()
   fi
 }
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/di/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+### PROMPT ###
+if command -v starship &> /dev/null
+then
+  shell=$(ps -p $$ -o comm=)
+  source <(starship init $shell --print-full-init)
 else
-    if [ -f "/home/di/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/di/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/di/anaconda3/bin:$PATH"
-    fi
+  PS1='[\u@\h \W]\$ '
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
