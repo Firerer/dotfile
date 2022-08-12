@@ -1,10 +1,11 @@
+# default config at /usr/share/doc/alacritty/example/alacritty.yml
 live_config_reload: true
+draw_bold_text_with_bright_colors: true
 import:
-  #-  ./dracula.yml
-  -  ./base16.yml
+  - ./theme.yml
 
-ENV:
-  TERM: alacritty
+# ENV:
+#   TERM: alacritty
 
 shell:
   program: /usr/bin/zsh
@@ -13,24 +14,19 @@ window:
   padding:
     x: 5
     y: 5
-    dynamic_padding: true
+    # dynamic_padding: true
   opacity: 1.0
 
 font:
   normal:
-    family: CodeNewRoman Nerd Font
-
-  bold:
-    family: CodeNewRoman Nerd Font
-
-  italic:
-    family: CodeNewRoman Nerd Font
-
-  bold_italic:
+    family: monospace
     family: CodeNewRoman Nerd Font
   size: 14
   offset:
-    y: 2
+    y: 1
+  # glyph_offset:
+  #   x: 2
+  #   y: 2
 
 cursor:
     # Values for `shape`:
@@ -45,3 +41,6 @@ key_bindings:
   - { key: Key0, mods: Control, action: ResetFontSize }
   - { key: Equals, mods: Control, action: IncreaseFontSize }
   - { key: Minus, mods: Control, action: DecreaseFontSize }
+
+  # vi mode
+  - { key: Space,  mods: Control, mode: ~Search,    action: ToggleViMode            }
