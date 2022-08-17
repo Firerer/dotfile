@@ -31,7 +31,7 @@
       doom-theme 'doom-one
       display-line-numbers-type 'relative
 
-      doom-font (font-spec :family "CodeNewRoman Nerd Font" :size 22 :weight 'regular)
+      doom-font (font-spec :family "mononoki" :size 22 :weight 'regular)
       doom-unicode-font doom-font
       )
 

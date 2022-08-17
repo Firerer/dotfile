@@ -3,6 +3,7 @@
 ```bash
 # under project root
 stow .
+ln -s .config/astronvim .config/nvim/lua/user
 ```
 
 #### list of used programs
@@ -14,8 +15,10 @@ stow .
 - alacritty
 - tmux
 - nvim
-- zsh
+- zsh/fish
 
 ##### optional
 - starship
 
+<!--screenshot-->
+- maim

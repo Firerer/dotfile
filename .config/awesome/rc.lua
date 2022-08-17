@@ -1,9 +1,9 @@
 -- APIs: https://awesomewm.org/apidoc/index.html
 --
 -- {{{ Required libraries
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-pcall(require, "luarocks.loader")
+local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
+local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+
 
 local gears         = require("gears")
 local awful         = require("awful")
@@ -62,6 +62,7 @@ run_once({ "emacs --daemon",
            -- "feh --bg-fill ~/Pictures/wallpapers/man-dark-bodybuilder.jpg",
            "feh --bg-fill ~/Pictures/wallpapers/hotkeys.jpg",
            "~/.config/polybar/launch.sh",
+           -- "trayer",
            "nm-applet",
            "fcitx5 &"
 }) -- comma-separated entries
@@ -88,24 +89,22 @@ local vi_focus     = false -- vi-like client focus https://github.com/lcpz/aweso
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "emacs"
 -- local browser      = "google-chrome-stable"
-local hide_titlebar = true
 
 awful.util.terminal = terminal
--- awful.util.tagnames = { "🯱", "🯲", "🯳", "🯴", "🯵", "🯶", "🯷", "🯸", "🯹" }
 awful.util.tagnames = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.max,
     awful.layout.suit.floating,
     awful.layout.suit.fair,
-    --awful.layout.suit.tile.left,
-    --awful.layout.suit.tile.bottom,
-    --awful.layout.suit.tile.top,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
+    -- awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
@@ -226,11 +225,12 @@ globalkeys = mytable.join(
     -- Destroy all notifications
     -- awful.key({ "Control",           }, "space", function() naughty.destroy_all_notifications() end,
     --           {description = "destroy all notifications", group = "hotkeys"}),
-    -- Take a screenshot
-    -- https://github.com/lcpz/dots/blob/master/bin/screenshot
-    -- awful.key({ altkey }, "p", function() os.execute("screenshot") end,
-    --           {description = "take a screenshot", group = "hotkeys"}),
-
+    awful.key({}, "Print", function()
+             awful.spawn.with_shell("~/.bin/maim_clip.sh")
+        end, {description = "take a screenshot", group = "hotkeys"}),
+    awful.key({modkey}, "Print", function()
+             awful.spawn.with_shell("~/.bin/maim_save.sh")
+        end, {description = "take a screenshot", group = "hotkeys"}),
     awful.key({ modkey,           }, "q", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -353,18 +353,17 @@ globalkeys = mytable.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
 
--- "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
--- "maim -s ~/Pictures/ScreenShots/$(date +%%Y-%m-%d_H:%M:%S).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
-    --]]
     awful.key({ modkey }, "p", function ()
-            save_screen = "maim -s ~/Pictures/ScreenShots/$(date +%%Y-%m-%d_H:%M:%S).png && notify-send \"Screenshot\" \"Saved to file\" -i flameshot"
-            os.execute(save_screen)
-        end, {description = "show rofi", group = "launcher"}),
+        awful.spawn.with_shell("eval $(echo -e 'Option #1\nOption #2\nOption #3' | rofi -dmenu)")
+        end, {description = "rofi run commands", group = "launcher"}),
     awful.key({ modkey }, "w", function ()
             os.execute("rofi -show window")
         end, {description = "show rofi", group = "launcher"}),
     awful.key({ modkey }, "o", function ()
             os.execute("rofi -show combi")
+        end, {description = "show rofi", group = "launcher"}),
+    awful.key({ modkey, "Shift" }, "o", function ()
+            awful.spawn.with_shell("~/.bin/rofi_open_pdf.sh")
         end, {description = "show rofi", group = "launcher"}),
     -- emojis depends on `rofi-emoji`
     awful.key({ modkey }, "e", function ()
@@ -422,8 +421,8 @@ clientkeys = mytable.join(
               {description = "toggle floating/tiling", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-              {description = "move to screen", group = "client"}),
+    -- awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
+    --           {description = "move to screen", group = "client"}),
     awful.key({ modkey, "Control" }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
 
@@ -598,12 +597,15 @@ awful.rules.rules = {
           "AlarmWindow",  -- Thunderbird's calendar.
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+          "Preferences",
+          "setup",
         }
       }, properties = { floating = true }},
 
-    -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+    -- titlebars to normal clients and dialogs
+    {
+        rule_any = { type = { "normal", "dialog" } },
+        properties = { titlebars_enabled = false }
     },
     -- Games to tag 4
     { rule_any = { class = {"Steam", "Lutris",  "battle.net.exe"}},
@@ -628,10 +630,6 @@ client.connect_signal("manage", function (c)
       and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
-    end
-
-    if hide_titlebar then
-        awful.titlebar.hide(c)
     end
 end)
 
@@ -687,7 +685,17 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = vi_focus})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+-- No border for maximized clients
+local function border_adjust(c)
+    if c.maximized then -- no borders if only 1 client visible
+        c.border_width = 0
+    elseif #awful.screen.focused().clients > 1 then
+        c.border_width = beautiful.border_width
+        c.border_color = beautiful.border_focus
+    end
+end
+
+client.connect_signal("focus", border_adjust)
+client.connect_signal("property::maximized", border_adjust)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
--- TODO Xephyr :5 & sleep 1 ; DISPLAY=:5 awesome

@@ -8,7 +8,7 @@
 configuration {
     /* font: "mononoki 14"; */
     combi-modi: "drun,run";
-    modi: "combi,window";
+    modi: "combi,window,filebrowser";
     icon-theme: "candy-icon";
     show-icons: true;
     /* width: 50;*/

@@ -14,3 +14,5 @@ alias la="exa --icons --sort=type -a"
 alias ll="exa --icons --sort=type --header -la"
 
 alias replay="cd /home/firer/Applications/battlenet/drive_c/users/firer/Documents/StarCraft\ II/Accounts/392764348/1-S2-1-11189048/Replays/Multiplayer"
+
+# source (/usr/bin/starship init fish --print-full-init | psub)

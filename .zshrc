@@ -7,6 +7,7 @@ ENABLE_CORRECTION="true"
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
+    z
     tmux
     adb
     git
@@ -22,7 +23,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-source .bashrc
+source ~/.bashrc
 
 #tmux plugin
 ZSH_TMUX_AUTOSTART="true"

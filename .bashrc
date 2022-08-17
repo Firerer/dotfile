@@ -1,6 +1,6 @@
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
 
+[[ $- != *i* ]] && return
 ### enviroment ###
 
 if [[ -n $SSH_CONNECTION ]]; then
@@ -41,7 +41,8 @@ addpath "$HOME/.bin" \
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -h'                      # show sizes in MB
-alias rustrepl='evcxr'                      # show sizes in MB
+alias rustrepl='evcxr'                
+alias rr='ranger'
 
 # Changing "ls" to "exa"
 if command -v exa &> /dev/null
@@ -90,4 +91,6 @@ then
 else
   PS1='[\u@\h \W]\$ '
 fi
+
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
