@@ -1,18 +1,43 @@
+fish_hybrid_key_bindings
 
-# sys utils
-alias sysinfo="neofetch"
-alias audio="pavucontrol"
-alias wifi="nmcli device wifi"
-alias diskinfo="df -h"
-alias memoinfo="free -m"
+abbr --add wifi nmcli device wifi
+abbr --add sfish source ~/.config/fish/config.fish
 
-alias dotconfig='/usr/bin/git --git-dir=/home/firer/.cfg/ --work-tree=/home/firer'
+abbr --add cp "cp -i"                          # confirm before overwriting something
+abbr --add df 'df -h'                          # human-readable sizes
+abbr --add free 'free -h'                      # show sizes in MB
+abbr --add rr 'ranger'
+abbr --add rust 'evcxr'                
 
 # replace ls with exa
-alias ls="exa --icons --sort=type"
-alias la="exa --icons --sort=type -a"
-alias ll="exa --icons --sort=type --header -la"
+if type -q exa;
+  alias ls "exa --icons --sort=type --group-directories-first "
+  abbr --add lt 'ls --icons --level 3' # tree listing
+end
 
-alias replay="cd /home/firer/Applications/battlenet/drive_c/users/firer/Documents/StarCraft\ II/Accounts/392764348/1-S2-1-11189048/Replays/Multiplayer"
+abbr --add la "ls -a"
+abbr --add ll "ls -hla"
+abbr --add l. 'ls -a | egrep "^\."'
 
-# source (/usr/bin/starship init fish --print-full-init | psub)
+if type -q tmux;
+  abbr --add tl tmux list-session
+  abbr --add ta tmux attach -t
+  abbr --add ts tmux new-session -s
+end
+
+source (/usr/bin/starship init fish --print-full-init | psub)
+
+function config_dotfile
+  set -f before $PWD
+  set -fx FZF_DEFAULT_COMMAND 'fd -HE .git'
+  cd ~/dotfile/
+  set -f target (fzf)
+  if test $status -eq 0
+    nvim $target
+  end
+  cd $before
+end
+
+# keybind
+bind \cR -M "source ~/.config/fish/config.fish"; and commandline -f repaint-mode;
+bind \co -M insert config_dotfile

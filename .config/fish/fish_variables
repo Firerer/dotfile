@@ -2,6 +2,20 @@
 # VERSION: 3.0
 SETUVAR --path PATH:/usr/local/sbin\x1e/usr/local/bin\x1e/usr/bin\x1e/usr/bin/site_perl\x1e/usr/bin/vendor_perl\x1e/usr/bin/core_perl
 SETUVAR __fish_initialized:3400
+SETUVAR _fish_abbr_cp:cp\x20\x2di
+SETUVAR _fish_abbr_df:df\x20\x2dh
+SETUVAR _fish_abbr_free:free\x20\x2dh
+SETUVAR _fish_abbr_l_2E_:ls\x20\x2da\x20\x7c\x20egrep\x20\x22\x5e\x5c\x2e\x22
+SETUVAR _fish_abbr_la:ls\x20\x2da
+SETUVAR _fish_abbr_ll:ls\x20\x2dhla
+SETUVAR _fish_abbr_lt:ls\x20\x2d\x2dicons\x20\x2d\x2dlevel\x203
+SETUVAR _fish_abbr_rr:ranger
+SETUVAR _fish_abbr_rust:evcxr
+SETUVAR _fish_abbr_sfish:source\x20/home/di/\x2econfig/fish/config\x2efish
+SETUVAR _fish_abbr_ta:tmux\x20attach\x20\x2dt
+SETUVAR _fish_abbr_tl:tmux\x20list\x2dsession
+SETUVAR _fish_abbr_ts:tmux\x20new\x2dsession\x20\x2ds
+SETUVAR _fish_abbr_wifi:nmcli\x20device\x20wifi
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
@@ -24,7 +38,7 @@ SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrbl
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
 SETUVAR fish_color_valid_path:\x2d\x2dunderline
-SETUVAR fish_key_bindings:fish_vi_key_bindings
+SETUVAR fish_key_bindings:fish_hybrid_key_bindings
 SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline

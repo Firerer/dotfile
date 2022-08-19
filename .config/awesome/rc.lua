@@ -53,14 +53,14 @@ end
 -- This function will run once every time Awesome is started
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
-        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
+        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || %s", cmd, cmd))
     end
 end
 
 run_once({ "emacs --daemon",
-           -- "feh --bg-fill --randomize ~/Pictures/wallpapers/",
+           "feh --bg-fill --randomize ~/Pictures/wallpapers/",
            -- "feh --bg-fill ~/Pictures/wallpapers/man-dark-bodybuilder.jpg",
-           "feh --bg-fill ~/Pictures/wallpapers/hotkeys.jpg",
+           -- "feh --bg-fill ~/Pictures/wallpapers/hotkeys.jpg",
            "~/.config/polybar/launch.sh",
            -- "trayer",
            "nm-applet",
