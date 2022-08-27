@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/sh
 cd ~/dotfile
 stow .
-ln -s .config/astronvim .config/nvim/lua
-mv .config/nvim/lua/astronvim .config/nvim/lua/user
+#ln -s .config/astronvim .config/nvim/lua
+#mv .config/nvim/lua/astronvim .config/nvim/lua/user

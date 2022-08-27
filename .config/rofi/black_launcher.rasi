@@ -20,12 +20,12 @@ configuration {
     click-to-exit: 					true;
     show-match: 					false;
     combi-hide-mode-prefix: 		true;
-    display-window: 				" ";
-    display-windowcd: 				" ";
-    display-run: 					" ";
-    display-ssh: 					" ";
-    display-drun: 					" ";
-    display-combi: 					" ";
+    //display-window: 				"w ";
+    //display-windowcd: 				"w ";
+    //display-run: 					"r ";
+    //display-ssh: 					"s ";
+    //display-drun: 					" ";
+    //display-combi: 					" ";
 }
 
 * {

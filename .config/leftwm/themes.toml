@@ -8,8 +8,8 @@ name = "Orange Forest"
 directory = "/home/di/.config/leftwm/themes/Orange Forest"
 repository = "https://github.com/PVautour/leftwm-theme-orange-forest/"
 commit = "*"
-version = "0.0.1"
-leftwm_versions = "<0.3.0"
+version = "0.0.2"
+leftwm_versions = "^0.3.0"
 current = false
 
 [[repos.themes]]
@@ -49,8 +49,8 @@ current = false
 name = "Dracula Rounded"
 repository = "https://github.com/AethanFoot/leftwm-theme-dracula-rounded/"
 commit = "*"
-version = "0.0.2"
-leftwm_versions = "^0.2.7, <0.3.0"
+version = "0.0.3"
+leftwm_versions = "^0.3.0"
 current = false
 
 [[repos.themes]]
@@ -58,7 +58,7 @@ name = "Forest"
 repository = "https://github.com/lex148/forest/"
 commit = "*"
 version = "0.0.1"
-leftwm_versions = "<0.3.0"
+leftwm_versions = "^0.3.0"
 current = false
 
 [[repos.themes]]
@@ -108,7 +108,7 @@ repository = "https://github.com/Syudagye/leftwm-sunset"
 commit = "*"
 version = "0.0.1"
 leftwm_versions = "<0.3.0"
-current = true
+current = false
 
 [[repos.themes]]
 name = "Garden"
@@ -123,7 +123,7 @@ current = false
 name = "Epitaph"
 repository = "https://github.com/VentGrey/Epitaph"
 commit = "*"
-version = "0.0.1"
+version = "0.0.2"
 leftwm_versions = "*"
 current = false
 
@@ -171,8 +171,8 @@ current = false
 name = "Double Bar"
 repository = "https://github.com/PeterDauwe/doublebar/"
 commit = "*"
-version = "0.0.1"
-leftwm_versions = "<0.3.0"
+version = "0.0.2"
+leftwm_versions = "^0.3.0"
 current = false
 
 [[repos.themes]]
@@ -189,6 +189,31 @@ repository = "https://gitlab.com/mWalrus/ascent"
 commit = "*"
 version = "1.0.0"
 leftwm_versions = ">0.2.7"
+current = false
+
+[[repos.themes]]
+name = "arch-one-dark"
+directory = "/home/di/.config/leftwm/themes/arch-one-dark"
+repository = "https://github.com/jamesbaker1901/leftwm-arch-one-dark/"
+commit = "*"
+version = "1.0.0"
+leftwm_versions = "^0.3.0"
+current = true
+
+[[repos.themes]]
+name = "Zexanima"
+repository = "https://github.com/calebgasser/zexanima-leftwm-theme/tree/develop"
+commit = "*"
+version = "0.0.1"
+leftwm_versions = ">0.3.0"
+current = false
+
+[[repos.themes]]
+name = "minimal-solarized"
+repository = "https://github.com/minda1975/minimal_solarized"
+commit = "*"
+version = "0.1.0"
+leftwm_versions = "^0.3.0"
 current = false
 
 [[repos]]

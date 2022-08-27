@@ -7,21 +7,21 @@ import:
 # ENV:
 #   TERM: alacritty
 
-# shell:
-  # program: /usr/bin/zsh
+shell:
+  program: /usr/bin/fish
 
 window:
   padding:
     x: 5
     y: 5
     # dynamic_padding: true
-  opacity: 1.0
+  opacity: 0.85
 
 font:
   normal:
     family: monospace
     family: CodeNewRoman Nerd Font
-  size: 14
+  size: 16
   offset:
     y: 1
   # glyph_offset:

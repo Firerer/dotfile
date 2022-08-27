@@ -12,7 +12,7 @@ abbr --add rust 'evcxr'
 # replace ls with exa
 if type -q exa;
   alias ls "exa --icons --sort=type --group-directories-first "
-  abbr --add lt 'ls --icons --level 3' # tree listing
+  abbr --add lt 'ls -T --level 3' # tree listing
 end
 
 abbr --add la "ls -a"
@@ -27,17 +27,13 @@ end
 
 source (/usr/bin/starship init fish --print-full-init | psub)
 
-function config_dotfile
-  set -f before $PWD
-  set -fx FZF_DEFAULT_COMMAND 'fd -HE .git'
-  cd ~/dotfile/
-  set -f target (fzf)
-  if test $status -eq 0
-    nvim $target
-  end
-  cd $before
-end
-
 # keybind
-bind \cR -M "source ~/.config/fish/config.fish"; and commandline -f repaint-mode;
+bind \cR -M insert "source ~/.config/fish/config.fish"; and commandline -f repaint-mode;
 bind \co -M insert config_dotfile
+
+set -Ux EDITOR nvim
+set -Uax PYTHONPATH "."
+
+fish_add_path -p ~/.bin ~/.local/bin ~/.cargo/bin ~/.emacs.d/bin \
+  ~/Android/Sdk/build-tools/30.0.3
+
