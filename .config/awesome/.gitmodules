@@ -2,6 +2,7 @@
 	path = lain
 	url = https://github.com/lcpz/lain.git
 
-[submodule "freedesktop"]
-	path = freedesktop
+[submodule "awesome-freedesktop"]
+	path = awesome-freedesktop
 	url = https://github.com/lcpz/awesome-freedesktop.git
+
