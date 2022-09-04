@@ -3,16 +3,19 @@ fish_hybrid_key_bindings
 abbr --add wifi nmcli device wifi
 abbr --add sfish source ~/.config/fish/config.fish
 
-abbr --add cp "cp -i"                          # confirm before overwriting something
-abbr --add df 'df -h'                          # human-readable sizes
-abbr --add free 'free -h'                      # show sizes in MB
+abbr --add cp "cp -i" # confirm before overwriting something
+abbr --add df 'df -h' # human-readable sizes
+abbr --add free 'free -h' # show sizes in MB
 abbr --add rr 'ranger'
-abbr --add rust 'evcxr'                
+abbr --add rustr 'evcxr'                
+abbr --add lr 'xplr' # like lf, it easy
 
 # replace ls with exa
 if type -q exa;
   alias ls "exa --icons --sort=type --group-directories-first "
   abbr --add lt 'ls -T --level 3' # tree listing
+else
+    abbr --add lt tree
 end
 
 abbr --add la "ls -a"
@@ -35,5 +38,6 @@ set -Ux EDITOR nvim
 set -Uax PYTHONPATH "."
 
 fish_add_path -p ~/.bin ~/.local/bin ~/.cargo/bin ~/.emacs.d/bin \
-  ~/Android/Sdk/build-tools/30.0.3
+  ~/Android/Sdk/build-tools/30.0.3 /home/linuxbrew/.linuxbrew/opt/tomcat@9/bin \
 
+zoxide init fish | source

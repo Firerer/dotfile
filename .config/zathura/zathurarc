@@ -1,6 +1,6 @@
 set page-padding 1
 set recolor-darkcolor "#f8f8f2"
-set recolor-lightcolor "#282a36"
+set recolor-lightcolor "#1b1b1b"
 set sandbox none
 set scroll-page-aware true
 set selection-clipboard clipboard

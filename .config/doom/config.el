@@ -35,32 +35,34 @@
       doom-unicode-font doom-font
       )
 
+;; (after! hl-todo
+;;   (setq hl-todo-keyword-faces
+;;         (("WARN" . ,(face-foreground "#d0bf8f"))
+;;           )))
+
 (map! :n "C-t" nil
       :map vterm-mode-map "C-t" nil
       :map global-map "C-t" nil
       :g "C-t" :desc "toggle term" #'+vterm/toggle
       :map evil-motion-state-map "C-e" nil
       :g "C-e" :desc "toglle explore" #'+treemacs/toggle
+      :g "C-/" :des "comment" #'evilnc-comment-or-uncomment-lines
       )
-;; TODO C-/ comment
 
 ;; pdf
-(setq pdf-view-midnight-colors '("#f8f8f2" . "#282a36"))
+(setq pdf-view-midnight-colors '("#f8f8f2" . "#1b1b1b"))
 (add-hook 'pdf-view-mode-hook (lambda () (pdf-view-midnight-minor-mode)))
 
 
-;; input
-;; TODO emcas unable to accept input in chinese mode
-
 ;; projectile
-(setq projectile-project-search-path '("~/Documents/code" "~/StudioProjects/"))
+(setq projectile-project-search-path '("~/Documents/code" "~/StudioProjects/" "~/Projects"))
 
 
 ;; org
 (setq org-directory "~/Documents/note/pages/org/")
 
 ;; vterm
-(setq vterm-shell "/usr/bin/zsh")
+(setq vterm-shell "/usr/bin/fish")
 
 ;;;;;;;;;
 ;; lsp

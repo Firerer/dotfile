@@ -33,7 +33,8 @@ addpath "$HOME/.bin" \
     "$HOME/.local/bin" \
     "$HOME/.emacs.d/bin" \
     "$HOME/.cargo/bin" \
-    "$HOME/Android/Sdk/build-tools/30.0.3" # android SDK tools
+    "$HOME/Android/Sdk/build-tools/30.0.3" \
+    "~/FIT5042_envs/idea-IU-193.7288.26/bin/" \
 
 ### ALIASES ###
 
@@ -45,7 +46,7 @@ alias rustrepl='evcxr'
 alias rr='ranger'
 
 # Changing "ls" to "exa"
-if command -v exa &> /dev/null
+if command -v exa &> /dev/null;
 then
   alias ls='exa --color=always --group-directories-first --icons' # my preferred listing
   alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
@@ -94,3 +95,4 @@ fi
 
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
+export PATH="/home/linuxbrew/.linuxbrew/opt/tomcat@9/bin:$PATH"

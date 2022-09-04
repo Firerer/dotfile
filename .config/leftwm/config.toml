@@ -1,10 +1,11 @@
 # https://github.com/leftwm/leftwm/wiki/Config#togglefloating
-modkey = "Mod4"
+modkey = "Mod4" # Super
 mousekey = "Mod4"
 
 focus_behaviour = "Sloppy" # Can be Sloppy, ClickTo, or Driven
-focus_new_windows = true
-sloppy_mouse_follows_focus = true # Only active with the Sloppy behaviour
+focus_new_windows = false
+sloppy_mouse_follows_focus = false # Only active with the Sloppy behaviour
+disable_tile_drag = true
 
 tags = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 workspaces = []
@@ -15,24 +16,23 @@ layouts = [
     "MainAndVertStack",
     # "MainAndHorizontalStack",
     "MainAndDeck",
-    "EvenHorizontal",
+    # "EvenHorizontal",
     # "EvenVertical",
     # "Fibonacci",
     # "CenterMain",
-    "CenterMainBalanced",
+    # "CenterMainBalanced",
     "Monocle",
     # "RightWiderLeftStack",
-    "LeftWiderRightStack",
+    # "LeftWiderRightStack",
 ]
 
 window_rules = [
   # games in 4
-  {window_class = "Steam", spawn_on_tag = 4, spawn_floating = true},
-  {window_class = "Lutris", spawn_on_tag = 4, spawn_floating = true},
-  {window_class = "battle.net.exe", spawn_on_tag = 4, spawn_floating = true},
-  {window_class = "Eclipse", window_title = "Preferences ", spawn_floating = false},
-#  # windows whose window title is "Pentablet" will be spawned floating on tag 9
-#  {window_title = "Pentablet", spawn_on_tag = 9, spawn_floating = true},
+  {window_class = "Steam", spawn_on_tag = 4 },
+  {window_class = "Lutris", spawn_on_tag = 4 },
+  {window_class = "battle.net.exe", spawn_on_tag = 4 },
+  # windows whose window title is "Pentablet" will be spawned floating on tag 9
+  # {window_title = "Pentablet", spawn_on_tag = 9, spawn_floating = true},
 ]
 
 # Create a scratchpad for alacritty
@@ -308,3 +308,32 @@ value = "9"
 modifier = ["modkey", "Shift"]
 key = "9"
 
+[[keybind]]
+command = "Execute"
+value = "~/.bin/maim_save.sh"
+modifier = ["modkey"]
+key = "Print"
+
+[[keybind]]
+command = "Execute"
+value = "~/.bin/maim_clip.sh"
+modifier = []
+key = "Print"
+
+[[keybind]]
+command = "Execute"
+value = "amixer -q set Master 5%- unmute"
+modifier = []
+key = "XF86XK_AudioLowerVolume"
+
+[[keybind]]
+command = "Execute"
+value = "amixer -q set Master 5%+ unmute"
+modifier = []
+key = "XF86XK_AudioRaiseVolume"
+
+[[keybind]]
+command = "Execute"
+value = "amixer -q set Master toggle"
+modifier = []
+key = "XF86XK_AudioMute"

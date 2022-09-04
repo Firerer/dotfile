@@ -5,7 +5,7 @@ from itertools import chain
 
 
 def expand_dict(opts, category="", command="xdg-open"):
-    return {f"{k} {category}": f"{command} '{v}' & disown" for k, v in opts.items()}
+    return {f"{category} . {k}": f"{command} '{v}' & disown" for k, v in opts.items()}
 
 
 def gen_monash_links(id, start=5, brk=15):
@@ -20,16 +20,28 @@ def gen_monash_links(id, start=5, brk=15):
     return {"homepage": home, "recordings": records, "assessments": assess} | weeks
 
 
+all = {
+    "monash moodle": {
+        "base": "https://lms.monash.edu/my/",
+        "FIT5137 Adv DB": gen_monash_links("140950"),
+    }
+}
+
 options = {
     **expand_dict(
         {
-            "monash moodle": "https://lms.monash.edu/my/",
-            "wes": "https://my.monash.edu/wes/",
             "allocate+": "https://my-timetable.monash.edu/even/student",
+            "gmail": "https://mail.google.com/mail/u/0/#inbox",
+            "moansh mail": "https://mail.google.com/mail/u/1/#inbox",
+            "monash drive": "https://drive.google.com/drive/u/1/",
+            "monash moodle": "https://lms.monash.edu/my/",
+            "qmk": "https://config.qmk.fm/#/ergodox_ez/glow/LAYOUT_ergodox_pretty",
+            "spotify": "https://open.spotify.com/",
             "twitch": "https://www.twitch.tv/",
-            "youtube": "https://www.youtube.com/",
             "twitter": "https://twitter.com/home",
-            "yinwang": "https://www.yinwang.org/"
+            "wes": "https://my.monash.edu/wes/",
+            "yinwang": "https://www.yinwang.org/",
+            "youtube": "https://www.youtube.com/",
         }
     ),
     **expand_dict(gen_monash_links("140950"), "FIT5137 Advanced database technology"),
