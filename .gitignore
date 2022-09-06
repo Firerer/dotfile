@@ -7,3 +7,4 @@ tmp/
 .xmonad
 !.xmonad/xmonad.hs
 
+fish_variables
