@@ -3,7 +3,7 @@ modkey = "Mod4" # Super
 mousekey = "Mod4"
 
 focus_behaviour = "Sloppy" # Can be Sloppy, ClickTo, or Driven
-focus_new_windows = false
+focus_new_windows = true
 sloppy_mouse_follows_focus = false # Only active with the Sloppy behaviour
 disable_tile_drag = true
 

@@ -35,7 +35,7 @@ bind \cR -M insert "source ~/.config/fish/config.fish"; and commandline -f repai
 bind \co -M insert config_dotfile
 
 set -Ux EDITOR nvim
-set -Uax PYTHONPATH "."
+set -Ux PYTHONPATH "."
 
 fish_add_path -p ~/.bin ~/.local/bin ~/.cargo/bin ~/.emacs.d/bin \
   ~/Android/Sdk/build-tools/30.0.3 /home/linuxbrew/.linuxbrew/opt/tomcat@9/bin \
