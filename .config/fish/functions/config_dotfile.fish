@@ -1,6 +1,6 @@
 function config_dotfile
   set -f before $PWD
-  set -fx FZF_DEFAULT_COMMAND 'fd -HE .git'
+  set -fx FZF_DEFAULT_COMMAND 'fd -HIE .git'
   cd ~/dotfile/
   set -f target (fzf)
   if test $status -eq 0

@@ -95,7 +95,8 @@ myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
     ------------
     -- open apps
     , ((modm, xK_o), rofiLauncher)
-    --, ((modm, xK_o), spawn "krunner")
+    , ((modm .|. shiftMask, xK_o), spawn "~/.bin/rofi_quicklinks.sh")
+    , ((modm , xK_o), spawn "~/.bin/rofi_open_pdf.sh")
     , ((modm, xK_e), spawn "emacsclient --eval \"(emacs-everywhere)\"")
     , ((modm, xK_s), spawn "google-chrome-stable open.spotify.com --new-window")
     -- launch a terminal

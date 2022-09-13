@@ -1,0 +1,1 @@
+emacsclient -te (magit-status)
