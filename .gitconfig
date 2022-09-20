@@ -3,3 +3,5 @@
 	name = Di Liu
 [alias]
 	uncommit = reset HEAD^
+[core]
+	autocrlf = input

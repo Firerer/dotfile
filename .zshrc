@@ -31,3 +31,7 @@ ZSH_TMUX_AUTOSTART="true"
 
 bindkey -s '^[z' 'fg ^M'
 bindkey -s '^o' 'nvim $(fzf)^M'
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
