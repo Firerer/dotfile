@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import sys
 import os
 from itertools import chain
@@ -35,6 +35,7 @@ options = {
             "moansh mail": "https://mail.google.com/mail/u/1/#inbox",
             "monash drive": "https://drive.google.com/drive/u/1/",
             "monash moodle": "https://lms.monash.edu/my/",
+            "monash gitlab": "https://git.infotech.monash.edu/fit5042/fit5042-s2-2022/dliu0024",
             "qmk": "https://config.qmk.fm/#/ergodox_ez/glow/LAYOUT_ergodox_pretty",
             "spotify": "https://open.spotify.com/",
             "twitch": "https://www.twitch.tv/",
