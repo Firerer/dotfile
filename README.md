@@ -3,19 +3,19 @@
 ```bash
 # under project root
 stow .
-ln -s .config/astronvim .config/nvim/lua/user
 ```
 
 #### list of used programs
 
+- xmonad
 - rofi
-- awesomewm
 - polybar
 
 - alacritty
-- tmux
+- zellij
 - nvim
-- zsh/fish
+- fish
+- xplr
 
 ##### optional
 - starship

@@ -7,4 +7,6 @@ tmp/
 .xmonad
 !.xmonad/xmonad.hs
 
+packer_compiled.lua
+
 fish_variables
