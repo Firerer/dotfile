@@ -1,19 +1,8 @@
-#!/bin/bash
-#
-# ~/.xinitrc
-#
-# Executed by startx (run your window manager from here)
-
+#!/bin/sh
+# merge in defaults and keymaps
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
-sysmodmap=/etc/X11/xinit/.Xmodmap
-
-#DEFAULT_SESSION=startplasma-x11
-DEFAULT_SESSION=xmonad
-
-# merge in defaults and keymaps
-
 if [ -f $sysresources ]; then
     xrdb -merge $sysresources
 fi
@@ -31,17 +20,19 @@ if [ -f "$usermodmap" ]; then
 fi
 
 # start some nice programs
-
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
-    for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-        [ -x "$f" ] && . "$f"
-    done
-    unset f
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
 fi
 
-echo "out $1\n"
-echo $@
+#source xprofile
+[ -f /etc/xprofile ] && . /etc/xprofile
+[ -f ~/.xprofile ] && . ~/.xprofile
 
+
+DEFAULT_SESSION=xmonad
 dbus_args=(--sh-syntax --exit-with-session)
 # command `startx kde` first arg is xterm, why?
 case $2 in
@@ -65,4 +56,14 @@ case $2 in
     *) dbus_args+=($DEFAULT_SESSION) ;;
 esac
 
+
+pidof nm-applet || nm-applet &
+pidof polybar || polybar main &
+
+
+pidof dunst || dunst &
+
+# wallpaper
+xsetroot -solid black # simple bg
+# feh --bg-fill ~/Pictures/Wallpapers &
 dbus-launch ${dbus_args[*]}

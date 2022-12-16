@@ -30,7 +30,7 @@ source (/usr/bin/starship init fish --print-full-init | psub)
 bind \cR -M insert "source ~/.config/fish/config.fish"; and commandline -f repaint-mode;
 bind \co -M insert config_dotfile
 
-set -Ux EDITOR 'nvim'
+set -Ux EDITOR 'lvim'
 set -Ux PYTHONPATH "."
 set -Ux TERMINAL "alacritty"
 
@@ -53,6 +53,3 @@ if type -q nnn;
   set -Ux NNN_TRASH '1' # n=1: trash-cli, n=2: gio trash
   set -Ux NNN_TMPFILE '/tmp/.lastd' # always cd on quite
 end
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/di/Applications/google-cloud-sdk/path.fish.inc' ]; . '/home/di/Applications/google-cloud-sdk/path.fish.inc'; end

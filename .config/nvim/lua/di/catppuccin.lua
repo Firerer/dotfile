@@ -1,5 +1,5 @@
 -- https://github.com/catppuccin/nvim
-vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 local config = {
 	integrations = {
 		aerial = false,

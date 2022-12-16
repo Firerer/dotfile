@@ -1,13 +1,10 @@
 # If not running interactively, don't do anything
 
 [[ $- != *i* ]] && return
-### enviroment ###
 
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
+### enviroment ###
+export USER_SHELL='fish'
+export EDITOR='nvim'
 export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
 export XDG_CONFIG_DIR="$HOME/.config"
@@ -33,8 +30,6 @@ addpath "$HOME/.bin" \
     "$HOME/.local/bin" \
     "$HOME/.emacs.d/bin" \
     "$HOME/.cargo/bin" \
-    "$HOME/Android/Sdk/build-tools/30.0.3" \
-    "~/FIT5042_envs/idea-IU-193.7288.26/bin/" \
 
 ### ALIASES ###
 
@@ -43,7 +38,6 @@ alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -h'                      # show sizes in MB
 alias rustrepl='evcxr'                
-alias rr='ranger'
 
 # Changing "ls" to "exa"
 if command -v exa &> /dev/null;
@@ -92,7 +86,3 @@ then
 else
   PS1='[\u@\h \W]\$ '
 fi
-
-[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
-
-export PATH="/home/linuxbrew/.linuxbrew/opt/tomcat@9/bin:$PATH"

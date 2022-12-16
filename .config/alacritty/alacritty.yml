@@ -5,7 +5,7 @@ import:
   - ./theme.yml
 
 # ENV:
-#   TERM: alacritty
+  # TERM: alacritty
 
 shell:
   program: /usr/bin/fish
@@ -21,7 +21,8 @@ font:
   normal:
     family: monospace
     family: CodeNewRoman Nerd Font
-  size: 16
+    family: Hack Nerd Font
+  size: 14
   offset:
     y: 1
   # glyph_offset:

@@ -8,16 +8,17 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
+  "[rust]": {
+  },
   "editor.acceptSuggestionOnEnter": "off",
   "editor.acceptSuggestionOnCommitCharacter": false,
   "git.autofetch": true,
   "[haskell]": {},
   "git.enableSmartCommit": true,
   "git.ignoreMissingGitWarning": true,
-  "tabnine.experimentalAutoImports": true,
   "editor.wordWrap": "on",
   "editor.rulers": [],
-  "python.languageServer": "Pylance",
+  "python.languageServer": "Jedi",
   "editor.suggestSelection": "first",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "files.exclude": {
@@ -29,7 +30,6 @@
   "rust-client.revealOutputChannelOn": "error",
   "rust-client.updateOnStartup": true,
   "rust.racer_completion": false,
-  "materialTheme.accent": "Indigo",
   "workbench.colorCustomizations": {
     "[Material Theme Darker]": {
       "activityBarBadge.background": "#5C6BC0",
@@ -82,38 +82,25 @@
       "statusBarItem.remoteBackground": "#F44336"
     }
   },
-  "python.pythonPath": "C:\\Users\\12907\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
   "gitlens.defaultDateFormat": null,
   "gitlens.blame.avatars": false,
   "kite.showWelcomeNotificationOnStartup": false,
-  "gitlens.hovers.currentLine.over": "line",
   "python.testing.pytestEnabled": true,
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter.notebook.ipynb"
   },
   "problems.showCurrentInStatus": true,
   "editor.cursorStyle": "line",
-  "editor.insertSpaces": true,
+  "editor.insertSpaces": false,
   "editor.lineNumbers": "on",
   "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
-  "python.defaultInterpreterPath": "C:\\Users\\12907\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
-  "yaml.schemas": {
-    "file:///c%3A/Users/12907/.vscode/extensions/atlassian.atlascode-2.10.1/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
-  },
-  "redhat.telemetry.enabled": false,
-  "atlascode.jira.enabled": true,
   "files.eol": "\n",
-  "eslint.quiet": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "[less]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  },
-  "[javascriptreact]": {
-  },
   "editor.minimap.enabled": false,
   "editor.suggest.filterGraceful": false,
+  "workbench.colorTheme": "Catppuccin Mocha",
   "zenMode.hideLineNumbers": false,
   "zenMode.hideStatusBar": false,
   // vim settings
@@ -125,7 +112,7 @@
   "vim.smartRelativeLine": true,
   "vim.insertModeKeyBindings": [
     {
-      "before": ["j", "j"],
+      "before": ["j", "k"],
       "after": ["<Esc>"]
     }
   ],
@@ -149,16 +136,11 @@
     "[",
     "<"
   ],
-  // "vim.neovimPath": "C:\\tools\\neovim\\Neovim\\bin\\nvim.exe",
-  // "vim.neovimConfigPath": "C:\\Users\\12907\\AppData\\Local\\nvim\\init.vim",
   "workbench.editor.limit.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "files.associations": {
-    "*.log.*": "log",
-    "*.rmd": "markdown"
+    "*.log.*": "log"
   },
-  "gitlens.currentLine.enabled": false,
-  "gitlens.hovers.enabled": false,
   "vim.highlightedyank.enable": true,
   "vim.sneak": true,
   "vim.sneakUseIgnorecaseAndSmartcase": true,
@@ -190,12 +172,20 @@
       "command": "workbench.action.toggleZenMode"
     }
   ],
-  "[rust]": {
-    "editor.defaultFormatter": "matklad.rust-analyzer"
-  },
   "git.confirmSync": false,
-  "editor.fontFamily": "mononoki, 'Droid Sans Mono', 'monospace', monospace",
-  "workbench.colorTheme": "Material Theme Darker",
+  "editor.fontFamily": "'Hack Nerd Font', mononoki, unifont, monospace",
+  "terminal.external.linuxExec": "alacritty",
+  "workbench.iconTheme": "material-icon-theme",
+  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "files.autoSave": "onFocusChange",
+  "deno.enable": true,
+  "editor.tabCompletion": "on",
+  "javascript.suggest.completeFunctionCalls": true,
   "explorer.confirmDragAndDrop": false,
-  "mdb.confirmRunAll": false
+  "window.zoomLevel": 1,
+  "explorer.confirmDelete": false,
+  "editor.suggest.insertMode": "replace",
+  "deno.suggest.completeFunctionCalls": true,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.enabled": false
 }

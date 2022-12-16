@@ -54,7 +54,7 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
         -- key bindings
         keys               = myKeys,
         -- hooks, layouts
-        manageHook         = myManageHook, 
+        manageHook         = myManageHook,
         layoutHook         = myLayout,
         logHook            = dynamicLog,
         handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True),
@@ -64,13 +64,13 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
     myEZkeys
 
 myEZkeys :: [(String, X ())]
-myEZkeys = 
+myEZkeys =
     [ ("M-q r", spawn "xmonad --recompile && xmonad --restart")
     , ("M-q S-r", spawn "reboot")
     , ("M-q q", io exitSuccess)
     , ("M-q d", killAll)
     , ("M-q s", spawn "systemctl suspend")
-    , ("M-q S-s", spawn "shutdown")
+    , ("M-q S-s", spawn "shutdown now")
     , ("M-q l", spawn "hslock")
 
     , ("M-d", kill1)
@@ -117,9 +117,9 @@ myEZkeys =
     , ("<XF86AudioPlay>", spawn "mocp --play")
     , ("<XF86AudioPrev>", spawn "mocp --previous")
     , ("<XF86AudioNext>", spawn "mocp --next")
-    , ("<XF86AudioMute>", spawn "amixer set Master toggle")
-    , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
-    , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+    , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+    , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
+    , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
     ]
     -- mod-[1..],       Switch to workspace N
     -- mod-shift-[1..], Move client to workspace N
@@ -147,16 +147,16 @@ myLayout = gaps myGaps
      monocle = noBorders Full
 
 myStartupHook = do
-   setWMName "LG3D"
-   -- spawnOnce "lxsession &" -- conflicts with polybar ewmh module
-   spawnOnce "nm-applet &"
-   spawnOnce "fcitx5 &"
-   -- spawnOnce "picom &"
-   spawnOnce "dunst &"
-   spawnOnce "greenclip daemon &"
-   spawnOnce "feh --bg-fill ~/Pictures/wallpapers &"
-   spawnOnce "emacs --daemon &"
-   spawnOnce "polybar main &"
+    setWMName "LG3D"
+    -- spawnOnce "lxsession &" -- conflicts with polybar ewmh module
+    -- spawnOnce "nm-applet &"
+    -- spawnOnce "fcitx5 &"
+    -- spawnOnce "picom &"
+    -- spawnOnce "dunst &"
+    -- spawnOnce "greenclip daemon &"
+    -- spawnOnce "feh --bg-fill ~/Pictures/Wallpapers &"
+    -- spawnOnce "emacs --daemon &"
+    -- spawnOnce "polybar main &"
 
 ------------------------------------------------------------------------
 -- Window rules:

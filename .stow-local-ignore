@@ -6,3 +6,5 @@ LICENSE
 ^/.*\.org
 README.*
 install.sh
+download.sh
+debug.sh
