@@ -1,13 +1,37 @@
 local group = vim.api.nvim_create_augroup("ConfigAutoLoad", { clear = true })
 
+-- q to exits some buffer
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = {
+    "git",
+    "fugitive",
+    "DressingSelect",
+    "Jaq",
+    "help",
+    "lir",
+    "lspinfo",
+    "man",
+    "notify",
+    "qf",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function()
+    vim.cmd [[
+      nnoremap <silent> <buffer> q :close<CR>
+      set nobuflisted
+    ]]
+  end,
+})
+
 -- | reloading configs|
 -- vim.fn.confirm
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "leftwm/config.toml",
   callback = function()
     print "config.toml check:"
-    vim.cmd "echo 'asdfasf'"
-    -- !leftwm-check
+    vim.fn.system "leftwm-check"
   end,
   group = group,
 })
@@ -42,23 +66,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = {
-    "Jaq",
-    "qf",
-    "help",
-    "man",
-    "lspinfo",
-    "spectre_panel",
-    "lir",
-    "DressingSelect",
-    "tsplayground",
-  },
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd(
+  { "FocusGained", "TermClose", "TermLeave" },
+  { command = "checktime" }
+)
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gitcommit", "markdown" },
   callback = function()
-    vim.cmd [[
-      nnoremap <silent> <buffer> q :close<CR>
-      set nobuflisted
-    ]]
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = true
   end,
 })
 
@@ -73,3 +92,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --     }
 --   end,
 -- })
+
+-- resize splits if window got resized
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  callback = function()
+    vim.cmd("tabdo wincmd =")
+  end,
+})

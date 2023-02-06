@@ -1,81 +1,98 @@
--- Install packer if not installed
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local is_bootstrap = false
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  is_bootstrap = true
-  vim.fn.execute("!git clone --depth=1 https://github.com/wbthomason/packer.nvim " .. install_path)
-  vim.cmd([[packadd packer.nvim]])
+-- Install package manager if not installed
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-require "packer".startup { function(use)
-  use "wbthomason/packer.nvim"
-  use "nvim-lua/plenary.nvim"
+require("lazy").setup({
+  "nvim-lua/plenary.nvim",
   -- optimizer
-  use "lewis6991/impatient.nvim"
+  "lewis6991/impatient.nvim",
+  -- https://github.com/ThePrimeagen/harpoon
+  "theprimeagen/harpoon",
 
   -- which-key
-  use { "folke/which-key.nvim" }
+  -- https://github.com/folke/which-key.nvim#%EF%B8%8F-configuration
+  {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup({
+        ["<space>"] = "SPC",
+        ["<cr>"] = "RET",
+        ["<tab>"] = "TAB",
+      })
+    end,
+  },
+  { "mbbill/undotree", cmd = { "UndotreeToggle", "UndotreeShow" } },
+
+  { "tpope/vim-fugitive", },
 
   -- telescope
-  use {
-    {
-      "nvim-telescope/telescope.nvim",
-      after = {
-        "which-key.nvim",
+  {
+    "nvim-telescope/telescope.nvim",
+    config = function() require('di.telescope') end,
+    dependencies = {
+      "which-key.nvim",
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      {
+        "crispgm/telescope-heading.nvim",
+        config = function() require('telescope').load_extension('heading') end,
       },
-      requires = {
-        "nvim-lua/popup.nvim",
-        "nvim-lua/plenary.nvim",
-        "BurntSushi/ripgrep",
-        "nvim-telescope/telescope-fzf-native.nvim",
+      {
+        -- https://github.com/nvim-telescope/telescope-project.nvim
+        "nvim-telescope/telescope-project.nvim",
+        config = function() require('telescope').load_extension('project') end,
       },
-      config = "require('di.telescope')",
-    },
-    {
-      "nvim-telescope/telescope-frecency.nvim",
-      after = "telescope.nvim",
-      requires = "kkharji/sqlite.lua",
-      config = [[ require "telescope".load_extension("frecency") ]],
-    },
-    {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      after = "telescope.nvim",
-      run = "make",
-      config = [[ require('telescope').load_extension('fzf') ]],
-    },
-    {
-      "nvim-telescope/telescope-ui-select.nvim",
-      after = "telescope.nvim",
-      config = [[ require("telescope").load_extension("ui-select") ]],
-    },
-    "crispgm/telescope-heading.nvim",
-    "nvim-telescope/telescope-file-browser.nvim",
-    {
-      "nvim-telescope/telescope-project.nvim",
-      requires = "telescope.nvim",
-      config = function()
-        require("which-key").register {
-          ["<leader>pp"] = {
-            ":lua require'telescope'.extensions.project.project{}<CR>",
-            "switch project",
-          },
-        }
-      end,
-    },
-  }
+      {
+        "nvim-telescope/telescope-frecency.nvim",
+        dependencies = { "kkharji/sqlite.lua" },
+        config = function() require "telescope".load_extension("frecency") end,
+      },
 
-  -- use {
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   requires = { "nvim-lua/plenary.nvim" },
-  --   config = [[ require "di.null_ls" ]],
-  -- }
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        config = function() require('telescope').load_extension('fzf') end,
+      },
+      {
+        "nvim-telescope/telescope-ui-select.nvim",
+        config = function() require("telescope").load_extension("ui-select") end,
+      },
+      {
+        "nvim-telescope/telescope-hop.nvim",
+        config = function() require("telescope").load_extension('hop') end,
+      },
+    },
+  },
+
+  -- |treesitter|
+  {
+    "nvim-treesitter/nvim-treesitter",
+    config = function() require('di.treesitter') end,
+    build = ":TSUpdate",
+    dependencies = {
+      "nvim-treesitter/playground",
+      "nvim-treesitter/nvim-treesitter-refactor",
+      "RRethy/nvim-treesitter-textsubjects",
+    },
+  },
 
   -- https://github.com/echasnovski/mini.nvim/tree/stable
-  use {
+  {
     "echasnovski/mini.nvim",
     branch = "stable",
-    requires = { "kyazdani42/nvim-web-devicons" }, -- for tabline
+    dependencies = { "kyazdani42/nvim-web-devicons" }, -- for tabline
     config = function()
       -- better comment
       require("mini.comment").setup()
@@ -99,144 +116,54 @@ require "packer".startup { function(use)
 
       require("mini.fuzzy").setup()
     end,
-  }
+  },
+  {
+    -- https://github.com/VonHeikemen/lsp-zero.nvim
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v1.x',
+    dependencies = {
+      -- LSP Support
+      { 'neovim/nvim-lspconfig' }, -- Required
+      { 'williamboman/mason.nvim' }, -- Optional
+      { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
-  -- |lsp|
-  use {
-    {
-      "neovim/nvim-lspconfig",
-      after = {
-        "which-key.nvim", -- setting keybinds in config
-        "telescope.nvim",
-      },
-      config = [[require('di.lsp')]],
-    },
-    {
-      "folke/trouble.nvim",
-      requires = "kyazdani42/nvim-web-devicons",
-      config = function()
-        require("trouble").setup {
-          -- https://github.com/folke/trouble.nvim
-        }
-      end
-    },
-    { "ray-x/lsp_signature.nvim",
-      config = function()
-        -- https://github.com/ray-x/lsp_signature.nvim
-        require("lsp_signature").setup()
-      end },
-    {
-      "kosayoda/nvim-lightbulb",
-      requires = "antoinemadec/FixCursorHold.nvim",
-    },
-  }
+      -- Autocompletion
+      { 'hrsh7th/nvim-cmp' }, -- Required
+      { 'hrsh7th/cmp-nvim-lsp' }, -- Required
+      { 'hrsh7th/cmp-buffer' }, -- Optional
+      { 'hrsh7th/cmp-path' }, -- Optional
+      { 'saadparwaiz1/cmp_luasnip' }, -- Optional
+      { 'hrsh7th/cmp-nvim-lua' }, -- Optional
 
-  -- |downloader|
-  use {
-    {
-      "williamboman/mason.nvim",
-      config = function()
-        require("mason").setup {
-          ui = {
-            icons = {
-              package_installed = "✓",
-              package_pending = "➜",
-              package_uninstalled = "✗",
-            },
-          },
-        }
-      end,
+      -- Snippets
+      { 'L3MON4D3/LuaSnip' }, -- Required
+      { 'rafamadriz/friendly-snippets' }, -- Optional
     },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      requires = { "neovim/nvim-lspconfig", "williamboman/mason.nvim" },
-      config = function()
-        require("mason-lspconfig").setup {
-          ensure_installed = {},
-          automatic_installation = false, -- or { exclude: string[] } or false
-        }
-      end,
-    },
-  }
+  },
 
-  use {
-    "nvim-treesitter/nvim-treesitter",
-    requires = {
-      "nvim-treesitter/nvim-treesitter-refactor",
-      "RRethy/nvim-treesitter-textsubjects",
-    },
-    config = "require('di.treesitter')",
-    run = ":TSUpdate",
-  }
-  use {
-    {
-      "L3MON4D3/LuaSnip",
-      event = "InsertEnter",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-      end,
-    },
-    "rafamadriz/friendly-snippets",
-  }
-
-  -- Completion
-  -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
-  use {
-    "hrsh7th/nvim-cmp",
-    requires = {
-      "hrsh7th/cmp-nvim-lsp",
-      "lukas-reineke/cmp-under-comparator",
-      "onsails/lspkind.nvim",
-      { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-      { "hrsh7th/cmp-nvim-lsp-document-symbol", after = "nvim-cmp" },
-      { "hrsh7th/cmp-nvim-lsp-signature-help", after = "nvim-cmp" },
-      { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-      { "hrsh7th/cmp-path", after = "nvim-cmp" },
-      { "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
-      { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
-    },
-    config = [[ require "di.cmp" ]],
-    event = "InsertEnter",
-    after = "LuaSnip",
-  }
 
   -- colors
   -----
-  use {
+  {
+    -- https://github.com/norcalli/nvim-colorizer.lua
     "norcalli/nvim-colorizer.lua",
-    event = { "BufRead", "BufNewFile" },
-    config = [[ require "colorizer".setup()]],
-  }
-
-  use {
+    cmd = { "ColorizerToggle", "ColorizerAttachToBuffer", "ColorizerReloadAllBuffers" },
+    lazy = true,
+    config = function() require "colorizer".setup() end,
+  },
+  {
     "RRethy/nvim-base16",
-    disable = true,
-    config = "vim.cmd [[colorscheme base16-google-dark]]",
-  }
-
-  use {
+    enabled = false,
+    config = function() vim.cmd [[colorscheme base16-google-dark]] end,
+  },
+  {
     "catppuccin/nvim",
-    as = "catppuccin",
-    disable = false,
-    config = [[ require "di.catppuccin" ]],
+    name = "catppuccin",
+    config = function() require "di.catppuccin" end,
+  },
+}, {
+  defaults = {
+    -- install stable version
+    version = "*"
   }
-  if is_bootstrap then
-    require("packer").sync()
-  end
-end,
-  config = {
-    auto_clean = true,
-    display = {
-      prompt_border = "rounded",
-      open_fn = function()
-        local result, win, buf = require('packer.util').float({ border = 'single' })
-        vim.api.nvim_win_set_option(win, "winhighlight", "NormalFloat:Normal")
-        return result, win, buf
-      end
-    },
-    profile = {
-      enable = true,
-      threshold = 1,
-    },
-  }
-}
+})

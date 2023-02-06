@@ -133,37 +133,14 @@ telescope.setup {
         ["conf"] = "~/dotfile/",
       },
     },
-  },
-}
-
-local telefuncs = require "telescope.builtin"
-require("which-key").register {
-  ["<leader>"] = {
-    ["<leader>"] = { telefuncs.find_files, "find file" },
-    f = {
-      r = { telefuncs.oldfiles, "recent files" },
-      v = { telefuncs.treesitter, "treesitter vars" },
-      s = { telefuncs.current_buffer_fuzzy_find, "fuzzy search" },
-      t = { telefuncs.tags, "find tags" },
+    heading = {
+      treesitter = true,
     },
-    g = {
-      d = { telescope.git_bcommits, "diff commit diff" },
-      b = { telescope.git_branches, "git branches" },
-      g = { telescope.git_status, "git status" },
-    },
-    h = {
-      h = { telefuncs.help_tags, "help tags" },
-      k = { telefuncs.keymaps, "find keymaps" },
-      t = { telefuncs.colorscheme, "find theme" },
-      c = { telefuncs.commands, "commands" },
-      s = { telefuncs.symbols, "symbols" },
-      m = { telefuncs.man_pages, "man pages" },
-    },
-    s = {
-      s = { telefuncs.builtin, "telescope builtin" },
-    },
-    p = {
-      s = { telefuncs.live_grep, "project search" },
-    },
+    project = {
+      base_dirs = {
+        { "~/Projects/", max_depth = 2 },
+        "~/dotfile/"
+      }
+    }
   },
 }

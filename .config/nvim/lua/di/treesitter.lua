@@ -12,6 +12,7 @@ require("nvim-treesitter.configs").setup {
     "bash",
     "comment",
     "fish",
+    "help",
     "java",
     "json",
     "lua",

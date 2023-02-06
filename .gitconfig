@@ -3,5 +3,17 @@
 	name = Di Liu
 [alias]
 	uncommit = reset HEAD^
+  dft = difftool
 [core]
 	autocrlf = input
+
+# https://difftastic.wilfred.me.uk/git.html
+[diff]
+	tool = difftastic
+[difftool]
+  prompt = false
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+  difftoll = true
+

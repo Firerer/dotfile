@@ -33,7 +33,7 @@ fi
 
 
 DEFAULT_SESSION=xmonad
-dbus_args=(--sh-syntax --exit-with-session)
+dbus_args=(--exit-with-session)
 # command `startx kde` first arg is xterm, why?
 case $2 in
     awesome) dbus_args+=(awesome) ;;
@@ -63,7 +63,13 @@ pidof polybar || polybar main &
 
 pidof dunst || dunst &
 
+pidof fcitx5 || fcitx5 &&
+  export GTK_IM_MODULE=fcitx5 &&
+  export QT_IM_MODULE=fcitx5 &&
+  export XMODIFIERS=@im=fcitx5 &
+
 # wallpaper
 xsetroot -solid black # simple bg
 # feh --bg-fill ~/Pictures/Wallpapers &
-dbus-launch ${dbus_args[*]}
+# dbus-launch ${dbus_args[*]}
+xmonad

@@ -8,21 +8,47 @@ local mode_adapters = {
   command_mode = "c",
 }
 
+-- esc cancel search hl
 vim.cmd [[
-  nnoremap <silent> <esc> :noh<return><esc>
-  nnoremap <silent> <esc>^[ <esc>^[
+    nnoremap <silent> <esc> :noh<return><esc>
+    nnoremap <silent> <esc>^[ <esc>^[
 ]]
+
+-- setup leader key
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.api.nvim_set_keymap("i", "jk", "<ESC>", opts)
 
+-- keep curser place when join lines
+vim.api.nvim_set_keymap("n", "J", "mzJ`z", opts)
+-- center curser when move
+vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", opts)
+vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", opts)
+-- search term in middle
+vim.api.nvim_set_keymap("n", "n", "nzzzv", opts)
+vim.api.nvim_set_keymap("n", "N", "Nzzzv", opts)
+
+local mark = require "harpoon.mark"
+local ui = require "harpoon.ui"
+
+vim.keymap.set("n", "<C-a>", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+-- vim.keymap.set("n", "<C-1>", function() ui.nav_file(1) end)
+-- vim.keymap.set("n", "<C-2>", function() ui.nav_file(2) end)
+-- vim.keymap.set("n", "<C-3>", function() ui.nav_file(3) end)
+-- vim.keymap.set("n", "<C-4>", function() ui.nav_file(4) end)
 -- https://github.com/folke/which-key.nvim
 -- NOTE: starts with "<Plug>", whichkey set noremap=false automatically
 local wk = require "which-key"
+local telefuncs = prequire("telescope.builtin")
+if not telefuncs then
+  error("failed to load telefuncs")
+end
+
 wk.setup()
-vim.opt.timeoutlen = 300 -- faster cmp
+vim.opt.timeoutlen = 311 -- faster cmp
 wk.register {
   -- swap 0, ^
   ["0"] = { "^", "line first non blank" },
@@ -33,15 +59,57 @@ wk.register {
 
   ["<C-s>"] = { ":w<cr>", "save file" },
 
+  g = {
+    h = { ":Telescope heading<cr>", "goto heading" },
+  },
   ["<leader>"] = {
-    ["<leader>"] = { ":find ", ":find" },
+    ["<leader>"] = { function()
+      if vim.fn.system("git rev-parse --git-dir 2> /dev/null") == "" then
+        -- not in git repo
+        telefuncs.fd()
+      else
+        telefuncs.git_files()
+      end
+    end, "find files" },
+    d = { [["_d]], "no yank delete" },
+    t = {
+      name = "toogle",
+      u = { ":UndotreeToggle<cr><C-w><C-w>", "undo tree" },
+      c = { ":ColorizerToggle<cr>", "colorizer" },
+      l = { ":Lazy<cr>", "Lazy.nvim" },
+      m = { ":Mason<cr>", "Mason.nvim" },
+    },
     f = {
       name = "file",
-      Y = { [[ :call setreg('+', expand('%:~'))<cr> ]], "yank full path" },
-      y = { [[ :call setreg('+', expand('%:t'))<cr> ]], "yank file name" },
+      e = { ":Ex<cr>", "file explore" },
+      x = { "<cmd>!chmod +x %<cr>", "current file +x" },
+      f = { function()
+        telefuncs.fd({ hidden = true, no_ignore = true })
+      end, "find all files" },
+      r = { telefuncs.oldfiles, "recent files" },
+      s = { telefuncs.current_buffer_fuzzy_find, "fuzzy search" },
+      t = { telefuncs.tags, "find tags" },
+      v = { telefuncs.treesitter, "treesitter vars" },
+    },
+    y = {
+      name = "yank",
+      A = { "ggVGy", "yank all file" },
+      F = { [[ :call setreg('+', expand('%:~'))<cr> ]], "yank full path" },
+      f = { [[ :call setreg('+', expand('%:t'))<cr> ]], "yank file name" },
+    },
+    p = {
+      p = { require 'telescope'.extensions.project.project, "switch project", },
+      s = { telefuncs.live_grep, "project search" },
     },
     h = {
       name = "help",
+      b = { telefuncs.builtin, "telescope builtin" },
+      h = { telefuncs.help_tags, "help tags" },
+      k = { telefuncs.keymaps, "find keymaps" },
+      t = { telefuncs.colorscheme, "find theme" },
+      c = { telefuncs.commands, "commands" },
+      s = { telefuncs.symbols, "symbols" },
+      m = { telefuncs.man_pages, "man pages" },
     },
     b = {
       name = "buffer",
@@ -50,66 +118,39 @@ wk.register {
     },
     g = {
       name = "git",
+      b = { ":Git branch", "git branches" },
+      g = { ":Git<cr>", "status" },
+      c = { ":Git commit<cr>", "commit" },
+      l = { ":Git log<cr>", "log" },
+      a = { ":Git add %<cr>", "add current file" },
+      A = { ":Git add .<cr>", "add all" },
     },
     s = {
       name = "search",
-    },
-    p = {
-      name = "project",
+      r = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "replace sel word" },
     },
     q = {
       name = "quit",
       q = { ":q<cr>", "exit" },
       r = { ":source ~/.config/nvim/init.lua<cr>", "reload config" },
-      c = { ":PackerCompile<cr>", "packer compile" },
-      s = { ":PackerSync<cr>", "packer sync" },
+      u = { ":Lazy update<cr>", "lazy update" },
+      s = { ":Lazy sync<cr>", "lazy sync" },
     },
 
   },
 }
 
--- lsp related
-local telefuncs = require "telescope.builtin"
-wk.register({
-  K = { vim.lsp.buf.hover, "hover" },
-  g = {
-    name = "goto",
-    d = { telefuncs.lsp_definitions, "definition" },
-    D = { vim.lsp.buf.declaration, "declaration" },
-    i = { vim.lsp.buf.implementation, "implementation" },
-    r = { telefuncs.lsp_references, "references" },
-  },
-  ["["] = { d = { vim.diagnostic.goto_prev, "prev error" } },
-  ["]"] = { d = { vim.diagnostic.goto_next, "next error" } },
-  ["<leader>"] = {
-    l = {
-      name = "lsp",
-      e = { vim.diagnostic.open_float, "show error" },
-      q = { vim.diagnostic.setlocalist, "show all errors" },
-      i = { ":LspInfo<cr>", "lsp info" },
-      D = { vim.lsp.buf.type_definition, "type definition" },
-      a = { vim.lsp.buf.code_action, "code action" },
-      f = { function() vim.lsp.buf.format { async = true } end, "format" },
-      r = { vim.lsp.buf.rename, "rename" },
-    },
-    w = {
-      name = "workspace",
-      a = { vim.lsp.buf.add_workspace_folder, "add folder" },
-      r = { vim.lsp.buf.remove_workspace_folder, "remove folder" },
-      l = {
-        function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end,
-        "list folders",
-      },
-    },
-  },
-}, { buffer = bufnr })
 
 wk.register({
   -- Better indenting
   ["<"] = "<gv",
   [">"] = ">gv",
+  -- move selected line
+  J = ":m '>+1<CR>gv=gv",
+  K = ":m '<-2<CR>gv=gv",
+
+  -- preserve yanked text in register
+  ["<leader>p"] = { "\"_dp", "no yank paste" }
 }, {
   mode = "v",
   prefix = "",
@@ -122,6 +163,11 @@ wk.register({
 wk.register({
   -- navigate tab completion with <c-j> and <c-k>
   -- runs conditionally
-  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true } },
-  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true } },
-}, { mode = "c", expr = true, noremap = true })
+  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', },
+  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', },
+}, { mode = "c", noremap = true })
+
+wk.register({
+  -- preserve yanked text in register
+  ["<leader>p"] = { "\"_dp", "no yank paste" }
+}, { mode = "x" })

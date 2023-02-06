@@ -2,8 +2,7 @@
 set -o errexit
 set -o nounset
 set -o pipefail
-if [[ "${TRACE-0}" == "1" ]]; then
-    set -o xtrace
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace
 fi
 
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
@@ -18,6 +17,7 @@ if ! command -v paru &> /dev/null ;
   then
   sudo pacman -S --needed git rustup base-devel
   rustup default stable
+
   rm -rf paru
   git clone https://aur.archlinux.org/paru.git
   cd paru
@@ -40,9 +40,9 @@ paru -S --needed firefox stow
 paru -S --needed fcitx5 fcitx5-gtk fcitx5-qt fcitx5-chinese-addons fcitx5-configtool
 # terminal related
 paru -S --needed alacritty fish starship zellij neovim fzf exa zoxide
-#helpful tools
+# helpful tools
 paru -S --needed btop htop man neofetch cronie
-paru -S --needed fd ripgrep ripgrep-all tealdeer
+paru -S --needed fd ripgrep ripgrep-all tealdeer difftastic
 #sys tools
 paru -S --needed pavucontrol lxappearance xclip xclip-clipboard
 #theme
@@ -54,6 +54,7 @@ paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme
 # KDE & tiling
 # paru -S --needed bismuth
 # xorg-server-xephyr # dbug tool
+
 
 install_arch_pkg() {
   local pkg=$1
