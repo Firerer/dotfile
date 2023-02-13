@@ -1,12 +1,10 @@
 local opts = { noremap = true, silent = true }
-local mode_adapters = {
-  insert_mode = "i",
-  normal_mode = "n",
-  term_mode = "t",
-  visual_mode = "v",
-  visual_block_mode = "x",
-  command_mode = "c",
-}
+local insert_mode = "i"
+local normal_mode = "n"
+local term_mode = "t"
+local visual_mode = "v"
+local visual_block_mode = "x"
+local command_mode = "c"
 
 -- esc cancel search hl
 vim.cmd [[
@@ -30,15 +28,6 @@ vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", opts)
 vim.api.nvim_set_keymap("n", "n", "nzzzv", opts)
 vim.api.nvim_set_keymap("n", "N", "Nzzzv", opts)
 
-local mark = require "harpoon.mark"
-local ui = require "harpoon.ui"
-
-vim.keymap.set("n", "<C-a>", mark.add_file)
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
--- vim.keymap.set("n", "<C-1>", function() ui.nav_file(1) end)
--- vim.keymap.set("n", "<C-2>", function() ui.nav_file(2) end)
--- vim.keymap.set("n", "<C-3>", function() ui.nav_file(3) end)
--- vim.keymap.set("n", "<C-4>", function() ui.nav_file(4) end)
 -- https://github.com/folke/which-key.nvim
 -- NOTE: starts with "<Plug>", whichkey set noremap=false automatically
 local wk = require "which-key"
@@ -47,9 +36,12 @@ if not telefuncs then
   error("failed to load telefuncs")
 end
 
+-- dap
 wk.setup()
 vim.opt.timeoutlen = 311 -- faster cmp
 wk.register {
+  -- dap
+
   -- swap 0, ^
   ["0"] = { "^", "line first non blank" },
   ["^"] = { "0", "line first" },
@@ -60,6 +52,14 @@ wk.register {
   ["<C-s>"] = { ":w<cr>", "save file" },
 
   g = {
+    ["1"] = { ":bf<cr>", "1 buf" },
+    ["2"] = { ":bf<cr>:bn<cr>", "2 buf" },
+    ["3"] = { ":bf<cr>:2bn<cr>", "3 buf" },
+    ["4"] = { ":bf<cr>:3bn<cr>", "4 buf" },
+    ["5"] = { ":bf<cr>:3bn<cr>", "5 buf" },
+    ["6"] = { ":bf<cr>:3bn<cr>", "6 buf" },
+    ["7"] = { ":bf<cr>:3bn<cr>", "7 buf" },
+
     h = { ":Telescope heading<cr>", "goto heading" },
   },
   ["<leader>"] = {
@@ -71,7 +71,30 @@ wk.register {
         telefuncs.git_files()
       end
     end, "find files" },
-    d = { [["_d]], "no yank delete" },
+    d = {
+      name = "dubug",
+      c = { function() require("dap").continue() end },
+      n = { function() require('dap').step_over() end, "step over" },
+      i = { function() require('dap').step_into() end, "step into" },
+      o = { function() require('dap').step_out() end, "step out" },
+      d = { function() require('dap').toggle_breakpoint() end, "toggle bp" },
+      B = { function() require('dap').set_breakpoint() end, "set bp" },
+      e = { function() require 'dap'.set_exception_breakpoints() end, "exception bk" },
+      b = { function()
+        require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+      end, "break on" },
+      r = { function() require('dap').repl.open() end, "repl open" },
+      l = { function() require('dap').run_last() end, "run last" },
+      h = { function() require('dap.ui.widgets').hover() end, "hover" },
+      p = { function() require('dap.ui.widgets').preview() end, "preview" },
+      f = { function()
+        local widgets = require('dap.ui.widgets')
+        widgets.centered_float(widgets.frames)
+      end, "open frames" },
+      s = { function() local widgets = require('dap.ui.widgets')
+        widgets.centered_float(widgets.scopes)
+      end, "open scopes" },
+    },
     t = {
       name = "toogle",
       u = { ":UndotreeToggle<cr><C-w><C-w>", "undo tree" },
@@ -98,7 +121,7 @@ wk.register {
       f = { [[ :call setreg('+', expand('%:t'))<cr> ]], "yank file name" },
     },
     p = {
-      p = { require 'telescope'.extensions.project.project, "switch project", },
+      p = { function() require 'telescope'.extensions.project.project() end, "switch project", },
       s = { telefuncs.live_grep, "project search" },
     },
     h = {
@@ -140,6 +163,13 @@ wk.register {
   },
 }
 
+wk.register({
+  -- navigate tab completion with <c-j> and <c-k>
+  -- runs conditionally
+  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', },
+  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', },
+}, { mode = "c", noremap = true })
+
 
 wk.register({
   -- Better indenting
@@ -149,10 +179,12 @@ wk.register({
   J = ":m '>+1<CR>gv=gv",
   K = ":m '<-2<CR>gv=gv",
 
-  -- preserve yanked text in register
-  ["<leader>p"] = { "\"_dp", "no yank paste" }
+  ["<leader"] = {
+    p = { [["_dP"]], "no yank paste" },
+    d = { [["_d]], "no yank delete" },
+  }
 }, {
-  mode = "v",
+  mode = visual_mode,
   prefix = "",
   buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
   silent = true, -- use `silent` when creating keymaps
@@ -161,13 +193,8 @@ wk.register({
 })
 
 wk.register({
-  -- navigate tab completion with <c-j> and <c-k>
-  -- runs conditionally
-  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', },
-  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', },
-}, { mode = "c", noremap = true })
-
-wk.register({
-  -- preserve yanked text in register
-  ["<leader>p"] = { "\"_dp", "no yank paste" }
-}, { mode = "x" })
+  ["<leader"] = {
+    p = { [["_dP"]], "no yank paste" },
+    d = { [["_d]], "no yank delete" },
+  }
+}, { mode = visual_block_mode })

@@ -4,8 +4,8 @@
 tmp/
 
 # xmonad
-.xmonad
 !.xmonad/xmonad.hs
+.xmonad
 
 packer_compiled.lua
 

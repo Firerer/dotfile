@@ -12,12 +12,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
+-- https://github.com/folke/lazy.nvim#-plugin-spec
 require("lazy").setup({
   "nvim-lua/plenary.nvim",
   -- optimizer
   "lewis6991/impatient.nvim",
-  -- https://github.com/ThePrimeagen/harpoon
-  "theprimeagen/harpoon",
 
   -- which-key
   -- https://github.com/folke/which-key.nvim#%EF%B8%8F-configuration
@@ -27,9 +27,11 @@ require("lazy").setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 300
       require("which-key").setup({
-        ["<space>"] = "SPC",
-        ["<cr>"] = "RET",
-        ["<tab>"] = "TAB",
+        key_labels = {
+          ["<space>"] = "SPC",
+          ["<cr>"] = "RET",
+          ["<tab>"] = "TAB",
+        }
       })
     end,
   },
@@ -47,30 +49,36 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       {
         "crispgm/telescope-heading.nvim",
+        ---@diagnostic disable-next-line: different-requires
         config = function() require('telescope').load_extension('heading') end,
       },
       {
         -- https://github.com/nvim-telescope/telescope-project.nvim
         "nvim-telescope/telescope-project.nvim",
+        ---@diagnostic disable-next-line: different-requires
         config = function() require('telescope').load_extension('project') end,
       },
       {
         "nvim-telescope/telescope-frecency.nvim",
         dependencies = { "kkharji/sqlite.lua" },
+        ---@diagnostic disable-next-line: different-requires
         config = function() require "telescope".load_extension("frecency") end,
       },
 
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
+        ---@diagnostic disable-next-line: different-requires
         config = function() require('telescope').load_extension('fzf') end,
       },
       {
         "nvim-telescope/telescope-ui-select.nvim",
+        ---@diagnostic disable-next-line: different-requires
         config = function() require("telescope").load_extension("ui-select") end,
       },
       {
         "nvim-telescope/telescope-hop.nvim",
+        ---@diagnostic disable-next-line: different-requires
         config = function() require("telescope").load_extension('hop') end,
       },
     },
@@ -123,8 +131,10 @@ require("lazy").setup({
     branch = 'v1.x',
     dependencies = {
       -- LSP Support
-      { 'neovim/nvim-lspconfig' }, -- Required
+      -- TODO delete branch after v0.1.7
+      { 'neovim/nvim-lspconfig', branch = "master" }, -- Required
       { 'williamboman/mason.nvim' }, -- Optional
+      -- https://github.com/williamboman/mason-lspconfig.nvim
       { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
       -- Autocompletion
@@ -140,6 +150,14 @@ require("lazy").setup({
       { 'rafamadriz/friendly-snippets' }, -- Optional
     },
   },
+  {
+    -- debugging
+    -- https://github.com/mfussenegger/nvim-dap
+    "mfussenegger/nvim-dap",
+    config = function ()
+      
+    end
+  },
 
 
   -- colors
@@ -149,6 +167,7 @@ require("lazy").setup({
     "norcalli/nvim-colorizer.lua",
     cmd = { "ColorizerToggle", "ColorizerAttachToBuffer", "ColorizerReloadAllBuffers" },
     lazy = true,
+    priority = 1000,
     config = function() require "colorizer".setup() end,
   },
   {

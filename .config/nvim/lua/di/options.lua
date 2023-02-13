@@ -20,7 +20,7 @@ opt.hlsearch = false -- highlight all matches on previous search pattern
 opt.incsearch = true
 
 opt.termguicolors = true -- set term gui colors (most terminals support this)
-opt.colorcolumn = "80" -- fixes indentline for now
+opt.colorcolumn = "100" -- fixes indentline for now
 
 opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 opt.cmdheight = 1 -- more space in the neovim command line for displaying messages

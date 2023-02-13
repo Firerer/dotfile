@@ -17,6 +17,9 @@ import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves
 import XMonad.Actions.Search
 import XMonad.Actions.WithAll
+import XMonad.Actions.Minimize
+import XMonad.Layout.Minimize
+import qualified XMonad.Layout.BoringWindows as BW
 
 import XMonad.Util.EZConfig
 import XMonad.Util.SpawnOnce ( spawnOnce )
@@ -83,7 +86,7 @@ myEZkeys =
     , ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank
     , ("M-b", spawn "polybar-msg cmd toggle") -- toggle bar
     -- TODO use neovim
-    -- , ((modm, xK_e), spawn "emacsclient --eval \"(emacs-everywhere)\"") 
+    -- , ((modm, xK_e), spawn "emacsclient --eval \"(emacs-everywhere)\"")
     -- launch a terminal
     , ("M-<Return>", spawn myTerminal)
     -- lock screen
@@ -94,6 +97,8 @@ myEZkeys =
 
     , ("M-f", toggleFull)
     , ("M-t", withFocused toggleFloat)
+    , ("M-m", withFocused minimizeWindow)
+    , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
 
     , ("M-; h", sendMessage Shrink)
     , ("M-; l", sendMessage Expand)
@@ -105,7 +110,7 @@ myEZkeys =
     , ("M-n", sendMessage NextLayout)
     , ("M-j", windows W.focusDown)
     , ("M-k", windows W.focusUp)
-    , ("M-S-m", promote)
+    -- , ("M-S-m", promote)
     , ("M-S-j", windows W.swapDown)
     , ("M-S-k", windows W.swapUp)
     , ("M-C-j", rotAllDown)
@@ -123,7 +128,7 @@ myEZkeys =
     ]
     -- mod-[1..],       Switch to workspace N
     -- mod-shift-[1..], Move client to workspace N
-    ++ [ (m ++ "M-" ++ [k], windows $ f i) 
+    ++ [ (m ++ "M-" ++ [k], windows $ f i)
        | (i, k) <- zip myWorkspaces "123456789"
        , (f, m) <- [(W.greedyView, ""), (W.shift, "S-")]]
     ++ [("M-s " ++ k, promptSearch def f) | (k,f) <- searchList ]
@@ -138,13 +143,15 @@ searchList = [ ("g", google)
 myLayout = gaps myGaps
             $ spacingRaw False (Border myWindowGaps 0 myWindowGaps 0) True (Border 0 myWindowGaps 0 myWindowGaps) True
             $ smartBorders
-            $ avoidStruts 
+            $ avoidStruts
+            $ minimize
+            $ BW.boringWindows
             $ tiled ||| monocle ||| float ||| Grid
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall 1 (2/100) (1/2)
      float = simplestFloat
-     monocle = noBorders Full
+     monocle = Full
 
 myStartupHook = do
     setWMName "LG3D"
