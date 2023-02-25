@@ -73,7 +73,7 @@ wk.register {
     end, "find files" },
     d = {
       name = "dubug",
-      c = { function() require("dap").continue() end },
+      c = { function() require("dap").continue() end, "continue" },
       n = { function() require('dap').step_over() end, "step over" },
       i = { function() require('dap').step_into() end, "step into" },
       o = { function() require('dap').step_out() end, "step out" },
@@ -138,15 +138,6 @@ wk.register {
       name = "buffer",
       n = { ":ene<cr>", "new buffer" },
       d = { ":bd<cr>", "buffer delete" },
-    },
-    g = {
-      name = "git",
-      b = { ":Git branch", "git branches" },
-      g = { ":Git<cr>", "status" },
-      c = { ":Git commit<cr>", "commit" },
-      l = { ":Git log<cr>", "log" },
-      a = { ":Git add %<cr>", "add current file" },
-      A = { ":Git add .<cr>", "add all" },
     },
     s = {
       name = "search",

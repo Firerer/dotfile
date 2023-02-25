@@ -1,16 +1,8 @@
+--
 --[[
   lua cheatsheet: https://devhints.io/lua
   NOTE: order matters, latter modules may depends on earlier modules
 ]]
-
--- speed up config loading
-local ok, impatient = pcall(require, 'impatient')
-if ok then
-  impatient.enable_profile()
-else
-  vim.notify(impatient)
-end
-
 _G.prequire = function(m)
   local mod_exist, mod_or_err = pcall(require, m)
   if not mod_exist then return nil, mod_or_err end
@@ -23,3 +15,4 @@ require "di.autocommands"
 
 require "di.plugins"
 require "di.keymaps"
+

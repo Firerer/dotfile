@@ -16,8 +16,9 @@ vim.opt.rtp:prepend(lazypath)
 -- https://github.com/folke/lazy.nvim#-plugin-spec
 require("lazy").setup({
   "nvim-lua/plenary.nvim",
+  "github/copilot.vim",
   -- optimizer
-  "lewis6991/impatient.nvim",
+  -- "lewis6991/impatient.nvim",
 
   -- which-key
   -- https://github.com/folke/which-key.nvim#%EF%B8%8F-configuration
@@ -42,7 +43,6 @@ require("lazy").setup({
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
-    config = function() require('di.telescope') end,
     dependencies = {
       "which-key.nvim",
       "nvim-lua/popup.nvim",
@@ -82,18 +82,19 @@ require("lazy").setup({
         config = function() require("telescope").load_extension('hop') end,
       },
     },
+    config = function() require('di.telescope') end,
   },
 
   -- |treesitter|
   {
     "nvim-treesitter/nvim-treesitter",
-    config = function() require('di.treesitter') end,
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-refactor",
       "RRethy/nvim-treesitter-textsubjects",
     },
+    config = function() require('di.treesitter') end,
   },
 
   -- https://github.com/echasnovski/mini.nvim/tree/stable
@@ -149,13 +150,13 @@ require("lazy").setup({
       { 'L3MON4D3/LuaSnip' }, -- Required
       { 'rafamadriz/friendly-snippets' }, -- Optional
     },
+    config = function() require('di.lsp-zero') end,
   },
   {
     -- debugging
     -- https://github.com/mfussenegger/nvim-dap
     "mfussenegger/nvim-dap",
-    config = function ()
-      
+    config = function()
     end
   },
 
