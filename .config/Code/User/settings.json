@@ -1,7 +1,0 @@
-{
-    "workbench.colorTheme": "Catppuccin Mocha",
-    "editor.fontSize": 18,
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
-}

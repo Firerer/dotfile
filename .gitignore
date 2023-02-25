@@ -10,8 +10,3 @@ tmp/
 packer_compiled.lua
 
 fish_variables
-
-# vscode
-.config/Code
-!.config/Code/User/keybindings.json
-!.config/Code/User/settings.json
