@@ -18,12 +18,6 @@ abbr --add la "ls -a"
 abbr --add ll "ls -hla"
 abbr --add l. 'ls -a | egrep "^\."'
 
-if type -q tmux;
-  abbr --add tl tmux list-session
-  abbr --add ta tmux attach -t
-  abbr --add ts tmux new-session -s
-end
-
 source (/usr/bin/starship init fish --print-full-init | psub)
 
 # keybind

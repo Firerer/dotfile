@@ -44,7 +44,7 @@ paru -S --needed alacritty fish starship zellij neovim fzf exa zoxide
 paru -S --needed btop htop man neofetch cronie
 paru -S --needed fd ripgrep ripgrep-all tealdeer difftastic
 #sys tools
-paru -S --needed pavucontrol lxappearance xclip xclip-clipboard
+paru -S --needed pavucontrol lxappearance xclip xclip-clipboard playerctl
 #theme
 paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme
 # optional NTFS fs

@@ -4,52 +4,24 @@ import os
 from itertools import chain
 
 
-def expand_dict(opts, category="", command="xdg-open"):
+def dict_add_cmd(opts, category="", command="xdg-open"):
     return {f"{category} . {k}": f"{command} '{v}' & disown" for k, v in opts.items()}
 
 
-def gen_monash_links(id, start=5, brk=15):
-    base = "https://lms.monash.edu/course/view.php"
-    home = f"{base}?id={id}"
-    records = f"{home}&section=1"
-    assess = f"{home}&section=4"
-    weeks = {
-        f"week{i}": f"{home}&section={v}"
-        for i, v in enumerate(chain(range(start, brk), range(brk + 1, 20)))
-    }
-    return {"homepage": home, "recordings": records, "assessments": assess} | weeks
-
-
-all = {
-    "monash moodle": {
-        "base": "https://lms.monash.edu/my/",
-        "FIT5137 Adv DB": gen_monash_links("140950"),
-    }
-}
-
 options = {
-    **expand_dict(
+    **dict_add_cmd(
         {
-            "allocate+": "https://my-timetable.monash.edu/even/student",
-            "gmail": "https://mail.google.com/mail/u/0/#inbox",
-            "moansh mail": "https://mail.google.com/mail/u/1/#inbox",
-            "monash drive": "https://drive.google.com/drive/u/1/",
-            "monash moodle": "https://lms.monash.edu/my/",
-            "monash gitlab": "https://git.infotech.monash.edu/fit5042/fit5042-s2-2022/dliu0024",
+            "my unimelb": "https://my.unimelb.edu.au/",
+            "Advanced Database Systems (COMP90050)": "https://canvas.lms.unimelb.edu.au/courses/151276",
+            "Cluster and Cloud Computing (COMP90024)": "https://canvas.lms.unimelb.edu.au/courses/151783",
+            "Distributed Systems (COMP90015)": "https://canvas.lms.unimelb.edu.au/courses/151445",
+            "Software Processes and Management (SWEN90016)": "https://canvas.lms.unimelb.edu.au/courses/153205",
+            "unimelb dashboard": "https://lms.monash.edu/my/",
+            "timetable": "https://mytimetable.students.unimelb.edu.au/odd/student?ss=5ad1c6f026d64713b03d4c4a48d7c6ae",
+            "unimelb course manage": "https://unimelb.t1cloud.com/T1Default/CiAnywhere/Web/UNIMELB/LogOn/ESTUDENT?webadf=true&returnUrl=https%3a%2f%2funimelb-web.t1cloud.com%2fT1SMDefault%2fWebApps%2feStudent%2fSM%2fPersDtls10.aspx%3fr%3d%2523UM.STUDENT.APPLICANT%26f%3d%24S1.EST.PERSDTLS.WEB%26ciredirect%3d1",
             "qmk": "https://config.qmk.fm/#/ergodox_ez/glow/LAYOUT_ergodox_pretty",
-            "spotify": "https://open.spotify.com/",
-            "twitch": "https://www.twitch.tv/",
-            "twitter": "https://twitter.com/home",
-            "wes": "https://my.monash.edu/wes/",
             "yinwang": "https://www.yinwang.org/",
-            "youtube": "https://www.youtube.com/",
         }
-    ),
-    **expand_dict(gen_monash_links("140950"), "FIT5137 Advanced database technology"),
-    **expand_dict(gen_monash_links("140923"), "FIT5042 Enterprise application"),
-    **expand_dict(
-        {"home": "https://lms.monash.edu/course/view.php?id=135542"},
-        "Master and Honours Thesis",
     ),
 }
 
@@ -63,4 +35,3 @@ if len(sys.argv) > 1:
 else:
     for opt in options:
         print(opt)
-        # print(opt, options[opt])
