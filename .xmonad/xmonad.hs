@@ -81,6 +81,8 @@ myEZkeys =
     , ("M-p l", spawn "~/.bin/rofi_quicklinks.sh")
     , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
     , ("M-p f", spawn "firefox")
+    , ("M-p S-f", spawn "firefox --private-window")
+    , ("M-p d", spawn "discord")
     , ("M-p m", spawn "thunderbird")
     , ("M-p n", spawn "logseq")
     , ("M-p s", spawn "spotify-launcher")

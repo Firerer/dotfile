@@ -11,6 +11,7 @@ def dict_add_cmd(opts, category="", command="xdg-open"):
 options = {
     **dict_add_cmd(
         {
+            "puppeteer doc": "https://pptr.dev/api",
             "my unimelb": "https://my.unimelb.edu.au/",
             "Advanced Database Systems (COMP90050)": "https://canvas.lms.unimelb.edu.au/courses/151276",
             "Cluster and Cloud Computing (COMP90024)": "https://canvas.lms.unimelb.edu.au/courses/151783",
