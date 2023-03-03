@@ -1,8 +1,7 @@
 #!/bin/sh
-function magit() {
-  emacsclient -te "(magit-status)"
-  if [ $? -nq 0 ]; then
-      echo "not at a git repo"
-  fi
-}
-magit
+#
+if git rev-parse --git-dir 2> /dev/null ; then
+  emacs --no-window-system --eval "(progn (magit-status) (delete-other-windows))"
+else
+  echo 'Not in a git repository'
+fi

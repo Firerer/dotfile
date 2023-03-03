@@ -3,12 +3,11 @@
 [[ $- != *i* ]] && return
 
 ### enviroment ###
+export TERMINAL='alacritty'
 export USER_SHELL='fish'
 export EDITOR='nvim'
 export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
 export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
-export XDG_CONFIG_DIR="$HOME/.config"
-export XDG_CONFIG_HOME="$HOME/.config"
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -37,7 +36,7 @@ addpath "$HOME/.bin" \
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -h'                      # show sizes in MB
-alias rustrepl='evcxr'                
+alias rustrepl='evcxr'
 
 # Changing "ls" to "exa"
 if command -v exa &> /dev/null;

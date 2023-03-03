@@ -7,6 +7,9 @@ tmp/
 !.xmonad/xmonad.hs
 .xmonad
 
+!.config/emacs/init.el
+.config/emacs
+
 packer_compiled.lua
 
 fish_variables
