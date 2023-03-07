@@ -15,4 +15,3 @@ require "di.autocommands"
 
 require "di.plugins"
 require "di.keymaps"
-

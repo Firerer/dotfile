@@ -31,17 +31,13 @@ vim.api.nvim_set_keymap("n", "N", "Nzzzv", opts)
 -- https://github.com/folke/which-key.nvim
 -- NOTE: starts with "<Plug>", whichkey set noremap=false automatically
 local wk = require "which-key"
-local telefuncs = prequire("telescope.builtin")
-if not telefuncs then
-  error("failed to load telefuncs")
-end
+local telefuncs = prequire "telescope.builtin"
+if not telefuncs then error "failed to load telefuncs" end
 
 -- dap
 wk.setup()
 vim.opt.timeoutlen = 311 -- faster cmp
 wk.register {
-  -- dap
-
   -- swap 0, ^
   ["0"] = { "^", "line first non blank" },
   ["^"] = { "0", "line first" },
@@ -59,41 +55,48 @@ wk.register {
     ["5"] = { ":bf<cr>:3bn<cr>", "5 buf" },
     ["6"] = { ":bf<cr>:3bn<cr>", "6 buf" },
     ["7"] = { ":bf<cr>:3bn<cr>", "7 buf" },
-
     h = { ":Telescope heading<cr>", "goto heading" },
   },
   ["<leader>"] = {
-    ["<leader>"] = { function()
-      if vim.fn.system("git rev-parse --git-dir 2> /dev/null") == "" then
-        -- not in git repo
-        telefuncs.fd()
-      else
-        telefuncs.git_files()
-      end
-    end, "find files" },
+    ["<leader>"] = {
+      function()
+        if vim.fn.system "git rev-parse --git-dir 2> /dev/null" == "" then
+          -- not in git repo
+          telefuncs.fd()
+        else
+          telefuncs.git_files()
+        end
+      end,
+      "find files",
+    },
     d = {
       name = "dubug",
       c = { function() require("dap").continue() end, "continue" },
-      n = { function() require('dap').step_over() end, "step over" },
-      i = { function() require('dap').step_into() end, "step into" },
-      o = { function() require('dap').step_out() end, "step out" },
-      d = { function() require('dap').toggle_breakpoint() end, "toggle bp" },
-      B = { function() require('dap').set_breakpoint() end, "set bp" },
-      e = { function() require 'dap'.set_exception_breakpoints() end, "exception bk" },
-      b = { function()
-        require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-      end, "break on" },
-      r = { function() require('dap').repl.open() end, "repl open" },
-      l = { function() require('dap').run_last() end, "run last" },
-      h = { function() require('dap.ui.widgets').hover() end, "hover" },
-      p = { function() require('dap.ui.widgets').preview() end, "preview" },
-      f = { function()
-        local widgets = require('dap.ui.widgets')
-        widgets.centered_float(widgets.frames)
-      end, "open frames" },
-      s = { function() local widgets = require('dap.ui.widgets')
-        widgets.centered_float(widgets.scopes)
-      end, "open scopes" },
+      n = { function() require("dap").step_over() end, "step over" },
+      i = { function() require("dap").step_into() end, "step into" },
+      o = { function() require("dap").step_out() end, "step out" },
+      d = { function() require("dap").toggle_breakpoint() end, "toggle bp" },
+      B = { function() require("dap").set_breakpoint() end, "set bp" },
+      e = { function() require("dap").set_exception_breakpoints() end, "exception bk" },
+      b = { function() require("dap").set_breakpoint(nil, nil, vim.fn.input "Log point msg: ") end, "break on" },
+      r = { function() require("dap").repl.open() end, "repl open" },
+      l = { function() require("dap").run_last() end, "run last" },
+      h = { function() require("dap.ui.widgets").hover() end, "hover" },
+      p = { function() require("dap.ui.widgets").preview() end, "preview" },
+      f = {
+        function()
+          local widgets = require "dap.ui.widgets"
+          widgets.centered_float(widgets.frames)
+        end,
+        "open frames",
+      },
+      s = {
+        function()
+          local widgets = require "dap.ui.widgets"
+          widgets.centered_float(widgets.scopes)
+        end,
+        "open scopes",
+      },
     },
     t = {
       name = "toogle",
@@ -101,14 +104,25 @@ wk.register {
       c = { ":ColorizerToggle<cr>", "colorizer" },
       l = { ":Lazy<cr>", "Lazy.nvim" },
       m = { ":Mason<cr>", "Mason.nvim" },
+      w = {
+        function()
+          if vim.opt.wrap:get() then
+            vim.opt.wrap = false
+          else
+            vim.opt.wrap = true
+          end
+        end,
+        "line wrap",
+      },
     },
     f = {
       name = "file",
       e = { ":Ex<cr>", "file explore" },
       x = { "<cmd>!chmod +x %<cr>", "current file +x" },
-      f = { function()
-        telefuncs.fd({ hidden = true, no_ignore = true })
-      end, "find all files" },
+      f = {
+        function() telefuncs.fd { hidden = true, no_ignore = true } end,
+        "find all files",
+      },
       r = { telefuncs.oldfiles, "recent files" },
       s = { telefuncs.current_buffer_fuzzy_find, "fuzzy search" },
       t = { telefuncs.tags, "find tags" },
@@ -121,7 +135,10 @@ wk.register {
       f = { [[ :call setreg('+', expand('%:t'))<cr> ]], "yank file name" },
     },
     p = {
-      p = { function() require 'telescope'.extensions.project.project() end, "switch project", },
+      p = {
+        function() require("telescope").extensions.project.project() end,
+        "switch project",
+      },
       s = { telefuncs.live_grep, "project search" },
     },
     h = {
@@ -150,17 +167,15 @@ wk.register {
       u = { ":Lazy update<cr>", "lazy update" },
       s = { ":Lazy sync<cr>", "lazy sync" },
     },
-
   },
 }
 
 wk.register({
   -- navigate tab completion with <c-j> and <c-k>
   -- runs conditionally
-  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', },
-  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', },
+  ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"' },
+  ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"' },
 }, { mode = "c", noremap = true })
-
 
 wk.register({
   -- Better indenting
@@ -169,11 +184,10 @@ wk.register({
   -- move selected line
   J = ":m '>+1<CR>gv=gv",
   K = ":m '<-2<CR>gv=gv",
-
   ["<leader"] = {
     p = { [["_dP"]], "no yank paste" },
     d = { [["_d]], "no yank delete" },
-  }
+  },
 }, {
   mode = visual_mode,
   prefix = "",
@@ -187,5 +201,5 @@ wk.register({
   ["<leader"] = {
     p = { [["_dP"]], "no yank paste" },
     d = { [["_d]], "no yank delete" },
-  }
+  },
 }, { mode = visual_block_mode })
