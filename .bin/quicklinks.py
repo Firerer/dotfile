@@ -32,7 +32,8 @@ options = dict(
             },
             "Software Processes and Management (SWEN90016)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/153205",
-                "files": "https://canvas.lms.unimelb.edu.au/courses/153205/files",
+                "files": "https://canvas.lms.unimelb.edu.au/courses/153205/modules",
+                "quizzes": "https://canvas.lms.unimelb.edu.au/courses/153205/quizzes",
             },
             "unimelb dashboard": "https://lms.monash.edu/my/",
             "timetable": "https://mytimetable.students.unimelb.edu.au/odd/student?ss=5ad1c6f026d64713b03d4c4a48d7c6ae",
