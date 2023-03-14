@@ -41,12 +41,11 @@ import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
 
 myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61884"]
 --myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
-myTerminal = "alacritty"
 myGaps = [(L,0), (R,0), (U,0), (D,0)]
 myWindowGaps = 2
 
 main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
-        terminal           = myTerminal,
+        terminal           = "alacritty",
         focusFollowsMouse  = True,
         clickJustFocuses   = False,
         borderWidth        = 2,

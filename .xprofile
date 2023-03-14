@@ -12,4 +12,4 @@
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
-
+xrandr --dpi 96

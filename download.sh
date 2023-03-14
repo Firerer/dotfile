@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -41,34 +41,16 @@ paru -S --needed fcitx5 fcitx5-gtk fcitx5-qt fcitx5-chinese-addons fcitx5-config
 # terminal related
 paru -S --needed alacritty fish starship zellij neovim fzf exa zoxide
 # helpful tools
-paru -S --needed btop htop man neofetch cronie
+paru -S --needed btop htop man neofetch cronie trash-cli
 paru -S --needed fd ripgrep ripgrep-all tealdeer difftastic
 #sys tools
-paru -S --needed pavucontrol lxappearance xclip xclip-clipboard playerctl
-#theme
-paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme
+paru -S --needed pavucontrol lxappearance xclip xorg-xclipboard playerctl blueman
 # optional NTFS fs
 # paru -S --needed ntfs-3g
+#theme
+paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme
 # xmonad
-# paru -S --needed xmonad xmonad-contrib xmonad-extras dunst feh polybar maim rofi
+paru -S --needed xmonad xmonad-contrib xmonad-extras dunst feh polybar maim rofi
 # KDE & tiling
 # paru -S --needed bismuth
 # xorg-server-xephyr # dbug tool
-
-
-install_arch_pkg() {
-  local pkg=$1
-  if [ -z ${2+x} ]; then
-      local cmd=$pkg
-  else
-      local cmd=$2
-  fi
-
-  if ! command -v $cmd &> /dev/null ;
-  then
-    echo "cannot find cmd $cmd, installing $pkg..."
-    sudo pacman -Sy $pkg
-  fi
-}
-
-# https://snapcraft.io/docs/installing-snap-on-arch-linux
