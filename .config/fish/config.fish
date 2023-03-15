@@ -4,6 +4,7 @@ abbr --add cp "cp -i" # confirm before overwriting something
 abbr --add df 'df -h' # human-readable sizes
 abbr --add free 'free -h' # show sizes in MB
 abbr --add mg 'magit.sh' # .bin/magit.sh
+abbr --add teeno 'sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,3})?)?[mGK]//g" | tee' # tee no color
 type -q evcxr && abbr --add rustr 'evcxr'
 type -q trash && abbr --add rm 'trash'
 

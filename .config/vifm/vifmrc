@@ -56,7 +56,8 @@ set norunexec
 
 " Selected color scheme
 
-colorscheme gruvbox
+"colorscheme gruvbox
+colorscheme zenburn_1
 "highlight Normal guibg=none
 
 " TIME_STAMP_FORMAT=%m/%d-%H:%M

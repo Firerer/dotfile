@@ -14,14 +14,18 @@ plugins {
 keybinds clear-defaults=true {
     normal {
         bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt s" { SwitchToMode "scroll"; }
+
         bind "Alt m" "Alt N" { NewPane; }
-        bind "Alt d" { CloseFocus; SwitchToMode "normal"; }
         bind "Alt n" { NewTab; SwitchToMode "normal"; }
+        bind "Alt d" { CloseFocus; SwitchToMode "normal"; }
         bind "Alt q" { CloseTab; SwitchToMode "normal"; }
+
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
         bind "Alt j" "Alt Down" { MoveFocus "Down"; }
         bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+
         bind "Alt =" { Resize "Increase"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
@@ -147,31 +151,14 @@ keybinds clear-defaults=true {
         bind "Alt -" { Resize "Decrease"; }
     }
     scroll {
+        bind "q" "Esc" "Alt s" { SwitchToMode "normal"; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
-        bind "Ctrl s" "Space" "Enter" "Esc" { SwitchToMode "normal"; }
-        bind "Ctrl t" { SwitchToMode "tab"; }
-        bind "Alt g" { SwitchToMode "locked"; }
-        bind "Ctrl p" { SwitchToMode "pane"; }
-        bind "Ctrl h" { SwitchToMode "move"; }
-        bind "Ctrl b" { SwitchToMode "tmux"; }
-        bind "Ctrl o" { SwitchToMode "session"; }
-        bind "Ctrl n" { SwitchToMode "resize"; }
-        bind "Ctrl c" { ScrollToBottom; SwitchToMode "normal"; }
-        bind "Ctrl q" { Quit; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
-        bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
-        bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+        bind "f" { PageScrollDown; }
+        bind "b" { PageScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
-        bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
         bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     session {

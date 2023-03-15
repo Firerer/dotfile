@@ -25,7 +25,9 @@ options = dict(
             "Cluster and Cloud Computing (COMP90024)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/151783",
                 "Australian Digital Observatory": "https://www.digitalobservatory.net.au/",
-                "videos": "https://canvas.lms.unimelb.edu.au/courses/151783#context_module_834202"
+                "videos": "https://canvas.lms.unimelb.edu.au/courses/151783#context_module_834202",
+                "live/records": "https://canvas.lms.unimelb.edu.au/courses/151783/external_tools/701",
+                "Karaage": "https://dashboard.hpc.unimelb.edu.au/karaage/"
             },
             "Distributed Systems (COMP90015)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/151445",

@@ -179,7 +179,7 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     ++ [fmap (c ==) className --> doShift (myWorkspaces !! (i-1)) | (c, i) <- shfitClassInfixes ]
     )
     where
-      floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol"]
+      floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol", "zenity" ]
       floatResourceInfixes = ["Dialog", "control", "pavucontrol"]
       -- TODO: some shifts are not working
       shfitClassInfixes = [("zoom", 3),

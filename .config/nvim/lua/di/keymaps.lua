@@ -155,6 +155,7 @@ wk.register {
       name = "buffer",
       n = { ":ene<cr>", "new buffer" },
       d = { ":bd<cr>", "buffer delete" },
+      k = { ":bd<cr>", "buffer delete" },
     },
     s = {
       name = "search",
