@@ -289,7 +289,7 @@ keybinds clear-defaults=true {
 }
 
 simplified_ui true
-default_shell $USER_SHELL
+default_shell "fish"
 pane_frames true
 scroll_buffer_size 100000
 

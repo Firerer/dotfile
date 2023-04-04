@@ -1,45 +1,10 @@
 [[ $- != *i* ]] && return # If not running interactively, do nothing
 
 ### enviroment ###
-export TERMINAL='/usr/bin/alacritty'
-export TERM=$TERMINAL
-export USER_SHELL='fish'
-if command -v nvim > /dev/null
-then
-    export EDITOR='nvim'
-else
-    export EDITOR='vim'
-fi
-export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
-
-if command -v emacs > /dev/null
-then
-  export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
-fi
-
-# Compilation flags
-export ARCHFLAGS="-arch x86_64"
-
 # add working dir to PYTHONPATH
 export PYTHONPATH="."
 
-function addpath(){
-    for var in "$@"
-    do
-        if [ -d "$var" ] ;
-            then PATH="$var:$PATH"
-        fi
-    done
-}
-
-### PATH
-addpath "$HOME/.bin" \
-    "$HOME/.local/bin" \
-    "$HOME/.emacs.d/bin" \
-    "$HOME/.cargo/bin" \
-
 ### ALIASES ###
-
 # vim and emacs
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
@@ -60,30 +25,6 @@ else
   alias lt='ls -aT --color=always --group-directories-first --icons' # tree listing
   alias l.='ls -a --icons| egrep "^\."'
 fi
-
-### ex - archive extractor ###
-# # usage: ex <file>
-ex ()
-{
-  if [ -f "$1" ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf "$1"   ;;
-      *.tar.gz)    tar xzf "$1"   ;;
-      *.bz2)       bunzip2 "$1"   ;;
-      *.rar)       unrar x "$1"     ;;
-      *.gz)        gunzip "$1"    ;;
-      *.tar)       tar xf "$1"    ;;
-      *.tbz2)      tar xjf "$1"   ;;
-      *.tgz)       tar xzf "$1"   ;;
-      *.zip)       unzip "$1"     ;;
-      *.Z)         uncompress "$1";;
-      *.7z)        7z x "$1"      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
 
 ### PROMPT ###
 if command -v starship &> /dev/null

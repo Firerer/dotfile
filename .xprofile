@@ -9,11 +9,8 @@ export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx5
 export XMODIFIERS=@im=fcitx5
 
-# autostart
-(
-  pidof fcitx5 || fcitx5 -d # cjk input using fcitx5
-  pidof dunst || dunst &
-) >/dev/null 2>&1
+pidof fcitx5 || fcitx5 -d # cjk input using fcitx5
+pidof dunst || dunst &
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
