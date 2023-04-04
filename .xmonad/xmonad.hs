@@ -28,7 +28,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
+import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen, doCenterFloat)
 import XMonad.Hooks.WindowSwallowing
 
 import XMonad.Layout.Fullscreen
@@ -78,16 +78,18 @@ myEZkeys =
 
     , ("M-d", kill1)
     , ("M-o", spawn "rofi -show combi")
-    , ("M-p l", spawn "~/.bin/rofi_quicklinks.sh")
-    , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
-    , ("M-p f", spawn "firefox")
     , ("M-p S-f", spawn "firefox --private-window")
-    , ("M-p g", spawn "google-chrome-stable")
+    , ("M-p c", spawn "chat-gpt")
+    , ("M-p j", spawn "~/.bin/journal.sh")
+    -- , ("M-p j", spawn "$TERM --title take_journal -e $EDITOR ~/Documents/logseq/journals/$(date +%Y_%m_%d).md")
     , ("M-p d", spawn "discord")
+    , ("M-p f", spawn "firefox")
+    , ("M-p g", spawn "google-chrome-stable")
+    , ("M-p l", spawn "~/.bin/rofi_quicklinks.sh")
     , ("M-p m", spawn "thunderbird")
     , ("M-p n", spawn "logseq")
+    , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
     , ("M-p s", spawn "spotify-launcher")
-    , ("M-p c", spawn "chat-gpt")
     , ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank
     , ("M-b", spawn "polybar-msg cmd toggle") -- toggle bar
 
@@ -102,16 +104,16 @@ myEZkeys =
     , ("M-m", withFocused minimizeWindow)
     , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
 
-    , ("M-; h", sendMessage Shrink)
-    , ("M-; l", sendMessage Expand)
-
-    , ("M-h", prevWS)
-    , ("M-l", nextWS)
+    , ("M-C-h", prevWS)
+    , ("M-C-l", nextWS)
+    , ("M-h", sendMessage Shrink)
+    , ("M-l", sendMessage Expand)
     , ("M-<Tab>", toggleWS)
 
     , ("M-n", sendMessage NextLayout)
     , ("M-j", windows W.focusDown)
     , ("M-k", windows W.focusUp)
+
     -- , ("M-S-m", promote)
     , ("M-S-j", windows W.swapDown)
     , ("M-S-k", windows W.swapUp)
@@ -174,13 +176,16 @@ myStartupHook = do
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     ([resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
-    , isFullscreen --> doFullFloat
+    , title     =? "take_journal" --> doCenterFloat
+    -- , isFullscreen --> doFullFloat
     ]
+    -- ++ [fmap (c ==) title --> doFloat | c <- floatTitleInfixes ]
     ++ [fmap (c `isInfixOf`) className --> doFloat | c <- floatClassInfixes ]
     ++ [fmap (c `isInfixOf`) resource --> doFloat | c <- floatResourceInfixes ]
     ++ [fmap (c ==) className --> doShift (myWorkspaces !! (i-1)) | (c, i) <- shfitClassInfixes ]
     )
     where
+      -- floatTitleInfixes = [ "take_journal" ]
       floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol", "zenity" ]
       floatResourceInfixes = ["Dialog", "control", "pavucontrol"]
       -- TODO: some shifts are not working
