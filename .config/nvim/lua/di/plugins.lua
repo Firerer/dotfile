@@ -149,8 +149,6 @@ require("lazy").setup({
   },
   -- |misc|
   "nvim-lua/plenary.nvim",
-  -- optimizer
-  -- "lewis6991/impatient.nvim",
   {
     -- https://github.com/folke/which-key.nvim#%EF%B8%8F-configuration
     "folke/which-key.nvim",

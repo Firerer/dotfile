@@ -1,47 +1,40 @@
 # default config at /usr/share/doc/alacritty/example/alacritty.yml
-live_config_reload: true
+Cursor:
+  # Values for `shape`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Block
+  vi_mode_style: Block
 draw_bold_text_with_bright_colors: true
+ENV:
+  TERM: xterm-256color
+font:
+  normal:
+    family: monospace
+    family1: Hack Nerd Font
+  offset:
+    y: 1
+  size: 14
+
 import:
   - ./theme.yml
 
-ENV:
-  TERM: xterm-256color
+key_bindings:
+  - { action: ResetFontSize, key: Key0, mods: Control }
+  - { action: IncreaseFontSize, key: Equals, mods: Control }
+  - { action: DecreaseFontSize, key: Minus, mods: Control }
+  # vi mode
+  - { action: ToggleViMode, key: Space, mode: ~Search, mods: Control }
 
+
+live_config_reload: true
 shell:
   program: /usr/bin/fish
 
 window:
-  padding:
-    x: 5
-    y: 5
-    # dynamic_padding: true
+  dynamic_padding: true
   opacity: 0.85
-
-font:
-  normal:
-    family: monospace
-    family: CodeNewRoman Nerd Font
-    family: Hack Nerd Font
-  size: 14
-  offset:
-    y: 1
-  # glyph_offset:
-  #   x: 2
-  #   y: 2
-
-cursor:
-    # Values for `shape`:
-    #   - ▇ Block
-    #   - _ Underline
-    #   - | Beam
-  style: Block
-  vi_mode_style: Block
-
-
-key_bindings:
-  - { key: Key0, mods: Control, action: ResetFontSize }
-  - { key: Equals, mods: Control, action: IncreaseFontSize }
-  - { key: Minus, mods: Control, action: DecreaseFontSize }
-
-  # vi mode
-  - { key: Space,  mods: Control, mode: ~Search,    action: ToggleViMode            }
+  padding:
+    x: 0
+    y: 0

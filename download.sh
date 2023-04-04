@@ -43,6 +43,8 @@ paru -S --needed alacritty fish starship zellij neovim fzf exa zoxide
 # helpful tools
 paru -S --needed btop htop man neofetch cronie trash-cli
 paru -S --needed fd ripgrep ripgrep-all tealdeer difftastic
+# ocr
+# paru -S --needed tesseract  tesseract-data-chi-sim tesseract-data-chi-tra tesseract-data-eng
 #sys tools
 paru -S --needed pavucontrol lxappearance xclip xorg-xclipboard playerctl blueman
 # optional NTFS fs

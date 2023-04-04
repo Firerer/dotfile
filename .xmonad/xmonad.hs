@@ -43,9 +43,10 @@ myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\
 --myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
 myGaps = [(L,0), (R,0), (U,0), (D,0)]
 myWindowGaps = 2
+myTerminal = "alacritty"
 
 main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
-        terminal           = "alacritty",
+        terminal           = myTerminal,
         focusFollowsMouse  = True,
         clickJustFocuses   = False,
         borderWidth        = 2,
@@ -81,6 +82,7 @@ myEZkeys =
     , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
     , ("M-p f", spawn "firefox")
     , ("M-p S-f", spawn "firefox --private-window")
+    , ("M-p g", spawn "google-chrome-stable")
     , ("M-p d", spawn "discord")
     , ("M-p m", spawn "thunderbird")
     , ("M-p n", spawn "logseq")

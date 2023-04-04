@@ -31,7 +31,7 @@ vim.api.nvim_set_keymap("n", "N", "Nzzzv", opts)
 -- https://github.com/folke/which-key.nvim
 -- NOTE: starts with "<Plug>", whichkey set noremap=false automatically
 local wk = require "which-key"
-local telefuncs = prequire "telescope.builtin"
+local telefuncs = saferequire "telescope.builtin"
 if not telefuncs then error "failed to load telefuncs" end
 
 -- dap

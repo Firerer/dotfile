@@ -30,6 +30,18 @@ lsp.configure("lua_ls", {
   },
 })
 
+lsp.configure("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      completion = {
+        autoimport = {
+          enable = true,
+        },
+      },
+    },
+  },
+})
+
 lsp.configure("tsserver", {
   single_file_support = false,
   root_dir = nvim_lsp.util.root_pattern "package.json",
