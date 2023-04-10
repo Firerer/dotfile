@@ -3,6 +3,8 @@
 ### enviroment ###
 # add working dir to PYTHONPATH
 export PYTHONPATH="."
+export TERMINAL='/usr/bin/alacritty'
+export TERM=$TERMINAL
 
 ### ALIASES ###
 # vim and emacs

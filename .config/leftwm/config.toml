@@ -70,7 +70,7 @@ command = "SetLayout"
 value = "GridHorizontal"
 modifier = ["modkey", "Shift"]
 key = "m"
-    
+
 [[keybind]]
 command = "ToggleSticky"
 modifier = ["modkey"]

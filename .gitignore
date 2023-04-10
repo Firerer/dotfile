@@ -3,12 +3,11 @@
 *.log
 tmp/
 
-# xmonad
 !.xmonad/xmonad.hs
 .xmonad
 
+.config/emacs/*
 !.config/emacs/init.el
-.config/emacs
 
 packer_compiled.lua
 

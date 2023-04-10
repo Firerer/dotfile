@@ -32,27 +32,18 @@ fi
 [ -f ~/.xprofile ] && . ~/.xprofile
 # wallpaper
 xsetroot -solid black # simple bg
-[ -d ~/Pictures/Wallpapers ] && feh --bg-fill ~/Pictures/Wallpapers
+[ -d ~/Pictures/Wallpapers ] && feh --bg-fill --randomize ~/Pictures/Wallpapers
 
 nm-applet &
 polybar main &
 case $2 in
     awesome) awesome;;
     bspwm) bspwm-session ;;
-    budgie) budgie-desktop ;;
-    cinnamon) cinnamon-session ;;
-    deepin) startdde ;;
-    enlightenment) enlightenment_start ;;
     fluxbox) startfluxbox ;;
     gnome) gnome-session ;;
     i3|i3wm) i3 --shmlog-size 0 ;;
-    jwm) jwm ;;
     kde) startplasma-x11 ;;
-    lxde) startlxde ;;
-    lxqt) lxqt-session ;;
-    mate) mate-session ;;
-    xfce) xfce4-session ;;
-    openbox) openbox-session ;;
     xmonad) xmonad ;;
+    leftwm) sxhkd & leftwm ;;
     *) xmonad ;;
 esac

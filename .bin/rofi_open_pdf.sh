@@ -1,4 +1,4 @@
 #!/usr/bin/sh
-fd --type f -e pdf . ~/Documents ~/Downloads /run/media/di/ \
+fd --type f -e pdf . ~/Documents ~/Downloads \
     | rofi -keep-right -dmenu -i -p FILES -multi-select \
     | xargs -I {} xdg-open {}

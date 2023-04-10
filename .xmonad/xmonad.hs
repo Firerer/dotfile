@@ -22,27 +22,28 @@ import XMonad.Layout.Minimize
 import qualified XMonad.Layout.BoringWindows as BW
 
 import XMonad.Util.EZConfig
-import XMonad.Util.SpawnOnce ( spawnOnce )
+import XMonad.Util.SpawnOnce (spawnOnce)
 
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen, doCenterFloat)
+import XMonad.Hooks.ManageHelpers (doFullFloat, isFullscreen, doCenterFloat)
 import XMonad.Hooks.WindowSwallowing
 
 import XMonad.Layout.Fullscreen
-import XMonad.Layout.Gaps(gaps, setGaps, GapMessage(DecGap, ToggleGaps, IncGap))
+import XMonad.Layout.Gaps (gaps, GapMessage(DecGap, ToggleGaps, IncGap))
 import XMonad.Layout.Grid
+-- import XMonad.Layout.ResizableTile (ResizableTall, MirrorResize(MirrorShrink, MirrorExpand))
+import XMonad.Layout.ResizableTile
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimplestFloat
+import XMonad.Layout.WindowNavigation (windowNavigation, Navigate(Go, Swap), Direction2D(L, R, U, D))
 import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
 
 
-myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61884"]
+myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61885", "10:\61884"]
 --myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
-myGaps = [(L,0), (R,0), (U,0), (D,0)]
-myWindowGaps = 2
 myTerminal = "alacritty"
 
 main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
@@ -60,7 +61,7 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
         manageHook         = myManageHook,
         layoutHook         = myLayout,
         logHook            = dynamicLog,
-        handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True),
+        --handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True),
         startupHook        = myStartupHook
     }
     `additionalKeysP`
@@ -76,7 +77,7 @@ myEZkeys =
     , ("M-q S-s", spawn "shutdown now")
     -- , ("M-q l", spawn "hslock")
 
-    , ("M-d", kill1)
+    , ("M-<Return>", spawn myTerminal)
     , ("M-o", spawn "rofi -show combi")
     , ("M-p S-f", spawn "firefox --private-window")
     , ("M-p c", spawn "chat-gpt")
@@ -93,12 +94,8 @@ myEZkeys =
     , ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank
     , ("M-b", spawn "polybar-msg cmd toggle") -- toggle bar
 
-    -- launch a terminal
-    , ("M-<Return>", spawn myTerminal)
     , ("M-C-g", sendMessage ToggleGaps)
-    -- , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps myGaps) -- reset the GapSpec
-    -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
-
+    , ("M-d", kill1)
     , ("M-f", toggleFull)
     , ("M-t", withFocused toggleFloat)
     , ("M-m", withFocused minimizeWindow)
@@ -108,17 +105,28 @@ myEZkeys =
     , ("M-C-l", nextWS)
     , ("M-h", sendMessage Shrink)
     , ("M-l", sendMessage Expand)
+    , ("M-S-h", sendMessage MirrorShrink)
+    , ("M-S-l", sendMessage MirrorExpand)
     , ("M-<Tab>", toggleWS)
 
     , ("M-n", sendMessage NextLayout)
     , ("M-j", windows W.focusDown)
     , ("M-k", windows W.focusUp)
 
-    -- , ("M-S-m", promote)
     , ("M-S-j", windows W.swapDown)
     , ("M-S-k", windows W.swapUp)
     , ("M-C-j", rotAllDown)
     , ("M-C-k", rotAllUp)
+
+    , ("M-<Left>", sendMessage $ Go L)
+    , ("M-<Right>", sendMessage $ Go R)
+    , ("M-<Up>", sendMessage $ Go U)
+    , ("M-<Down>", sendMessage $ Go D)
+    , ("M-C-<Left>", sendMessage $ Swap L)
+    , ("M-C-<Right>", sendMessage $ Swap R)
+    , ("M-C-<Up>", sendMessage $ Swap U)
+    , ("M-C-<Down>", sendMessage $ Swap D)
+
 
     , ("<Print>", spawn "~/.bin/maim_clip.sh")
     , ("S-<Print>", spawn "~/.bin/maim_save.sh")
@@ -132,30 +140,26 @@ myEZkeys =
     ]
     -- mod-[1..],       Switch to workspace N
     -- mod-shift-[1..], Move client to workspace N
-    ++ [ (m ++ "M-" ++ [k], windows $ f i)
-       | (i, k) <- zip myWorkspaces "123456789"
-       , (f, m) <- [(W.greedyView, ""), (W.shift, "S-")]]
-    ++ [("M-s " ++ k, promptSearch def f) | (k,f) <- searchList ]
-    ++ [("M-S-s " ++ k, selectSearch f) | (k,f) <- searchList ]
+    ++ [ ("M-" ++ mod ++ [index], windows $ action workspace)
+       | (workspace, index) <- zip myWorkspaces "1234567890"
+       , (action, mod) <- [(W.greedyView, ""), (W.shift, "S-")]]
 
-searchList = [ ("g", google)
-             , ("h", hoogle)
-             , ("w", wikipedia)
-             ]
 ------------------------------------------------------------------------
 -- Layouts:
-myLayout = gaps myGaps
-            $ spacingRaw False (Border myWindowGaps 0 myWindowGaps 0) True (Border 0 myWindowGaps 0 myWindowGaps) True
+myWindowGaps = [(L,0), (R,0), (U,0), (D,0)]
+myGapSize = 2
+myLayout = gaps myWindowGaps
+            $ spacingRaw False (Border myGapSize 0 myGapSize 0) True (Border 0 myGapSize 0 myGapSize) True
             $ smartBorders
             $ avoidStruts
             $ minimize
             $ BW.boringWindows
-            $ tiled ||| monocle ||| float ||| Grid
+            $ windowNavigation
+            $ tiled ||| Full ||| float ||| Grid
   where
      -- default tiling algorithm partitions the screen into two panes
-     tiled   = Tall 1 (2/100) (1/2)
+     tiled   = ResizableTall 1 (2/100) (1/2) []
      float = simplestFloat
-     monocle = Full
 
 myStartupHook = do
     setWMName "LG3D"
@@ -188,7 +192,6 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
       -- floatTitleInfixes = [ "take_journal" ]
       floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol", "zenity" ]
       floatResourceInfixes = ["Dialog", "control", "pavucontrol"]
-      -- TODO: some shifts are not working
       shfitClassInfixes = [("zoom", 3),
                            ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4),
                            ("Discord", 5), ("VirtualBox", 6), ("Spotify", 9)]
@@ -198,13 +201,6 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
 -- To see key masks :
 -- `xev` or look up`Graphics.X11.Types.KeyMask`
 myKeys conf@XConfig {XMonad.modMask = modm} = M.fromList $
-    -- Quit xmonad
-    [ ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
-    , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
-    , ((0, xF86XK_AudioNext), spawn "playerctl next")
-    , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl s +10%")
-    , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl s 10-%")
-    ]++
     -- mod-{w,e,r} %! Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r} %! Move client to screen 1, 2, or 3
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))

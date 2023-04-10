@@ -1,0 +1,50 @@
+super+q; shift+r
+  reboot
+super+q; q
+  loginctl kill-session $XDG_SESSION_ID
+super+q; s
+  systemctl suspend
+super+q; shift + s
+  shutdown now
+# super+q; l
+# (command: Execute, value: "xscreensaver", modifier: ["modkey", "Control"], key: "l"),
+
+# apps
+Super_L; @Super_L
+    rofi -show combi
+super + Return
+  alacritty
+super + o
+  rofi -show combi
+{_, super +}Print
+  ~/.bin/maim_{clip,save}.sh
+
+XF86Audio{Play,Prev,Next}
+	playerctl {play-pause,previous,next}
+
+XF86Audio{Mute,LowerVolume,RaiseVolume}
+  pactl set-sink-{mut,volume,volume} @DEFAULT_SINK@ {toggle, -5%, +5%}
+
+# super + shift + equal
+# 	sxiv -rt "$HOME/image"
+#
+# XF86LaunchB
+# 	xdotool selectwindow | xsel -bi
+#
+# super + {h,j,k,l}
+# 	bspc node -f {west,south,north,east}
+# 
+# super + alt + {0-9}
+# 	mpc -q seek {0-9}0%
+# 
+# super + {alt,ctrl,alt + ctrl} + XF86Eject
+# 	sudo systemctl {suspend,reboot,poweroff}
+# 
+# super + {_,shift + }{h,j,k,l}
+# 	bspc node -{f,s} {west,south,north,east}
+# 
+# {_,shift + ,super + }XF86MonBrightness{Down,Up}
+# 	bright {-1,-10,min,+1,+10,max}
+# 
+# super + o ; {e,w,m}
+# 	{gvim,firefox,thunderbird}

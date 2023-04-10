@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*/zellij/config.yaml",
   callback = function()
     print "zellij config check:"
-    local out = vim.fn.system(vim.fn.split("zellij setup --check"))
+    local out = vim.fn.system(vim.fn.split "zellij setup --check")
     print(out)
   end,
   group = group,
@@ -61,17 +61,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 -- | highlight |
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank { higroup = "Search", timeout = 100 }
-  end
+  callback = function() vim.highlight.on_yank { higroup = "Search", timeout = 100 } end,
 })
 
 -- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd(
-  { "FocusGained", "TermClose", "TermLeave" },
-  { command = "checktime" }
-)
-
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "gitcommit", "markdown" },
@@ -95,7 +89,13 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-  callback = function()
-    vim.cmd("tabdo wincmd =")
-  end,
+  callback = function() vim.cmd "tabdo wincmd =" end,
 })
+
+vim.cmd [[
+  augroup templates
+    autocmd!
+    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/shell.sh
+    autocmd BufNewFile *.html 0r ~/.config/nvim/templates/website.html
+  augroup END
+]]

@@ -1,5 +1,3 @@
-export TERMINAL='/usr/bin/alacritty'
-export TERM=$TERMINAL
 export USER_SHELL='fish'
 
 addpath(){
@@ -26,9 +24,9 @@ else
 fi
 export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
 
-if command -v emacs > /dev/null
+if command -v code > /dev/null
 then
-  export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
+  export VISUAL="code"           # $VISUAL use Emacs in GUI mode
 fi
 
 # Compilation flags
