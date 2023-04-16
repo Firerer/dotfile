@@ -24,11 +24,12 @@ import qualified XMonad.Layout.BoringWindows as BW
 import XMonad.Util.EZConfig
 import XMonad.Util.SpawnOnce (spawnOnce)
 
-import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.InsertPosition (insertPosition, Focus(Newer), Position(Below, End))
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (doFullFloat, isFullscreen, doCenterFloat)
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.WindowSwallowing
 
 import XMonad.Layout.Fullscreen
@@ -177,10 +178,14 @@ myStartupHook = do
 -- Window rules:
 -- To find the property name associated with a program, use
 -- > xprop | grep WM_CLASS
-myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
+myManageHook = insertPosition Below Newer
+    <+> fullscreenManageHook
+    <+> manageDocks
+    <+> composeAll
     ([resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , title     =? "take_journal" --> doCenterFloat
+    , title =? "Friends List" --> doFloat
     -- , isFullscreen --> doFullFloat
     ]
     -- ++ [fmap (c ==) title --> doFloat | c <- floatTitleInfixes ]

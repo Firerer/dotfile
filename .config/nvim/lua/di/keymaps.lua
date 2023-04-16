@@ -15,7 +15,7 @@ vim.cmd [[
 -- setup leader key
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = " ;"
 
 vim.api.nvim_set_keymap("i", "jk", "<ESC>", opts)
 

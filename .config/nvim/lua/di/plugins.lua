@@ -14,6 +14,11 @@ vim.opt.rtp:prepend(lazypath)
 
 -- https://github.com/folke/lazy.nvim#-plugin-spec
 require("lazy").setup({
+  {
+    "dccsillag/magma-nvim",
+    build = ":UpdateRemotePlugins",
+    --config = function() require("magma").setup() end,
+  },
   -- |lsp related|
   "github/copilot.vim",
   {
@@ -72,11 +77,11 @@ require("lazy").setup({
         "nvim-telescope/telescope-project.nvim",
         config = function() require("telescope").load_extension "project" end,
       },
-      {
-        "nvim-telescope/telescope-frecency.nvim",
-        dependencies = { "kkharji/sqlite.lua" },
-        config = function() require("telescope").load_extension "frecency" end,
-      },
+      -- {
+      --   "nvim-telescope/telescope-frecency.nvim",
+      --   dependencies = { "kkharji/sqlite.lua" },
+      --   config = function() require("telescope").load_extension "frecency" end,
+      -- },
 
       {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -165,6 +170,7 @@ require("lazy").setup({
     end,
   },
   { "mbbill/undotree", cmd = { "UndotreeToggle", "UndotreeShow" } },
+  { "vifm/vifm.vim" },
 }, {
   defaults = {
     -- install stable version

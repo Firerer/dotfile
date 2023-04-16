@@ -47,6 +47,17 @@ lsp.configure("tsserver", {
   root_dir = nvim_lsp.util.root_pattern "package.json",
 })
 
+lsp.configure("pyright", {
+  root_dir = nvim_lsp.util.root_pattern(
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    "Pipfile",
+    ".git"
+  ),
+})
+
 lsp.configure("denols", {
   single_file_support = false,
   root_dir = nvim_lsp.util.root_pattern("deno.json?", "import_map.json?"),

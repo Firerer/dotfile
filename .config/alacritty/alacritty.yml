@@ -25,7 +25,7 @@ key_bindings:
   - { action: IncreaseFontSize, key: Equals, mods: Control }
   - { action: DecreaseFontSize, key: Minus, mods: Control }
   # vi mode
-  - { action: ToggleViMode, key: Space, mode: ~Search, mods: Control }
+  # - { action: ToggleViMode, key: Space, mode: ~Search, mods: Control }
 
 
 live_config_reload: true
