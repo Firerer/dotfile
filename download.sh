@@ -32,6 +32,9 @@ if [ ! -d "dotfile" ]; then
     source .bashrc
 fi
 
+# https://wiki.archlinux.org/title/pacman/Tips_and_tricks
+# paru -Qe
+
 # font
 paru -S --needed ttf-hack-nerd noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji
 # apps
