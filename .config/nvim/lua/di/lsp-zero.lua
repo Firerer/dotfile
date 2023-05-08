@@ -42,11 +42,6 @@ lsp.configure("rust_analyzer", {
   },
 })
 
-lsp.configure("tsserver", {
-  single_file_support = false,
-  root_dir = nvim_lsp.util.root_pattern "package.json",
-})
-
 lsp.configure("pyright", {
   root_dir = nvim_lsp.util.root_pattern(
     "pyproject.toml",
@@ -58,8 +53,13 @@ lsp.configure("pyright", {
   ),
 })
 
-lsp.configure("denols", {
+lsp.configure("tsserver", {
   single_file_support = false,
+  root_dir = nvim_lsp.util.root_pattern "package.json",
+})
+
+lsp.configure("denols", {
+  -- single_file_support = true,
   root_dir = nvim_lsp.util.root_pattern("deno.json?", "import_map.json?"),
 })
 
@@ -82,6 +82,7 @@ lsp.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
   -- lsp related
   require("which-key").register({
     ["["] = { e = { vim.diagnostic.goto_prev, "prev error" } },

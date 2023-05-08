@@ -117,6 +117,7 @@ wk.register {
     },
     f = {
       name = "file",
+      a = { ":!git add %<cr>", "git add current file" },
       e = { ":Ex<cr>", "file explore" },
       x = { "<cmd>!chmod +x %<cr>", "current file +x" },
       f = {

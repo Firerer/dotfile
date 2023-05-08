@@ -14,7 +14,7 @@ plugins {
 keybinds clear-defaults=true {
     normal {
         bind "Alt g" { SwitchToMode "locked"; }
-        bind "Alt s" { SwitchToMode "scroll"; }
+        bind "Alt r" { SwitchToMode "scroll"; }
 
         bind "Alt m" "Alt N" { NewPane; }
         bind "Alt n" { NewTab; SwitchToMode "normal"; }

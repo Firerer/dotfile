@@ -22,13 +22,17 @@ options = dict(
                 "lectures files": "https://canvas.lms.unimelb.edu.au/courses/151276/pages/lectures-slides?module_item_id=4582954",
                 "tuts files": "https://canvas.lms.unimelb.edu.au/courses/151276/pages/tutorial-info-per-week?module_item_id=4582955",
                 "live": "https://canvas.lms.unimelb.edu.au/courses/151276/external_tools/701",
+                "drive": "https://drive.google.com/drive/u/1/folders/1a1RGGatZTZVuC1mG9RjzM8UQT52aVSuu",
             },
             "Cluster and Cloud Computing (COMP90024)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/151783",
+                "google drive": "https://drive.google.com/drive/u/1/folders/1iJ_uTQ4OBbOf4x5aRWqdvAyU5bVlIPV2",
                 "Australian Digital Observatory": "https://www.digitalobservatory.net.au/",
                 "videos": "https://canvas.lms.unimelb.edu.au/courses/151783#context_module_834202",
                 "live/records": "https://canvas.lms.unimelb.edu.au/courses/151783/external_tools/701",
                 "Karaage": "https://dashboard.hpc.unimelb.edu.au/karaage/",
+                "a2 project cloud": "https://dashboard.cloud.unimelb.edu.au/project/",
+                "a2 project repo": "https://gitlab.unimelb.edu.au/miaoxu/comp90024-team74",
                 "a2 teams": "https://docs.google.com/spreadsheets/d/1OmI1uf4ZSqZEpFffmFkmOBpX-Rw9gSCw5jQj-jY98vs/edit#gid=0",
             },
             "Distributed Systems (COMP90015)": {
@@ -39,7 +43,7 @@ options = dict(
             },
             "Software Processes and Management (SWEN90016)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/153205",
-                "zoom": "https://applications.zoom.us/lti/rich/j/88635663721?oauth_consumer_key=An-rf1gZRTu-IFz3CIlUnA&x_zm_session_id_token=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJpbnRlZ3JhdGlvbiIsImlzcyI6ImludGVncmF0aW9uIiwiZXhwIjoxNjc5NDcyMTAwLCJpYXQiOjE2Nzk0NzE1MDAsImp0aSI6Ijc4YWUyNTQ5LTJjMDEtNGQwMi1hMThkLTI4NTZkM2Y1ZGYyYyJ9.-zjp17aknA5N6t-ok4yNN5UrXHPGuM9KtUh4uGAk0ts&lti_scid=5b3faacaa78fe6818285309389546298d09f1ce201aa5f6e99a59f3f8683dcb8",
+                "zoom": "https://canvas.lms.unimelb.edu.au/courses/153205/external_tools/229",
                 "files": "https://canvas.lms.unimelb.edu.au/courses/153205/modules",
                 "quizzes": "https://canvas.lms.unimelb.edu.au/courses/153205/quizzes",
                 "a2 doc": "https://docs.google.com/document/d/1uw0iwM1wYXWg7h--dzRhiBxsxbkKpRny9WKUjJwwwxs/edit#heading=h.6i03fy14yfsq",
