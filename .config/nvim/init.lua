@@ -1,4 +1,3 @@
---
 --[[
   lua cheatsheet: https://devhints.io/lua
   NOTE: order matters, latter modules may depends on earlier modules
@@ -19,6 +18,7 @@ vim.cmd [[
   " 2 means that the input method was opened in the previous state, and the input method is started when entering the insert mode
   autocmd InsertEnter * :silent if fcitx5state == 2 | call system("fcitx5-remote -o") | endif 
 ]]
+
 -- global options
 require "di.options"
 require "di.autocommands"

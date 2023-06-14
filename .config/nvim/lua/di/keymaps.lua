@@ -60,12 +60,13 @@ wk.register {
   ["<leader>"] = {
     ["<leader>"] = {
       function()
-        if vim.fn.system "git rev-parse --git-dir 2> /dev/null" == "" then
-          -- not in git repo
-          telefuncs.fd()
-        else
-          telefuncs.git_files()
-        end
+        telefuncs.fd()
+        -- if vim.fn.system "git rev-parse --git-dir 2> /dev/null" == "" then
+        --   -- not in git repo
+        --   telefuncs.fd()
+        -- else
+        --   telefuncs.git_files()
+        -- end
       end,
       "find files",
     },
@@ -103,6 +104,7 @@ wk.register {
       u = { ":UndotreeToggle<cr><C-w><C-w>", "undo tree" },
       c = { ":ColorizerToggle<cr>", "colorizer" },
       l = { ":Lazy<cr>", "Lazy.nvim" },
+      n = { ":NullLsInfo<cr>", "null-ls" },
       m = { ":Mason<cr>", "Mason.nvim" },
       w = {
         function()
@@ -186,7 +188,7 @@ wk.register({
   -- move selected line
   J = ":m '>+1<CR>gv=gv",
   K = ":m '<-2<CR>gv=gv",
-  ["<leader"] = {
+  ["<leader>"] = {
     p = { [["_dP"]], "no yank paste" },
     d = { [["_d]], "no yank delete" },
   },
@@ -200,7 +202,7 @@ wk.register({
 })
 
 wk.register({
-  ["<leader"] = {
+  ["<leader>"] = {
     p = { [["_dP"]], "no yank paste" },
     d = { [["_d]], "no yank delete" },
   },

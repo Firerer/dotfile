@@ -5,14 +5,13 @@ set -o errexit
 set -o nounset
 set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then
-    set -o xtrace
+  set -o xtrace
 fi
 
 if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
-    echo 'Usage: ./script.sh arg-one arg-two
+  echo 'Usage:  '"$(basename "$0")"'
 
-This is an awesome bash script to make your life better.
-
+Convert screenshot to text and copy to clipboard
 '
     exit
 fi
@@ -20,8 +19,7 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-    echo do awesome stuff
+  maim -s /tmp/tmpimg.png && tesseract /tmp/tmpimg.png stdout | xclip -selection clipboard
 }
 
 main "$@"
-

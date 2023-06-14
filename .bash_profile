@@ -14,7 +14,7 @@ addpath "$HOME/.bin" \
     "$HOME/.local/bin" \
     "$HOME/.emacs.d/bin" \
     "$HOME/.cargo/bin" \
-
+    "$HOME/.nix-profile/bin/librewolf" \
 
 if command -v nvim > /dev/null
 then
@@ -26,7 +26,7 @@ export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
 
 if command -v code > /dev/null
 then
-  export VISUAL="code"           # $VISUAL use Emacs in GUI mode
+  export VISUAL="nvim"
 fi
 
 # Compilation flags
@@ -34,5 +34,5 @@ export ARCHFLAGS="-arch x86_64"
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = "/dev/tty1" ]];
 then
-  exec startx
+  exec startx >> /tmp/xlog-$(date +%F-%T) 2>&1
 fi

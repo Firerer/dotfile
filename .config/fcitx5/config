@@ -35,9 +35,11 @@ EnumerateGroupBackwardKeys=
 
 [Hotkey/PrevCandidate]
 0=Shift+Tab
+1=Control+K
 
 [Hotkey/NextCandidate]
 0=Tab
+1=Control+J
 
 [Hotkey/TogglePreedit]
 0=Control+Alt+P

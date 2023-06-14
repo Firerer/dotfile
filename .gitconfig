@@ -17,3 +17,5 @@
 [pager]
   difftoll = true
 
+[init]
+	defaultBranch = main

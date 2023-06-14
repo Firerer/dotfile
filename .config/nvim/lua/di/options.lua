@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+vim.g.netrw_localrmdir = "~/.local/share/Trash/files/"
 opt.updatetime = 50 -- faster completion
 
 opt.nu = true

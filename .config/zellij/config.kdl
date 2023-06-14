@@ -1,5 +1,6 @@
 layout_dir "~/.config/zellij/layouts/"
-default_layout "compact" // "default" | "compact"
+//default_layout "compact" // "default" | "compact"
+default_layout "compact"
 
 theme_dir "~/.config/zellij/themes/"
 theme "catppuccin-mocha"  // Default: default
@@ -11,11 +12,13 @@ plugins {
     compact-bar { path "compact-bar"; }
 }
 
+// https://zellij.dev/documentation/keybindings-modes.html
 keybinds clear-defaults=true {
-    normal {
+    shared {
         bind "Alt g" { SwitchToMode "locked"; }
         bind "Alt r" { SwitchToMode "scroll"; }
-
+    }
+    normal {
         bind "Alt m" "Alt N" { NewPane; }
         bind "Alt n" { NewTab; SwitchToMode "normal"; }
         bind "Alt d" { CloseFocus; SwitchToMode "normal"; }
@@ -67,7 +70,6 @@ keybinds clear-defaults=true {
         bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0; }
     }
     tab {
-        bind "Alt g" { SwitchToMode "locked"; }
         bind "Ctrl p" { SwitchToMode "pane"; }
         bind "Ctrl n" { SwitchToMode "resize"; }
         bind "Ctrl t" "Enter" "Space" "Esc" { SwitchToMode "normal"; }
@@ -290,23 +292,9 @@ keybinds clear-defaults=true {
 
 simplified_ui true
 default_shell "fish"
-pane_frames true
+pane_frames false
 scroll_buffer_size 100000
-
-
-// Examples:
-// copy_command "xclip -selection clipboard" // x11
-// copy_command "wl-copy"                    // wayland
-// copy_command "pbcopy"                     // osx
+// https://zellij.dev/documentation/options.html#copy_command
 copy_command "xclip -selection clipboard"
-
-// Choose the destination for copied text
-// Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
-// Does not apply when using copy_command.
-// Options:
-//   - system (default)
-//   - primary
 copy_clipboard "primary"
-
-// Enable or disable automatic copy (and clear) of selection when releasing mouse
 copy_on_select true

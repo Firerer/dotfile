@@ -43,8 +43,8 @@ import XMonad.Layout.WindowNavigation (windowNavigation, Navigate(Go, Swap), Dir
 import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
 
 
-myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61885", "10:\61884"]
---myWorkspaces   = ["Code" , "Web" , "Term" , "Game", "5","6","7","8","9"]
+-- myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61885", "10:\61884"]
+myWorkspaces   = ["1" , "2" , "3" , "4", "5", "6", "7", "8", "9"]
 myTerminal = "alacritty"
 
 main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
@@ -54,7 +54,7 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
         borderWidth        = 2,
         modMask            = mod4Mask,
         workspaces         = myWorkspaces,
-        normalBorderColor  = "#3b4050",
+        normalBorderColor  = "#000000",
         focusedBorderColor = "#bc96da",
         -- key bindings
         keys               = myKeys,
@@ -92,7 +92,7 @@ myEZkeys =
     , ("M-p n", spawn "logseq")
     , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
     , ("M-p s", spawn "spotify-launcher")
-    , ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank
+    --, ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank, use fcitx5's clipboard instead
     , ("M-b", spawn "polybar-msg cmd toggle") -- toggle bar
 
     , ("M-C-g", sendMessage ToggleGaps)
@@ -130,6 +130,7 @@ myEZkeys =
 
 
     , ("<Print>", spawn "~/.bin/maim_clip.sh")
+    , ("C-<Print>", spawn "~/.bin/maim_ocr_clip.sh")
     , ("S-<Print>", spawn "~/.bin/maim_save.sh")
 
     , ("<XF86AudioPlay>", spawn "playerctl play-pause")
@@ -164,15 +165,6 @@ myLayout = gaps myWindowGaps
 
 myStartupHook = do
     setWMName "LG3D"
-    -- spawnOnce "lxsession &" -- conflicts with polybar ewmh module
-    -- spawnOnce "nm-applet &"
-    -- spawnOnce "fcitx5 &"
-    -- spawnOnce "picom &"
-    -- spawnOnce "dunst &"
-    -- spawnOnce "greenclip daemon &"
-    -- spawnOnce "feh --bg-fill ~/Pictures/Wallpapers &"
-    -- spawnOnce "emacs --daemon &"
-    -- spawnOnce "polybar main &"
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -186,7 +178,7 @@ myManageHook = insertPosition Below Newer
     , resource  =? "kdesktop"       --> doIgnore
     , title     =? "take_journal" --> doCenterFloat
     , title =? "Friends List" --> doFloat
-    -- , isFullscreen --> doFullFloat
+    , isFullscreen --> doFullFloat
     ]
     -- ++ [fmap (c ==) title --> doFloat | c <- floatTitleInfixes ]
     ++ [fmap (c `isInfixOf`) className --> doFloat | c <- floatClassInfixes ]
@@ -197,9 +189,11 @@ myManageHook = insertPosition Below Newer
       -- floatTitleInfixes = [ "take_journal" ]
       floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol", "zenity" ]
       floatResourceInfixes = ["Dialog", "control", "pavucontrol"]
-      shfitClassInfixes = [("zoom", 3),
-                           ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4),
-                           ("Discord", 5), ("VirtualBox", 6), ("Spotify", 9)]
+      shfitClassInfixes = [("zoom", 3)
+          , ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4)
+          , ("Discord", 5), ("wechat", 5), ("Wine", 5)
+          , ("VirtualBox", 6), ("Spotify", 10)
+          ]
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.

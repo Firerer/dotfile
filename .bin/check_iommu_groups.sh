@@ -4,6 +4,7 @@
 set -o errexit
 set -o nounset
 set -o pipefail
+set -ex
 if [[ "${TRACE-0}" == "1" ]]; then
     set -o xtrace
 fi
@@ -20,8 +21,16 @@ fi
 cd "$(dirname "$0")"
 
 main() {
-    echo do awesome stuff
+
+for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
+    echo "IOMMU Group ${g##*/}:"
+    for d in $g/devices/*; do
+        echo -e "\t$(lspci -nns ${d##*/})"
+    done;
+done;
+
 }
 
 main "$@"
+
 

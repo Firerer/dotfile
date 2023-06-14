@@ -15,6 +15,10 @@ vim.opt.rtp:prepend(lazypath)
 -- https://github.com/folke/lazy.nvim#-plugin-spec
 require("lazy").setup({
   {
+    "wuelnerdotexe/vim-astro",
+    config = function() _G.astro_typescript = "enable" end,
+  },
+  {
     "dccsillag/magma-nvim",
     build = ":UpdateRemotePlugins",
     --config = function() require("magma").setup() end,

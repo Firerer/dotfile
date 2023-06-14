@@ -40,6 +40,7 @@ end
 bind \co -M insert fzf_open
 
 set -Ux EDITOR 'nvim'
+set -Ux VISUAL 'nvim'
 set -Ux PYTHONPATH "."
 set -gx TERM "xterm-256color"
 
