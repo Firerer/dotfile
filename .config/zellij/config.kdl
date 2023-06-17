@@ -1,14 +1,23 @@
-layout_dir "~/.config/zellij/layouts/"
+// layout_dir "~/.config/zellij/layouts/" // need to be absolute
 //default_layout "compact" // "default" | "compact"
 default_layout "compact"
 
-theme_dir "~/.config/zellij/themes/"
+//theme_dir "~/.config/zellij/themes/" // need to be absolute
 theme "catppuccin-mocha"  // Default: default
+
+simplified_ui true
+default_shell "fish"
+pane_frames false
+scroll_buffer_size 100000
+// https://zellij.dev/documentation/options.html#copy_command
+copy_command "xclip -selection clipboard"
+copy_clipboard "primary"
+copy_on_select true
 
 plugins {
     tab-bar { path "tab-bar"; }
     status-bar { path "status-bar"; }
-    strider { path "strider"; }
+    strider { path "strider"; } // folder viewer
     compact-bar { path "compact-bar"; }
 }
 
@@ -16,10 +25,11 @@ plugins {
 keybinds clear-defaults=true {
     shared {
         bind "Alt g" { SwitchToMode "locked"; }
-        bind "Alt r" { SwitchToMode "scroll"; }
+        bind "Alt r" { SwitchToMode "scroll"; } // read mode
+        bind "Alt s" { SwitchToMode "search"; }
     }
     normal {
-        bind "Alt m" "Alt N" { NewPane; }
+        bind "Alt m" { NewPane; }
         bind "Alt n" { NewTab; SwitchToMode "normal"; }
         bind "Alt d" { CloseFocus; SwitchToMode "normal"; }
         bind "Alt q" { CloseTab; SwitchToMode "normal"; }
@@ -29,9 +39,6 @@ keybinds clear-defaults=true {
         bind "Alt j" "Alt Down" { MoveFocus "Down"; }
         bind "Alt k" "Alt Up" { MoveFocus "Up"; }
 
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
         bind "Alt 1" { GoToTab 1; SwitchToMode "normal"; }
         bind "Alt 2" { GoToTab 2; SwitchToMode "normal"; }
         bind "Alt 3" { GoToTab 3; SwitchToMode "normal"; }
@@ -45,11 +52,25 @@ keybinds clear-defaults=true {
     locked {
         bind "Alt g" { SwitchToMode "normal"; }
     }
+    scroll {
+        bind "q" "Esc" { SwitchToMode "normal"; }
+        bind "e" { EditScrollback; SwitchToMode "normal"; }
+        bind "k" "Up" { ScrollUp; }
+        bind "j" "Down" { ScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "b" { PageScrollUp; }
+        bind "f" { PageScrollDown; }
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
+        bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
+    }
     pane {
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
         bind "j" "Down" { MoveFocus "Down"; }
         bind "k" "Up" { MoveFocus "Up"; }
+
         bind "p" { SwitchFocus; }
         bind "n" { NewPane; SwitchToMode "normal"; }
         bind "d" { NewPane "Down"; SwitchToMode "normal"; }
@@ -151,17 +172,6 @@ keybinds clear-defaults=true {
         bind "Alt =" { Resize "Increase"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
-    }
-    scroll {
-        bind "q" "Esc" "Alt s" { SwitchToMode "normal"; }
-        bind "e" { EditScrollback; SwitchToMode "normal"; }
-        bind "j" "Down" { ScrollDown; }
-        bind "k" "Up" { ScrollUp; }
-        bind "f" { PageScrollDown; }
-        bind "b" { PageScrollUp; }
-        bind "d" { HalfPageScrollDown; }
-        bind "u" { HalfPageScrollUp; }
-        bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     session {
         bind "Alt g" { SwitchToMode "locked"; }
@@ -289,12 +299,3 @@ keybinds clear-defaults=true {
         bind "d" { Detach; }
     }
 }
-
-simplified_ui true
-default_shell "fish"
-pane_frames false
-scroll_buffer_size 100000
-// https://zellij.dev/documentation/options.html#copy_command
-copy_command "xclip -selection clipboard"
-copy_clipboard "primary"
-copy_on_select true

@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*/zellij/config.yaml",
+  pattern = "*/zellij/config.kdl",
   callback = function()
     print "zellij config check:"
     local out = vim.fn.system(vim.fn.split "zellij setup --check")
@@ -65,7 +65,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  command = "checktime",
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "gitcommit", "markdown" },

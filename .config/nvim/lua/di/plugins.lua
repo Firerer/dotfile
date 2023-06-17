@@ -132,7 +132,9 @@ require("lazy").setup({
       require("mini.pairs").setup() -- auto insert paired text-object like
       require("mini.starter").setup()
       require("mini.surround").setup { mappings = { replace = "sc" } }
-      require("mini.tabline").setup()
+      require("mini.tabline").setup({
+        set_vim_settings = false,
+      })
       require("mini.trailspace").setup()
     end,
   },
