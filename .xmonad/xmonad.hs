@@ -81,7 +81,6 @@ myEZkeys =
     , ("M-<Return>", spawn myTerminal)
     , ("M-o", spawn "rofi -show combi")
     , ("M-p S-f", spawn "firefox --private-window")
-    , ("M-p c", spawn "chat-gpt")
     , ("M-p j", spawn "~/.bin/journal.sh")
     -- , ("M-p j", spawn "$TERM --title take_journal -e $EDITOR ~/Documents/logseq/journals/$(date +%Y_%m_%d).md")
     , ("M-p d", spawn "discord")
@@ -89,9 +88,9 @@ myEZkeys =
     , ("M-p g", spawn "google-chrome-stable")
     , ("M-p l", spawn "~/.bin/rofi_quicklinks.sh")
     , ("M-p m", spawn "thunderbird")
-    , ("M-p n", spawn "logseq")
+    , ("M-p n", spawn "flatpak run com.logseq.Logseq")
     , ("M-p p", spawn "~/.bin/rofi_open_pdf.sh")
-    , ("M-p s", spawn "spotify-launcher")
+    -- , ("M-p s", spawn "spotify-launcher")
     --, ("M-y", spawn "~/.bin/rofi_clipboard.sh") -- yank, use fcitx5's clipboard instead
     , ("M-b", spawn "polybar-msg cmd toggle") -- toggle bar
 
@@ -187,10 +186,10 @@ myManageHook = insertPosition Below Newer
     )
     where
       -- floatTitleInfixes = [ "take_journal" ]
-      floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "pavucontrol", "zenity" ]
+      floatClassInfixes = [ "xmessage", "MPlayer", "Gimp", "zenity" ]
       floatResourceInfixes = ["Dialog", "control", "pavucontrol"]
-      shfitClassInfixes = [("zoom", 3)
-          , ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4)
+      shfitClassInfixes = [ --("zoom", 3),
+          ("Steam", 4), ("Lutris", 4), ("battle.net.exe", 4)
           , ("Discord", 5), ("wechat", 5), ("Wine", 5)
           , ("VirtualBox", 6), ("Spotify", 10)
           ]

@@ -33,8 +33,8 @@ fi
 # wallpaper
 xsetroot -solid black # simple bg
 [ -d ~/Pictures/Wallpapers ] && feh --bg-fill --randomize ~/Pictures/Wallpapers
-
-nm-applet &
+pidof nm-applet || nm-applet &
+pidof blueman-applet || blueman-applet &
 polybar main &
 case $2 in
     awesome) awesome;;

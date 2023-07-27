@@ -17,7 +17,7 @@ copy_on_select true
 plugins {
     tab-bar { path "tab-bar"; }
     status-bar { path "status-bar"; }
-    strider { path "strider"; } // folder viewer
+    // strider { path "strider"; } // folder viewer
     compact-bar { path "compact-bar"; }
 }
 
@@ -26,7 +26,7 @@ keybinds clear-defaults=true {
     shared {
         bind "Alt g" { SwitchToMode "locked"; }
         bind "Alt r" { SwitchToMode "scroll"; } // read mode
-        bind "Alt s" { SwitchToMode "search"; }
+        // bind "Alt Shift s" { SwitchToMode "search"; }
     }
     normal {
         bind "Alt m" { NewPane; }

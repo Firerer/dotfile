@@ -18,7 +18,7 @@ end
 
 abbr --add la "ls -a"
 abbr --add ll "ls -hla"
-abbr --add l. 'ls -a | egrep "^\."'
+abbr --add l. 'ls -a | rg "\.\w*"'
 
 source (/usr/bin/starship init fish --print-full-init | psub)
 
@@ -50,3 +50,8 @@ zoxide init fish | source
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/di/Applications/google-cloud-sdk/path.fish.inc' ]; . '/home/di/Applications/google-cloud-sdk/path.fish.inc'; end
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/fish/__tabtab.fish ]; and . ~/.config/tabtab/fish/__tabtab.fish; or true
+eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)

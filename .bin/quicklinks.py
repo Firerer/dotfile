@@ -16,7 +16,8 @@ options = dict(
     flat_dict(
         {
             "my unimelb": "https://my.unimelb.edu.au/",
-            "ai search": "https://www.perplexity.ai",
+            "IT Internship Portal": "https://careersonline.unimelb.edu.au/s/engineering--it-internship-portal",
+            "perplexity search": "https://www.perplexity.ai",
             "Advanced Database Systems (COMP90050)": {
                 "": "https://canvas.lms.unimelb.edu.au/courses/151276",
                 "lectures files": "https://canvas.lms.unimelb.edu.au/courses/151276/pages/lectures-slides?module_item_id=4582954",

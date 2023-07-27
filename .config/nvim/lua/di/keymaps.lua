@@ -72,6 +72,7 @@ wk.register {
     },
     d = {
       name = "dubug",
+      j = { function() require("dap.ext.vscode").load_launchjs() end, "load launch.json" },
       c = { function() require("dap").continue() end, "continue" },
       n = { function() require("dap").step_over() end, "step over" },
       i = { function() require("dap").step_into() end, "step into" },
@@ -102,6 +103,7 @@ wk.register {
     t = {
       name = "toogle",
       u = { ":UndotreeToggle<cr><C-w><C-w>", "undo tree" },
+      d = { function() require("dapui").toggle() end, "dap ui" },
       c = { ":ColorizerToggle<cr>", "colorizer" },
       l = { ":Lazy<cr>", "Lazy.nvim" },
       n = { ":NullLsInfo<cr>", "null-ls" },

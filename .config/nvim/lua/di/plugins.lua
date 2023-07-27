@@ -18,52 +18,84 @@ require("lazy").setup({
     "wuelnerdotexe/vim-astro",
     config = function() _G.astro_typescript = "enable" end,
   },
-  {
-    "dccsillag/magma-nvim",
-    build = ":UpdateRemotePlugins",
-    --config = function() require("magma").setup() end,
-  },
   -- |lsp related|
   "github/copilot.vim",
   {
     -- https://github.com/VonHeikemen/lsp-zero.nvim
     "VonHeikemen/lsp-zero.nvim",
+    --import
     branch = "v1.x",
     dependencies = {
       -- LSP Support
       -- TODO delete branch property after relase > v0.1.7
-      { "neovim/nvim-lspconfig", branch = "master" }, -- Required
-      { "williamboman/mason.nvim" }, -- Optional
+      "neovim/nvim-lspconfig",
+      branch = "master", -- Required
+      "williamboman/mason.nvim", -- Optional
       -- https://github.com/williamboman/mason-lspconfig.nvim
-      { "williamboman/mason-lspconfig.nvim" }, -- Optional
+      "williamboman/mason-lspconfig.nvim", -- Optional
 
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" }, -- Required
-      { "hrsh7th/cmp-nvim-lsp" }, -- Required
-      { "hrsh7th/cmp-buffer" }, -- Optional
-      { "hrsh7th/cmp-path" }, -- Optional
-      { "saadparwaiz1/cmp_luasnip" }, -- Optional
-      { "hrsh7th/cmp-nvim-lua" }, -- Optional
+      "hrsh7th/nvim-cmp", -- Required
+      "hrsh7th/cmp-nvim-lsp", -- Required
+      "hrsh7th/cmp-buffer", -- Optional
+      "hrsh7th/cmp-path", -- Optional
+      "saadparwaiz1/cmp_luasnip", -- Optional
+      "hrsh7th/cmp-nvim-lua", -- Optional
 
       -- Snippets
-      { "L3MON4D3/LuaSnip" }, -- Required
-      { "rafamadriz/friendly-snippets" }, -- Optional
+      "L3MON4D3/LuaSnip", -- Required
+      "rafamadriz/friendly-snippets", -- Optional
     },
     config = function() require "di.lsp-zero" end,
   },
   {
     -- https://github.com/jose-elias-alvarez/null-ls.nvim
     "jose-elias-alvarez/null-ls.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
     config = function() require "di.null-ls" end,
+  },
+  {
+    "folke/neodev.nvim",
+    config = function()
+      require("neodev").setup {
+        library = { plugins = { "nvim-dap-ui" }, types = true },
+      }
+    end,
   },
 
   -- |debugging|
   {
     -- https://github.com/mfussenegger/nvim-dap
+    -- TODO config
     "mfussenegger/nvim-dap",
-    config = function() end,
+    dependencies = {
+      "theHamsta/nvim-dap-virtual-text",
+      "rcarriga/nvim-dap-ui",
+      "mxsdev/nvim-dap-vscode-js",
+    },
+    keys = {
+      { "<leader>dd", function() require("dap").toggle_breakpoint() end },
+      { "<leader>dc", function() require("dap").continue() end },
+    },
+    config = function()
+      local dap, dapui = require "dap", require "dapui"
+      dapui.setup()
+      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+      require("dap-vscode-js").setup {
+        -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+        -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+        -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+        -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+        -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+        -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+      }
+    end,
   },
-
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -132,9 +164,9 @@ require("lazy").setup({
       require("mini.pairs").setup() -- auto insert paired text-object like
       require("mini.starter").setup()
       require("mini.surround").setup { mappings = { replace = "sc" } }
-      require("mini.tabline").setup({
+      require("mini.tabline").setup {
         set_vim_settings = false,
-      })
+      }
       require("mini.trailspace").setup()
     end,
   },
@@ -177,6 +209,21 @@ require("lazy").setup({
   },
   { "mbbill/undotree", cmd = { "UndotreeToggle", "UndotreeShow" } },
   { "vifm/vifm.vim" },
+  {
+    "jackMort/ChatGPT.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    config = function()
+      require("chatgpt").setup {
+        --api_key_cmd = "pass openai/api_key"
+      }
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+  },
 }, {
   defaults = {
     -- install stable version

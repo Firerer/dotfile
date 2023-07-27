@@ -1,4 +1,6 @@
 local null_ls = require("null-ls")
+local mason = require("mason")
+
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
@@ -14,7 +16,7 @@ null_ls.setup {
     formatting.black.with { extra_args = { "--fast" } },
     formatting.stylua.with { extra_args = { "--collapse-simple-statement=Always" } },
     formatting.shellharden,
-    diagnostics.shellcheck,
+    -- diagnostics.shellcheck,
     -- diagnostics.flake8
   },
 }

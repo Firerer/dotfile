@@ -15,6 +15,8 @@ pidof dunst || dunst &
 pidof aw-server || aw-server &
 pidof aw-watcher-window || aw-watcher-window &
 pidof aw-watcher-afk || aw-watcher-afk &
+pidof syncthing || syncthing serve &
+
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

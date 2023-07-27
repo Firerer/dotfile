@@ -9,7 +9,6 @@ lsp.preset "recommended"
 lsp.ensure_installed {
   "pyright",
   "rust_analyzer",
-  "denols",
   "tsserver",
   "lua_ls",
 }
@@ -59,8 +58,8 @@ lsp.configure("tsserver", {
 })
 
 lsp.configure("denols", {
-  -- single_file_support = true,
-  root_dir = nvim_lsp.util.root_pattern("deno.json?", "import_map.json?"),
+  single_file_support = false,
+  root_dir = nvim_lsp.util.root_pattern("deno.json", "import_map.json?"),
 })
 
 local cmp = require "cmp"
