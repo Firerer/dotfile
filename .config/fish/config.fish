@@ -5,6 +5,7 @@ abbr --add df 'df -h' # human-readable sizes
 abbr --add free 'free -h' # show sizes in MB
 abbr --add teelog 'sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,3})?)?[mGK]//g" | tee' # tee no color
 type -q trash && abbr --add rm 'trash'
+abbr --add rmm 'rm'
 abbr --add mg 'magit.sh' # .bin/magit.sh
 
 # replace ls with exa
