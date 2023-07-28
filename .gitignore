@@ -3,8 +3,8 @@
 *.log
 tmp/
 
+.xmonad/*
 !.xmonad/xmonad.hs
-.xmonad
 
 .config/emacs/*
 !.config/emacs/init.el
@@ -13,3 +13,7 @@ packer_compiled.lua
 
 fish_variables
 vifminfo.json
+
+.logseq/*
+!.logseq/config
+!.logseq/preferences.json

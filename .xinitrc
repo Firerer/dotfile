@@ -1,4 +1,5 @@
 #!/bin/sh
+# init file for window managers
 # merge in defaults and keymaps
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap

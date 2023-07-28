@@ -3,17 +3,16 @@ fish_hybrid_key_bindings
 abbr --add cp "cp -i" # confirm before overwriting something
 abbr --add df 'df -h' # human-readable sizes
 abbr --add free 'free -h' # show sizes in MB
-abbr --add mg 'magit.sh' # .bin/magit.sh
 abbr --add teelog 'sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,3})?)?[mGK]//g" | tee' # tee no color
-type -q evcxr && abbr --add rustr 'evcxr'
 type -q trash && abbr --add rm 'trash'
+abbr --add mg 'magit.sh' # .bin/magit.sh
 
 # replace ls with exa
 if type -q exa;
   alias ls "exa --icons --sort=type --group-directories-first "
   abbr --add lt 'ls -T --level 3' # tree listing
 else
-    abbr --add lt tree
+    abbr --add lt 'tree -L 3'
 end
 
 abbr --add la "ls -a"
@@ -42,9 +41,11 @@ bind \co -M insert fzf_open
 set -Ux EDITOR 'nvim'
 set -Ux VISUAL 'nvim'
 set -Ux PYTHONPATH "."
-set -gx TERM "xterm-256color"
 
-fish_add_path -p ~/.bin ~/.local/bin ~/.cargo/bin /opt/android-sdk/platform-tools/ ~/Applications
+fish_add_path -p ~/.bin \
+  ~/.local/bin \
+  ~/.cargo/bin \
+  ~/Applications
 
 zoxide init fish | source
 
