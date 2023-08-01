@@ -28,8 +28,12 @@ require("lazy").setup({
     dependencies = {
       -- LSP Support
       -- TODO delete branch property after relase > v0.1.7
-      "neovim/nvim-lspconfig",
-      branch = "master", -- Required
+      {
+        "neovim/nvim-lspconfig", -- Required
+        -- server name changed from "sumneko_lua" to "lua_ls" without change tag,
+        -- hence need to pin to a specific branch
+        branch = "master",
+      },
       "williamboman/mason.nvim", -- Optional
       -- https://github.com/williamboman/mason-lspconfig.nvim
       "williamboman/mason-lspconfig.nvim", -- Optional

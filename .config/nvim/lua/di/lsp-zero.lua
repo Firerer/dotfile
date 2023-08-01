@@ -11,6 +11,7 @@ lsp.ensure_installed {
   "rust_analyzer",
   "tsserver",
   "lua_ls",
+  "denols",
 }
 
 -- for options see doc lspconfig-all
