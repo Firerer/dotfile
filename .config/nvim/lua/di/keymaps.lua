@@ -60,7 +60,7 @@ wk.register {
   ["<leader>"] = {
     ["<leader>"] = {
       function()
-        telefuncs.fd()
+        telefuncs.fd({hidden = true})
         -- if vim.fn.system "git rev-parse --git-dir 2> /dev/null" == "" then
         --   -- not in git repo
         --   telefuncs.fd()

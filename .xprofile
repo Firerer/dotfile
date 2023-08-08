@@ -12,9 +12,9 @@ export XMODIFIERS=@im=fcitx5
 pidof fcitx5 || fcitx5 -d # cjk input using fcitx5
 pidof dunst || dunst &
 #pidof greenclip || greenclip daemon &
-pidof aw-server || activitywatch-linux-x86_64.AppImage &
+pidof aw-server || ./Applications/activitywatch-linux-x86_64.AppImage &
 pidof syncthing || syncthing serve &
-pidof redshift || redshift &
+pidof redshift || watchfiles 'redshift' ~/.config/redshift.conf &
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ "$xrdbpid" != "" ] && wait "$xrdbpid"

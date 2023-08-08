@@ -34,11 +34,16 @@ options = dict(
                 "assignment": "https://canvas.lms.unimelb.edu.au/courses/154487/assignments",
             },
             "COMP90082_proj": {
-                "home": "https://canvas.lms.unimelb.edu.au/courses/156871"
+                "home": "https://canvas.lms.unimelb.edu.au/courses/156871",
+                "trello": "https://trello.com/w/64d1ebb30cdda3870c30b74a",
             },
             "unimelb course manage": "https://unimelb.t1cloud.com/T1Default/CiAnywhere/Web/UNIMELB/LogOn/ESTUDENT?webadf=true&returnUrl=https%3a%2f%2funimelb-web.t1cloud.com%2fT1SMDefault%2fWebApps%2feStudent%2fSM%2fPersDtls10.aspx%3fr%3d%2523UM.STUDENT.APPLICANT%26f%3d%24S1.EST.PERSDTLS.WEB%26ciredirect%3d1",
             "qmk": "https://config.qmk.fm/#/ergodox_ez/glow/LAYOUT_ergodox_pretty",
             "yinwang": "https://www.yinwang.org/",
+            "mff": "https://myforexfunds.com/account-2/",
+            "tft": "https://dashboard.thefundedtraderprogram.com/dashboard",
+            "ftmo": "https://trader.ftmo.com/client-area",
+            "e8": "https://e8x.e8funding.com/",
         }
     )
 )
