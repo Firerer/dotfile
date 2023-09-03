@@ -1,6 +1,6 @@
 export USER_SHELL='fish'
 
-addpath(){
+addpath() {
     for var in "$@"
     do
         if [ -d "$var" ] ;
@@ -32,9 +32,9 @@ fi
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
-if [[ -z $DISPLAY ]] && [[ $(tty) = "/dev/tty1" ]];
-then
-  exec startx >> /tmp/xlog-$(date +%F-%T) 2>&1
-fi
+# if [[ -z $DISPLAY ]] && [[ $(tty) = "/dev/tty1" ]];
+# then
+#   exec startx >> /tmp/xlog-$(date +%F-%T) 2>&1
+# fi
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

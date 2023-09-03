@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-unused-top-binds -Wno-missing-signatures -Wno-unused-imports #-}
 
+
 import Control.Monad ( join, when )
 import Data.List
 import Data.Maybe (maybeToList)
@@ -7,6 +8,7 @@ import Data.Monoid
 import Graphics.X11.ExtraTypes.XF86
 import System.Exit
 import XMonad
+import XMonad.Config.Gnome
 import XMonad.Prompt
 import qualified Data.Map        as M
 import qualified XMonad.StackSet as W
@@ -40,10 +42,10 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.WindowNavigation (windowNavigation, Navigate(Go, Swap), Direction2D(L, R, U, D))
-import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
+import XMonad.Layout.Spacing ( spacingRaw, Border(Border), spacingWithEdge, spacing )
 
 
--- myWorkspaces = ["1:\63083", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61885", "10:\61884"]
+--myWorkspaces = ["1:\63084", "2:\63288", "3:\63306", "4:\61723", "5:\63107", "6:\63601", "7:\63391", "8:\61713", "9:\61885", "10:\61884"]
 myWorkspaces   = ["1" , "2" , "3" , "4", "5", "6", "7", "8", "9"]
 myTerminal = "alacritty"
 
@@ -55,7 +57,7 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
         modMask            = mod4Mask,
         workspaces         = myWorkspaces,
         normalBorderColor  = "#000000",
-        focusedBorderColor = "#bc96da",
+        focusedBorderColor = "#bc96dd",
         -- key bindings
         keys               = myKeys,
         -- hooks, layouts
@@ -71,21 +73,18 @@ main = xmonad . fullscreenSupportBorder . docks . ewmhFullscreen . ewmh $ def {
 myEZkeys :: [(String, X ())]
 myEZkeys =
     [ ("M-q r", spawn "xmonad --recompile && xmonad --restart")
-    , ("M-q S-r", spawn "reboot")
+    , ("M-q M-r", spawn "reboot")
     , ("M-q q", io exitSuccess)
-    , ("M-q d", killAll)
     , ("M-q s", spawn "systemctl suspend")
-    , ("M-q S-s", spawn "shutdown now")
+    , ("M-q M-s", spawn "shutdown now")
     -- , ("M-q l", spawn "hslock")
-
     , ("M-<Return>", spawn myTerminal)
     , ("M-o", spawn "rofi -show combi")
-    , ("M-p S-f", spawn "firefox --private-window")
     , ("M-p j", spawn "~/.bin/journal.sh")
-    -- , ("M-p j", spawn "$TERM --title take_journal -e $EDITOR ~/Documents/logseq/journals/$(date +%Y_%m_%d).md")
-    , ("M-p d", spawn "discord")
     , ("M-p f", spawn "firefox")
-    , ("M-p g", spawn "google-chrome-stable")
+    , ("M-p M-f", spawn "firefox --private-window")
+    , ("M-p g", spawn "chromium")
+    , ("M-p M-g", spawn "chromium --incognito")
     , ("M-p l", spawn "~/.bin/rofi_quicklinks.sh")
     , ("M-p m", spawn "thunderbird")
     , ("M-p n", spawn "flatpak run com.logseq.Logseq")
@@ -96,6 +95,7 @@ myEZkeys =
 
     , ("M-C-g", sendMessage ToggleGaps)
     , ("M-d", kill1)
+    , ("M-S-d", killAll)
     , ("M-f", toggleFull)
     , ("M-t", withFocused toggleFloat)
     , ("M-m", withFocused minimizeWindow)
@@ -147,10 +147,12 @@ myEZkeys =
 
 ------------------------------------------------------------------------
 -- Layouts:
-myWindowGaps = [(L,0), (R,0), (U,0), (D,0)]
-myGapSize = 2
-myLayout = gaps myWindowGaps
-            $ spacingRaw False (Border myGapSize 0 myGapSize 0) True (Border 0 myGapSize 0 myGapSize) True
+gap = 5
+g = 5
+myLayout =
+            gaps [(L, g), (R,g), (U,g+25), (D,g)]
+            -- $ spacingRaw False (Border gap 0 gap 0) True (Border 0 gap 0 gap) True
+            $ spacing g
             $ smartBorders
             $ avoidStruts
             $ minimize
@@ -164,6 +166,16 @@ myLayout = gaps myWindowGaps
 
 myStartupHook = do
     setWMName "LG3D"
+    spawn "xsetroot -solid black &"
+    spawn "feh --bg-fill --randomize ~/Pictures/Wallpapers &"
+    spawn "polybar -r main 2> /tmp/mypolybar.log &"
+    spawn "blueman-applet"
+    spawn "nm-applet"
+    spawn "picom &"
+    spawn "greenclip daemon &"
+    spawnOnce "fcitx5 &"
+    spawnOnce "dunst &"
+
 
 ------------------------------------------------------------------------
 -- Window rules:

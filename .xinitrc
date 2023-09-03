@@ -4,8 +4,8 @@
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
-if [ -f $sysresources ]; then
-    xrdb -merge $sysresources
+if [ -f "$sysresources" ]; then
+    xrdb -merge "$sysresources"
 fi
 
 if [ -f "$sysmodmap" ]; then
@@ -20,7 +20,6 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-# start some nice programs
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
   [ -x "$f" ] && . "$f"
@@ -28,16 +27,24 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-# wallpaper
-xsetroot -solid black # simple bg
-[ -d ~/Pictures/Wallpapers ] && feh --bg-fill --randomize ~/Pictures/Wallpapers
-pidof nm-applet || nm-applet &
-pidof blueman-applet || blueman-applet &
-polybar main &
+# xsetroot -solid black # simple bg
+# [ -d ~/Pictures/Wallpapers ] && feh --bg-fill --randomize ~/Pictures/Wallpapers
+# pidof blueman-applet || blueman-applet &
+# pidof nm-applet || nm-applet &
 
-#source xprofile
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS=@im=fcitx5
+# pidof fcitx5 || fcitx5 -d # cjk input using fcitx5
+# pidof dunst || dunst &
+# pidof picom || picom &
+
+# source xprofile
 [ -f /etc/xprofile ] && . /etc/xprofile
 [ -f ~/.xprofile ] && . ~/.xprofile
+
+# run last to make sure applets are display correctly
+polybar main &
 
 case $2 in
     awesome) awesome;;
@@ -46,7 +53,6 @@ case $2 in
     gnome) gnome-session ;;
     i3|i3wm) i3 --shmlog-size 0 ;;
     kde) startplasma-x11 ;;
-    xmonad) xmonad ;;
     leftwm) sxhkd & leftwm ;;
     *) xmonad ;;
 esac
