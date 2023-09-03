@@ -17,7 +17,7 @@ null_ls.setup {
     formatting.stylua.with { extra_args = { "--collapse-simple-statement=Always" } },
     formatting.shellharden,
 
-    diagnostics.eslint,
+    -- diagnostics.eslint,
     -- diagnostics.shellcheck,
     -- diagnostics.flake8
   },

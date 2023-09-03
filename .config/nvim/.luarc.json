@@ -1,5 +1,9 @@
 {
     "diagnostics.disable": [
         "missing-fields"
+    ],
+    "diagnostics.globals": [
+        "vim",
+        "g_last_modification_time"
     ]
 }

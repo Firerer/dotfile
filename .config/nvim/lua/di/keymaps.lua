@@ -60,7 +60,22 @@ wk.register {
   ["<leader>"] = {
     ["<leader>"] = {
       function()
-        telefuncs.fd({hidden = true})
+        telefuncs.fd {
+          hidden = true,
+          find_command = {
+            "fd",
+            "--type",
+            "f",
+            "--hidden",
+            "--follow",
+            "--exclude",
+            ".git",
+            "--exclude",
+            "node_modules",
+            "--exclude",
+            ".venv",
+          },
+        }
         -- if vim.fn.system "git rev-parse --git-dir 2> /dev/null" == "" then
         --   -- not in git repo
         --   telefuncs.fd()
@@ -69,6 +84,15 @@ wk.register {
         -- end
       end,
       "find files",
+    },
+    c = {
+      name = "code",
+      c = { ":CommentToggle<cr>", "comment" },
+      f = { ":Format<cr>", "format" },
+      r = { ":Reload<cr>", "reload" },
+      s = { ":SymbolsOutline<cr>", "symbols" },
+      t = { ":TodoTelescope<cr>", "todo" },
+      u = { ":UndotreeToggle<cr>", "undo tree" },
     },
     d = {
       name = "dubug",
@@ -122,13 +146,26 @@ wk.register {
     f = {
       name = "file",
       a = { ":!git add %<cr>", "git add current file" },
+      m = { ":make<cr>", "make" },
       e = { ":Ex<cr>", "file explore" },
       x = { "<cmd>!chmod +x %<cr>", "current file +x" },
       f = {
         function() telefuncs.fd { hidden = true, no_ignore = true } end,
         "find all files",
       },
-      r = { telefuncs.oldfiles, "recent files" },
+      r = {
+        function()
+          local old_name = vim.fn.expand "%"
+          local new_name = vim.fn.input { prompt = "New file name: ", default = vim.fn.expand "%", completion = "file" }
+          if new_name ~= "" and new_name ~= old_name then
+            vim.cmd("saveas " .. new_name)
+            vim.cmd("silent !rm " .. old_name)
+            vim.cmd("bd " .. old_name)
+            vim.cmd "redraw!"
+          end
+        end,
+        "rename file",
+      },
       s = { telefuncs.current_buffer_fuzzy_find, "fuzzy search" },
       t = { telefuncs.tags, "find tags" },
       v = { telefuncs.treesitter, "treesitter vars" },
@@ -148,7 +185,7 @@ wk.register {
     },
     h = {
       name = "help",
-      b = { telefuncs.builtin, "telescope builtin" },
+      i = { telefuncs.builtin, "telescope builtIn" },
       h = { telefuncs.help_tags, "help tags" },
       k = { telefuncs.keymaps, "find keymaps" },
       t = { telefuncs.colorscheme, "find theme" },

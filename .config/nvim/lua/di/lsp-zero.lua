@@ -7,11 +7,25 @@ local nvim_lsp = require "lspconfig"
 lsp.preset "recommended"
 
 lsp.ensure_installed {
+  "tsserver",
+  "eslint",
+  "html",
+  -- "denols",
+  -- "astro",
+  -- "svelte",
+  -- "prismals",
+
+  -- "bashls",
+  -- "clangd",
   "pyright",
   "rust_analyzer",
-  "tsserver",
   "lua_ls",
-  "denols",
+
+  "nil_ls",
+  "jsonls",
+  "marksman",
+  -- "texlab"
+  -- "docker_compose_language_service",
 }
 
 -- for options see doc lspconfig-all
@@ -61,6 +75,10 @@ lsp.configure("tsserver", {
 lsp.configure("denols", {
   single_file_support = false,
   root_dir = nvim_lsp.util.root_pattern("deno.json", "import_map.json?"),
+})
+
+lsp.configure("prismals", {
+  single_file_support = true,
 })
 
 local cmp = require "cmp"

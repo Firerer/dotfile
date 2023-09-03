@@ -6,6 +6,8 @@
   dft = difftool
 [core]
 	autocrlf = input
+[push]
+  followTags = true
 
 # https://difftastic.wilfred.me.uk/git.html
 [diff]
