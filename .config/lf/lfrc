@@ -1,5 +1,5 @@
 # Luke's lf settings
-
+echo $lf
 
 # Note on Image Previews
 # For those wanting image previews, like this system, there are four steps to
@@ -26,11 +26,12 @@ set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
 
 # cmds/functions
-cmd open ${{
-    case $(file --mime-type "$(readlink -f $f)" -b) in
-	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
-	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
-        text/*|application/json|inode/x-empty) $EDITOR $fx;;
+cmd open ${{ case $(file --mime-type "$(readlink -f $f)" -b) in
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)
+    localc $fx ;;
+	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript)
+    setsid -f zathura $fx >/dev/null 2>&1 ;;
+  text/*|application/json|inode/x-empty) $EDITOR $fx;;
 	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
 	image/svg+xml) display -- $f ;;
 	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
@@ -102,9 +103,9 @@ cmd bulkrename $vidir
 # Bindings
 map <c-f> $lf -remote "send $id select \"$(fzf)\""
 map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
-map gh
-map g top
-map D delete
+#map gh
+#map g top
+map D $trash $f
 map E extract
 map C copyto
 map M moveto
@@ -114,7 +115,8 @@ map <c-s> set hidden!
 map <enter> shell
 map x $$f
 map X !$f
-map o &mimeopen $f
+map o &xdg-open $f
+# map o &mimeopen $f
 map O $mimeopen --ask $f
 
 map A rename # at the very end
@@ -124,6 +126,7 @@ map i push A<a-b><a-b><a-f> # before extension
 map a push A<a-b> # after extension
 map B bulkrename
 map b $setbg $f
+map w $fish
 
 map <c-e> down
 map <c-y> up

@@ -62,7 +62,7 @@ ShowFirstInputMethodInformation=True
 # Default page size
 DefaultPageSize=5
 # Override Xkb Option
-OverrideXkbOption=False
+OverrideXkbOption=True
 # Custom Xkb Option
 CustomXkbOption=
 # Force Enabled Addons

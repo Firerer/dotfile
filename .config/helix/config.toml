@@ -22,8 +22,8 @@ max-depth = 15
 
 [keys.normal.space]
 # space mode
-"space" = "file_picker"  
-"q" = ":config-reload" 
+"space" = "file_picker"
+"q" = ":config-reload"
 
 [keys.insert]
 j = { j = "normal_mode"}
