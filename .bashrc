@@ -5,6 +5,9 @@
 export PYTHONPATH="."
 export TERMINAL='/usr/bin/alacritty'
 export TERM=$TERMINAL
+# recommnaded by `man gpg-agent`
+GPG_TTY=$(tty)
+export GPG_TTY
 
 ### ALIASES ###
 # vim and emacs
