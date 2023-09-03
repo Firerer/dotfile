@@ -1,10 +1,9 @@
 function config_dotfile
   set -f before $PWD
-  set -fx FZF_DEFAULT_COMMAND 'fd -HIE .git'
+  set -fx FZF_DEFAULT_COMMAND 'fd -HIE .git --type file'
   cd ~/dotfile/
-  set -f target (fzf)
   if test $status -eq 0
-    nvim $target
+    open (fzf)
   end
   cd $before
 end
