@@ -1,0 +1,69 @@
+#!/bin/sh
+# init file for window managers (sourced in .xinitrc)
+# and desktop environments (sourced by DEs)
+
+#xrandr --dpi 96		# Set DPI. User may want to use a larger number for larger screens.
+#xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources & xrdbpid=$!	# Uncomment to use Xresources colors/settings on startup
+
+pidof syncthing || syncthing serve &
+pidof redshift || watchfiles 'redshift' ~/.config/redshift.conf &
+pidof aw-server || aw-server &
+pidof aw-watcher-afk || aw-watcher-afk &
+pidof aw-watcher-window || aw-watcher-window &
+pidof aw-watcher-qt || aw-watcher-qt &
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+
+export NIXPKGS_ALLOW_UNFREE=1
+
+export USER_SHELL='fish'
+addpath() {
+    for var in "$@"
+    do
+        if [ -d "$var" ] ;
+            then PATH="$var:$PATH"
+        fi
+    done
+}
+
+join_paths() {
+    result=""
+    for path in "$@"
+    do
+        if [ -d "$path" ] || [ -f "$path" ]; then
+            if [ -z "$result" ]; then
+                result="$path"
+            else
+                result="$result:$path"
+            fi
+        fi
+    done
+    echo "$result"
+}
+### PATH
+addpath "$HOME/.bin" \
+    "$HOME/.local/bin" \
+    "$HOME/.emacs.d/bin" \
+    "$HOME/.cargo/bin" \
+    "$HOME/.config/emacs/bin"
+
+
+
+# for nix profile
+XDG_DATA_DIRS="$HOME/.nix-profile/share/:$XDG_DATA_DIRS"
+# from https://nixos.wiki/wiki/Locales
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+
+if command -v nvim > /dev/null
+then
+    export EDITOR='nvim'
+    export VISUAL="alacritty -e nvim"
+else
+    export EDITOR='vim'
+fi
+export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
+
+# Ensure that xrdb has finished running before moving on to start the WM/DE.
+[ "$xrdbpid" != "" ] && wait "$xrdbpid"

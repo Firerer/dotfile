@@ -1,0 +1,6 @@
+asdf
+xdg-open https://lms.monash.edu/course/view.php & disown
+xdg-open https://lms.monash.edu/course/view.php?id=140950&section=1 & disown
+xdg-open https://lms.monash.edu/course/view.php?id=140950&section=4 & disown
+xdg-open https://lms.monash.edu/course/view.php?id=140950&section=6 & disown
+xdg-open 'https://lms.monash.edu/course/view.php?id=140950&section=8' & disown

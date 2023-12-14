@@ -1,0 +1,42 @@
+theme = "onedark"
+
+[editor]
+line-number = "relative"
+shell = ["bash", "-c"]
+auto-pairs = true
+true-color = true
+cursorline = true
+whitespace.render.tab = "all"
+whitespace.render.nbsp = "all"
+whitespace.render.tabpad = "all"
+indent-guides.render = true
+indent-guides.skip-levels = 1
+soft-wrap.enable = true
+cursor-shape.normal = "block"
+cursor-shape.insert = "bar"
+cursor-shape.select = "underline"
+
+[editor.file-picker]
+hidden = true
+max-depth = 15
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-modification-indicator"]
+right = ["diagnostics", "version-control", "total-line-numbers", "file-encoding", "file-type", "file-line-ending"]
+mode = { normal = "N", insert = "I", select = "S" }
+
+# https://docs.helix-editor.com/remapping.html
+# https://docs.helix-editor.com/keymap.html
+[keys.normal]
+"ret" = ["open_below", "normal_mode"]
+"C-w" = { C-d = "wclose" }
+"G" = "goto_last_line"
+
+[keys.normal.space]
+# space mode
+"space" = "file_picker"
+"q" = ":config-reload"
+
+[keys.insert]
+"C-u" = "kill_to_line_end"
+"C-k" = "kill_to_line_start"

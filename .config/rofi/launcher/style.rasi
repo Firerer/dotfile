@@ -1,0 +1,39 @@
+/*
+ *
+ * Author  : Aditya Shakya
+ * Mail    : adi1090x@gmail.com
+ * Github  : @adi1090x
+ * Twitter : @adi1090x
+ * Edited for this particular configuration by Axarva.
+ */
+
+
+@theme "black_launcher.rasi"
+
+configuration {
+    lines:							10;
+    columns:						1;
+    font: 							"Museo Sans 12";
+    bw: 							0;
+    location: 						0;
+    padding: 						0;
+    fixed-num-lines: 				true;
+    show-icons: 					true;
+    icon-theme:						"candy-icons";
+    sidebar-mode: 					true;
+    separator-style: 				"none";
+    hide-scrollbar: 				true;
+    fullscreen: 					false;
+    fake-transparency: 				false;
+    scroll-method: 					0;
+    window-format: 					"[{w}] ··· {c} ···   {t}";
+    click-to-exit: 					true;
+    show-match: 					false;
+    combi-hide-mode-prefix: 		false;
+    display-window: 				" ";
+    display-windowcd: 				" ";
+    display-run: 					" ";
+    display-ssh: 					" ";
+    display-drun: 					" ";
+    display-combi: 					" ";
+}

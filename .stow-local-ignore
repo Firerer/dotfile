@@ -1,0 +1,13 @@
+others
+\.git
+.gitignore
+.gitsumodules
+misc
+LICENSE
+^/.*\.org
+README.*
+install.sh
+download.sh
+debug.sh
+flake.*
+dev

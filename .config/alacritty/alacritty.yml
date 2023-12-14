@@ -1,0 +1,40 @@
+# default config at /usr/share/doc/alacritty/example/alacritty.yml
+Cursor:
+  # Values for `shape`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Block
+  vi_mode_style: Block
+draw_bold_text_with_bright_colors: true
+env:
+  TERM: xterm-256color
+font:
+  normal:
+    family: monospace
+    family1: Hack Nerd Font
+  offset:
+    y: 1
+  size: 14
+
+import:
+  - ./theme.yml
+
+key_bindings:
+  - { action: ResetFontSize, key: Key0, mods: Control }
+  - { action: IncreaseFontSize, key: Equals, mods: Control }
+  - { action: DecreaseFontSize, key: Minus, mods: Control }
+  # vi mode
+  # - { action: ToggleViMode, key: Space, mode: ~Search, mods: Control }
+
+
+live_config_reload: true
+shell:
+  program: /usr/bin/fish
+
+window:
+  dynamic_padding: true
+  opacity: 0.85
+  padding:
+    x: 0
+    y: 0
