@@ -19,12 +19,13 @@ require("lazy").setup({
     config = function() _G.astro_typescript = "enable" end,
   },
   -- |lsp related|
+  -- TODO replace with https://github.com/Exafunction/codeium.vim
   "github/copilot.vim",
   {
     -- https://github.com/VonHeikemen/lsp-zero.nvim
     "VonHeikemen/lsp-zero.nvim",
     --import
-    branch = "v1.x",
+    branch = "v3.x",
     dependencies = {
       -- LSP Support
       -- TODO delete branch property after relase > v0.1.7
@@ -32,14 +33,14 @@ require("lazy").setup({
         "neovim/nvim-lspconfig", -- Required
         -- server name changed from "sumneko_lua" to "lua_ls" without change tag,
         -- hence need to pin to a specific branch
-        branch = "master",
+        -- branch = "master", 0.1.8
       },
       "williamboman/mason.nvim", -- Optional
       -- https://github.com/williamboman/mason-lspconfig.nvim
       "williamboman/mason-lspconfig.nvim", -- Optional
 
       -- Autocompletion
-      "hrsh7th/nvim-cmp", -- Required
+       "hrsh7th/nvim-cmp", -- Required
       "hrsh7th/cmp-nvim-lsp", -- Required
       "hrsh7th/cmp-buffer", -- Optional
       "hrsh7th/cmp-path", -- Optional
@@ -143,6 +144,7 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    branch = "master",
     dependencies = {
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-refactor",

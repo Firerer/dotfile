@@ -2,141 +2,13 @@
 -- Learn the keybindings, see :help lsp-zero-keybindings
 -- Learn to configure LSP servers, see :help lsp-zero-api-showcase
 --
-local lsp = require "lsp-zero"
-local nvim_lsp = require "lspconfig"
+local lsp_zero = require "lsp-zero"
 
-lsp.preset "recommended"
-
-lsp.ensure_installed {
-  "tsserver",
-  "eslint",
-  "html",
-  -- "denols",
-  -- "astro",
-  "svelte",
-  -- "prismals",
-
-  -- "bashls",
-  -- "clangd",
-  "pyright",
-  "rust_analyzer",
-  "lua_ls",
-
-  "nil_ls",
-  "jsonls",
-  "marksman",
-  -- "texlab"
-  -- "docker_compose_language_service",
-}
-
--- for options see doc lspconfig-all
-lsp.configure("lua_ls", {
-  settings = {
-    Lua = {
-      format = { enable = false },
-      runtime = { version = "LuaJIT" },
-      diagnostics = { globals = { "vim" } },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false, -- https://github.com/neovim/nvim-lspconfig/issues/1700#issuecomment-1033127328
-      },
-      telemetry = { enable = false },
-    },
-  },
-})
-
-lsp.configure("svelte", {})
-
-lsp.configure("rust_analyzer", {
-  settings = {
-    ["rust-analyzer"] = {
-      completion = {
-        autoimport = {
-          enable = true,
-        },
-      },
-    },
-  },
-})
-
-lsp.configure("pyright", {
-  root_dir = nvim_lsp.util.root_pattern(
-    "pyproject.toml",
-    "setup.py",
-    "setup.cfg",
-    "requirements.txt",
-    "Pipfile",
-    ".git"
-  ),
-})
-
--- https://github.com/neovim/neovim/issues/20784#issuecomment-1288085253
-local function ts_rename_file()
-  local source_file, target_file
-
-  vim.ui.input({
-    prompt = "Source : ",
-    completion = "file",
-    default = vim.api.nvim_buf_get_name(0),
-  }, function(input) source_file = input end)
-  vim.ui.input({
-    prompt = "Target : ",
-    completion = "file",
-    default = source_file,
-  }, function(input) target_file = input end)
-
-  local params = {
-    command = "_typescript.applyRenameFile",
-    arguments = {
-      {
-        sourceUri = source_file,
-        targetUri = target_file,
-      },
-    },
-    title = "",
-  }
-
-  vim.lsp.util.rename(source_file, target_file)
-  vim.lsp.buf.execute_command(params)
-end
-
-lsp.configure("tsserver", {
-  single_file_support = false,
-  root_dir = nvim_lsp.util.root_pattern "package.json",
-  commands = {
-    RenameFile = {
-      ts_rename_file,
-      description = "Rename File",
-    },
-  },
-})
-
-lsp.configure("denols", {
-  single_file_support = false,
-  root_dir = nvim_lsp.util.root_pattern("deno.json", "import_map.json?"),
-})
-
-lsp.configure("prismals", {
-  single_file_support = true,
-})
-
-local cmp = require "cmp"
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings {
-  ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
-  ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
-  ["<C-y>"] = cmp.mapping.confirm { select = true },
-  -- disabled for copilot setup
-  ["<Tab>"] = vim.NIL,
-  ["<S-Tab>"] = vim.NIL,
-}
-
-lsp.setup_nvim_cmp {
-  mapping = cmp_mappings,
-}
-
-lsp.on_attach(function(client, bufnr)
-  local opts = { buffer = bufnr, remap = false }
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({buffer = bufnr})
+local opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
@@ -178,8 +50,134 @@ lsp.on_attach(function(client, bufnr)
   }, { buffer = bufnr })
 end)
 
-lsp.setup()
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {
+  "tsserver",
+  "eslint",
+  "html",
+  "lua_ls",
+  "jsonls",
+  "marksman",
+  },
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
+    lua_ls = function()
 
-vim.diagnostic.config {
-  virtual_text = true,
+local myopts = {
+  settings = {
+    Lua = {
+      format = { enable = false },
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false, -- https://github.com/neovim/nvim-lspconfig/issues/1700#issuecomment-1033127328
+      },
+      telemetry = { enable = false },
+    },
+  },
 }
+      local lua_opts = lsp_zero.nvim_lua_ls()
+      require('lspconfig').lua_ls.setup(lua_opts)
+
+    end,
+  }
+})
+
+-- for options see doc lspconfig-all
+
+-- lsp_zero.configure("denols", {
+--   single_file_support = false,
+--   root_dir = nvim_lsp.util.root_pattern("deno.json", "import_map.json?"),
+-- })
+
+-- lsp_zero.configure("prismals", {
+--   single_file_support = true,
+-- })
+
+lsp_zero.set_sign_icons({
+  error = '✘',
+  warn = '▲',
+  hint = '⚑',
+  info = ''
+})
+
+vim.diagnostic.config({
+  virtual_text = false,
+  severity_sort = true,
+  float = {
+    style = 'minimal',
+    border = 'rounded',
+    source = 'always',
+    header = '',
+    prefix = '',
+  },
+})
+
+local cmp = require "cmp"
+local cmp_action = lsp_zero.cmp_action()
+local cmp_format = lsp_zero.cmp_format()
+
+require('luasnip.loaders.from_vscode').lazy_load()
+-- local cmp_select = { behavior = cmp.SelectBehavior.Select }
+-- local cmp_mappings = lsp_zero.defaults.cmp_mappings {
+--   ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
+--   ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
+--   ["<C-y>"] = cmp.mapping.confirm { select = true },
+--   -- disabled for copilot setup
+--   ["<Tab>"] = vim.NIL,
+--   ["<S-Tab>"] = vim.NIL,
+-- }
+--
+-- lsp_zero.setup_nvim_cmp {
+--   mapping = cmp_mappings,
+-- }
+--
+
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+
+cmp.setup({
+  formatting = cmp_format,
+  preselect = 'item',
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
+  window = {
+    documentation = cmp.config.window.bordered(),
+  },
+  sources = {
+    {name = 'path'},
+    {name = 'nvim_lsp'},
+    {name = 'nvim_lua'},
+    {name = 'buffer', keyword_length = 3},
+    {name = 'luasnip', keyword_length = 2},
+  },
+  mapping = cmp.mapping.preset.insert({
+    -- confirm completion item
+    ['<CR>'] = cmp.mapping.confirm({select = false}),
+
+    -- toggle completion menu
+    ['<C-e>'] = cmp_action.toggle_completion(),
+
+    -- tab complete
+    -- disabled for copilot setup
+    ['<Tab>'] = vim.NIL,
+    ['<S-Tab>'] = vim.NIL,
+
+    -- navigate between snippet placeholder
+    ['<C-d>'] = cmp_action.luasnip_jump_forward(),
+    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+
+    -- scroll documentation window
+    ['<C-f>'] = cmp.mapping.scroll_docs(5),
+    ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+  }),
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+})
