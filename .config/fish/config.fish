@@ -13,10 +13,14 @@ abbr --add hotspot 'nmcli device wifi list --rescan yes && nmcli device wifi con
 type -q feh && abbr --add feh 'feh --scale-down'
 type -q feh && abbr --add fehh 'feh'
 
+if type -q trash;
+  type -q trash && abbr --add rm 'trash'
+  type -q trash && abbr --add rmm 'rm'
+end
 
-type -q trash && abbr --add rm 'trash'
-type -q trash && abbr --add rmm 'rm'
-type -q dust && abbr --add du 'dust'
+if type -q dust;
+  type -q dust && abbr --add du 'dust'
+end
 
 if type -q zellij;
   abbr --add zl 'zellij list-sessions'
@@ -24,11 +28,17 @@ if type -q zellij;
   abbr --add za "zellij attach "
 end
 
+if type -q zoxide;
+  zoxide init fish | source
+end
+
+if type -q fd;
+  fd --gen-completions fish | source
+end
+
 if type -q fzf;
-  if type -q zoxide;
-    abbr --add zd 'cd (zoxide query -l | fzf)'
-  end
-  abbr --add zdd 'cd (fd --type directory -u | fzf)'
+  type -q zoxide && abbr --add zd 'cd (zoxide query -l | fzf)'
+  type -q fd && abbr --add zdd 'cd (fd --type directory -u | fzf)'
 end
 
 # replace ls with exa
@@ -42,7 +52,6 @@ abbr --add la "ls -a"
 abbr --add ll "ls -hla"
 abbr --add l. 'ls -a | rg "\.\w*"'
 
-
 if type -q nvim;
   set -Ux EDITOR 'nvim'
   set -Ux VISUAL 'nvim'
@@ -55,9 +64,13 @@ fish_add_path -p ~/.bin \
   ~/Applications
 set -Ux PYTHONPATH "."
 
-zoxide init fish | source
-source (/usr/bin/starship init fish --print-full-init | psub)
-fd --gen-completions fish | source
+if type -q starship;
+  source (/usr/bin/starship init fish --print-full-init | psub)
+end
+
+if type -q atuin;
+   atuin init fish | source
+ end
 
 source ~/.config/fish/keybind.fish
 
