@@ -35,8 +35,6 @@ local telefuncs = saferequire "telescope.builtin"
 if not telefuncs then error "failed to load telefuncs" end
 
 -- dap
-wk.setup()
-vim.opt.timeoutlen = 311 -- faster cmp
 wk.register({
   -- swap 0, ^
   ["0"] = { "^", "line first non blank" },
@@ -213,6 +211,7 @@ wk.register({
     q = {
       name = "quit",
       q = { ":q<cr>", "exit" },
+      f = { ":q!<cr>", "force exit" },
       r = { ":source ~/.config/nvim/init.lua<cr>", "reload config" },
       u = { ":Lazy update<cr>", "lazy update" },
       s = { ":Lazy sync<cr>", "lazy sync" },
@@ -243,8 +242,8 @@ wk.register({
 }, {
   mode = visual_mode,
   prefix = "",
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-  silent = true, -- use `silent` when creating keymaps
+  buffer = nil,   -- Global mappings. Specify a buffer number for buffer local mappings
+  silent = true,  -- use `silent` when creating keymaps
   noremap = true, -- use `noremap` when creating keymaps
   nowait = false, -- use `nowait` when creating keymaps
 })

@@ -20,13 +20,13 @@ require("lazy").setup({
   },
   -- |lsp related|
   -- TODO replace with https://github.com/Exafunction/codeium.vim
-  "github/copilot.vim",
   {
     -- https://github.com/VonHeikemen/lsp-zero.nvim
     "VonHeikemen/lsp-zero.nvim",
     --import
     branch = "v3.x",
     dependencies = {
+      "github/copilot.vim",
       -- LSP Support
       -- TODO delete branch property after relase > v0.1.7
       {
@@ -35,20 +35,23 @@ require("lazy").setup({
         -- hence need to pin to a specific branch
         -- branch = "master", 0.1.8
       },
-      "williamboman/mason.nvim", -- Optional
+      "williamboman/mason.nvim",           -- Optional
       -- https://github.com/williamboman/mason-lspconfig.nvim
       "williamboman/mason-lspconfig.nvim", -- Optional
 
       -- Autocompletion
-       "hrsh7th/nvim-cmp", -- Required
-      "hrsh7th/cmp-nvim-lsp", -- Required
-      "hrsh7th/cmp-buffer", -- Optional
-      "hrsh7th/cmp-path", -- Optional
+      {
+        "hrsh7th/nvim-cmp", -- Required
+        branch = "main",
+      },
+      "hrsh7th/cmp-nvim-lsp",     -- Required
+      "hrsh7th/cmp-buffer",       -- Optional
+      "hrsh7th/cmp-path",         -- Optional
       "saadparwaiz1/cmp_luasnip", -- Optional
-      "hrsh7th/cmp-nvim-lua", -- Optional
+      "hrsh7th/cmp-nvim-lua",     -- Optional
 
       -- Snippets
-      "L3MON4D3/LuaSnip", -- Required
+      "L3MON4D3/LuaSnip",             -- Required
       "rafamadriz/friendly-snippets", -- Optional
     },
     config = function() require "di.lsp-zero" end,
@@ -156,14 +159,14 @@ require("lazy").setup({
   {
     -- https://github.com/echasnovski/mini.nvim/tree/stable
     "echasnovski/mini.nvim",
-    version = nil, -- Main branch
+    version = false,                                   -- Main branch
     dependencies = { "kyazdani42/nvim-web-devicons" }, -- for tabline
     config = function()
       -- require("mini.ai").setup()
       require("mini.comment").setup() -- better comment
       require("mini.fuzzy").setup()
       require("mini.indentscope").setup()
-      require("mini.jump").setup() -- multiple line f, F, t, T
+      require("mini.jump").setup()  -- multiple line f, F, t, T
       require("mini.jump2d").setup { mappings = { jump = "<CR>" } }
       require("mini.pairs").setup() -- auto insert paired text-object like
       require("mini.starter").setup()
@@ -173,6 +176,7 @@ require("lazy").setup({
       }
       require("mini.trailspace").setup()
       require("mini.files").setup()
+      require("mini.icons").setup()
     end,
   },
 
@@ -205,7 +209,7 @@ require("lazy").setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 300
       require("which-key").setup {
-        key_labels = {
+        replace = {
           ["<space>"] = "SPC",
           ["<cr>"] = "RET",
           ["<tab>"] = "TAB",

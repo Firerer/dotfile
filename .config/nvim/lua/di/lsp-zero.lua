@@ -7,8 +7,8 @@ local lsp_zero = require "lsp-zero"
 lsp_zero.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
-  lsp_zero.default_keymaps({buffer = bufnr})
-local opts = { buffer = bufnr, remap = false }
+  lsp_zero.default_keymaps { buffer = bufnr }
+  local opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
@@ -50,42 +50,25 @@ local opts = { buffer = bufnr, remap = false }
   }, { buffer = bufnr })
 end)
 
-require('mason').setup({})
-require('mason-lspconfig').setup({
+require("mason").setup {}
+require("mason-lspconfig").setup {
   ensure_installed = {
-  "tsserver",
-  "eslint",
-  "html",
-  "lua_ls",
-  "jsonls",
-  "marksman",
+    "tsserver",
+    "eslint",
+    "html",
+    "lua_ls",
+    "jsonls",
+    "marksman",
   },
   handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-    lua_ls = function()
-
-local myopts = {
-  settings = {
-    Lua = {
-      format = { enable = false },
-      runtime = { version = "LuaJIT" },
-      diagnostics = { globals = { "vim" } },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false, -- https://github.com/neovim/nvim-lspconfig/issues/1700#issuecomment-1033127328
-      },
-      telemetry = { enable = false },
-    },
+    function(server_name) require("lspconfig")[server_name].setup {} end,
+    tsserver = function() require("lspconfig").tsserver.setup {} end,
+    eslint = function() require("lspconfig").eslint.setup {} end,
+    html = function() require("lspconfig").html.setup {} end,
+    jsonls = function() require("lspconfig").jsonls.setup {} end,
+    lua_ls = function() require("lspconfig").lua_ls.setup {} end,
   },
 }
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
-
-    end,
-  }
-})
 
 -- for options see doc lspconfig-all
 
@@ -98,86 +81,86 @@ local myopts = {
 --   single_file_support = true,
 -- })
 
-lsp_zero.set_sign_icons({
-  error = '✘',
-  warn = '▲',
-  hint = '⚑',
-  info = ''
-})
+lsp_zero.set_sign_icons {
+  error = "✘",
+  warn = "▲",
+  hint = "⚑",
+  info = "",
+}
 
-vim.diagnostic.config({
+vim.diagnostic.config {
   virtual_text = false,
   severity_sort = true,
   float = {
-    style = 'minimal',
-    border = 'rounded',
-    source = 'always',
-    header = '',
-    prefix = '',
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
   },
-})
+}
+
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+--   underline = true,
+--   update_in_insert = false,
+--   virtual_text = { spacing = 4, prefix = "~" },
+--   severity_sort = true,
+-- })
 
 local cmp = require "cmp"
 local cmp_action = lsp_zero.cmp_action()
-local cmp_format = lsp_zero.cmp_format()
 
-require('luasnip.loaders.from_vscode').lazy_load()
--- local cmp_select = { behavior = cmp.SelectBehavior.Select }
--- local cmp_mappings = lsp_zero.defaults.cmp_mappings {
---   ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
---   ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
---   ["<C-y>"] = cmp.mapping.confirm { select = true },
---   -- disabled for copilot setup
---   ["<Tab>"] = vim.NIL,
---   ["<S-Tab>"] = vim.NIL,
--- }
---
--- lsp_zero.setup_nvim_cmp {
---   mapping = cmp_mappings,
--- }
---
+-- this is the function that loads the extra snippets
+-- from rafamadriz/friendly-snippets
+require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-cmp.setup({
-  formatting = cmp_format,
-  preselect = 'item',
+cmp.setup {
+  -- note: if going to use lsp-kind (another plugin)
+  -- replace the line below with the function from lsp-kind
+  formatting = lsp_zero.cmp_format { details = true },
+  preselect = "item",
   completion = {
-    completeopt = 'menu,menuone,noinsert'
+    completeopt = "menu,menuone,noinsert",
   },
   window = {
+    completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
   sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'nvim_lua'},
-    {name = 'buffer', keyword_length = 3},
-    {name = 'luasnip', keyword_length = 2},
+    { name = "path" },
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
+    { name = "luasnip", keyword_length = 2 },
+    { name = "buffer", keyword_length = 3 },
   },
-  mapping = cmp.mapping.preset.insert({
+  mapping = cmp.mapping.preset.insert {
     -- confirm completion item
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
+    ["<CR>"] = cmp.mapping.confirm {
+      -- copilot documentation says this is important.
+      -- I don't know why.
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    },
 
     -- toggle completion menu
-    ['<C-e>'] = cmp_action.toggle_completion(),
+    ["<C-e>"] = cmp_action.toggle_completion(),
 
     -- tab complete
     -- disabled for copilot setup
-    ['<Tab>'] = vim.NIL,
-    ['<S-Tab>'] = vim.NIL,
+    ["<Tab>"] = vim.NIL,
+    ["<S-Tab>"] = vim.NIL,
 
     -- navigate between snippet placeholder
-    ['<C-d>'] = cmp_action.luasnip_jump_forward(),
-    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+    ["<C-d>"] = cmp_action.luasnip_jump_forward(),
+    ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 
     -- scroll documentation window
-    ['<C-f>'] = cmp.mapping.scroll_docs(5),
-    ['<C-u>'] = cmp.mapping.scroll_docs(-5),
-  }),
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
+    ["<C-f>"] = cmp.mapping.scroll_docs(5),
+    ["<C-u>"] = cmp.mapping.scroll_docs(-5),
   },
-})
+  snippet = {
+    expand = function(args) require("luasnip").lsp_expand(args.body) end,
+  },
+}
