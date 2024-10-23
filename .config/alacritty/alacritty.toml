@@ -1,0 +1,47 @@
+import = ["./theme.yml"]
+live_config_reload = true
+
+[cursor]
+style = "Block"
+vi_mode_style = "Block"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 14
+
+[font.normal]
+family = "monospace"
+
+[font.offset]
+y = 1
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[shell]
+program = "/usr/bin/fish"
+
+[window]
+dynamic_padding = true
+opacity = 0.85
+
+[window.padding]
+x = 0
+y = 0

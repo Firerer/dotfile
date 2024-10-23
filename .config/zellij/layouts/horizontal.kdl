@@ -1,0 +1,8 @@
+layout split_direction="vertical" {
+    pane
+    pane size=1 borderless=true {
+        //plugin location="zellij:tab-bar"
+        //plugin location="zellij:strider"
+        plugin location="zellij:compact-bar"
+    }
+}

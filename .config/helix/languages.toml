@@ -1,0 +1,4 @@
+# https://github.com/helix-editor/helix/wiki/How-to-install-the-default-language-servers
+[[language]]
+name = "rust"
+auto-format = true

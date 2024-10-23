@@ -1,0 +1,30 @@
+{
+  "theme": {
+    "name": "Laurel theme",
+    "url": "assets:///home/di/.logseq/plugins/logseq-laurel-theme/custom.css",
+    "description": "A custom theme forked from logseq-clean-themes",
+    "pid": "logseq-laurel-theme"
+  },
+  "themes": {
+    "mode": "dark",
+    "light": null,
+    "dark": {
+      "name": "Laurel theme",
+      "url": "assets:///home/di/.logseq/plugins/logseq-laurel-theme/custom.css",
+      "description": "A custom theme forked from logseq-clean-themes",
+      "pid": "logseq-laurel-theme",
+      "group-first": true,
+      "group-desc": "light & dark themes",
+      "mode": "dark",
+      "selected": false
+    }
+  },
+  "externals": [],
+  "pinnedToolbarItems": [
+    "logseq-journals-calendar:open-calendar",
+    "logseq-journals-calendar:goto-today",
+    "logseq-heatmap:heatmap-plugin-open",
+    "logseq-todo-plugin:logseq-plugin-todo",
+    "logseq-tags:tags-plugin-open"
+  ]
+}
