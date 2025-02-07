@@ -11,32 +11,32 @@
         # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/buildenv/default.nix
         default = p.buildEnv {
           name = "my-profile_";
-          LOCALE_ARCHIVE = "${p.glibcLocales}/lib/locale/locale-archive";
           paths = [
-            p.git
-            p.emacs
-            p.neovim
+            # lazyvim
+            p.neovim    # Make sure this is latest version for LazyVim
+            p.git       # Required for LazyVim plugins
+            p.gcc       # For treesitter
+            p.gnumake   # Build system
+            p.curl      # For nvim-cmp
+            p.lazygit   # For Git integration
+            p.fzf       # For fuzzy finding
+            p.ripgrep   # For live grep
+            p.fd        # For find files
+            p.tree-sitter
+            p.nerdfonts # For icons support
+            p.xclip     # For clipboard support
+
+            # terminal
+# install alacritty manually
             p.zellij
+            p.starship
+            p.fish
 
-            # desktop envs
-            p.xmonad
-            p.xmonad-contrib
-            p.xmonad-extras
-            p.xmonad-utils
-            p.rofi
-            p.rofi-pass
-            #p.fcitx5
-            p.fcitx5-chinese-addons
-            p.fcitx5-configtool
-            p.fcitx5-gtk
-
-            # softwares
-            p.firefox
-            p.chromium
-            p.activitywatch
-            p.ventoy
+            # apps 
             p.logseq
-            #p.zoom-us
+
+            # tools
+            p.stow
 
             # nix
             p.nil
@@ -45,6 +45,4 @@
         };
       };
     };
-  # https://stackoverflow.com/questions/59323722/how-to-specify-multiple-packages-derivation-for-installation-by-nix-env
-  # nix-env -if with import <nixpkgs>{}; [ htop moreutils ]
 }
