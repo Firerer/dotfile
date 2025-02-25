@@ -1,23 +1,9 @@
 {
-  "theme": {
-    "name": "Laurel theme",
-    "url": "assets:///home/di/.logseq/plugins/logseq-laurel-theme/custom.css",
-    "description": "A custom theme forked from logseq-clean-themes",
-    "pid": "logseq-laurel-theme"
-  },
+  "theme": null,
   "themes": {
     "mode": "dark",
     "light": null,
-    "dark": {
-      "name": "Laurel theme",
-      "url": "assets:///home/di/.logseq/plugins/logseq-laurel-theme/custom.css",
-      "description": "A custom theme forked from logseq-clean-themes",
-      "pid": "logseq-laurel-theme",
-      "group-first": true,
-      "group-desc": "light & dark themes",
-      "mode": "dark",
-      "selected": false
-    }
+    "dark": null
   },
   "externals": [],
   "pinnedToolbarItems": [

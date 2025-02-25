@@ -1,6 +1,6 @@
 -- since this is just an example spec, don't actually load anything here and return an empty spec
 -- stylua: ignore
-if true then return {} end
+-- if true then return {} end
 
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
 --
@@ -91,6 +91,7 @@ return {
     },
     ---@class PluginLspOpts
     opts = {
+      autoformat = false,
       ---@type lspconfig.options
       servers = {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
@@ -108,6 +109,7 @@ return {
         -- Specify * to use this function as a fallback for any server
         -- ["*"] = function(server, opts) end,
       },
+    
     },
   },
 
@@ -177,6 +179,8 @@ return {
 
   -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
   { import = "lazyvim.plugins.extras.lang.json" },
+
+  { import = "lazyvim.plugins.extras.lang.markdown" },
 
   -- add any tools you want to have installed below
   {
