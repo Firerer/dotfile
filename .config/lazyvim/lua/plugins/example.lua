@@ -191,6 +191,9 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
+        -- https://github.com/angular/angular/blob/main/CHANGELOG.md#breaking-changes
+        -- angularls > 19 marks components as standalone by default which is not the case for angular15.
+        "angular-language-server@17.3.2",
       },
     },
   },
