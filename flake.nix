@@ -1,5 +1,8 @@
 {
   description = "A flake for my profile";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
   outputs = { self, nixpkgs }:
     let
       # https://nixos.org/manual/nixpkgs/stable/
@@ -13,34 +16,31 @@
           name = "my-profile_";
           paths = [
             # lazyvim
-            p.neovim    # Make sure this is latest version for LazyVim
-            p.git       # Required for LazyVim plugins
-            p.gcc       # For treesitter
-            p.gnumake   # Build system
-            p.curl      # For nvim-cmp
-            p.lazygit   # For Git integration
-            p.fzf       # For fuzzy finding
-            p.ripgrep   # For live grep
-            p.fd        # For find files
+            p.neovim # Make sure this is latest version for LazyVim
+            p.git # Required for LazyVim plugins
+            p.gcc # For treesitter
+            p.gnumake # Build system
+            p.curl # For nvim-cmp
+            p.lazygit # For Git integration
+            p.fzf # For fuzzy finding
+            p.ripgrep # For live grep
+            p.fd # For find files
             p.tree-sitter
-            p.nerdfonts # For icons support
-            p.xclip     # For clipboard support
+            # p.nerdfonts # For icons support (too big)
+            p.jetbrains-mono
+            p.xclip # For clipboard support
 
             # terminal
-# install alacritty manually
             p.zellij
             p.starship
             p.fish
 
-            # apps 
-            p.logseq
+            # apps
+            # WARN: use flatpak instead
+            # p.logseq
 
             # tools
             p.stow
-
-            # nix
-            p.nil
-            p.nixpkgs-fmt
           ];
         };
       };
