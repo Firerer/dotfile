@@ -14,12 +14,13 @@ type -q feh && abbr --add feh 'feh --scale-down'
 type -q feh && abbr --add fehh feh
 
 if type -q trash
-    type -q trash && abbr --add rm trash
-    type -q trash && abbr --add rmm rm
+    abbr --add rm trash
+    abbr --add rmm rm
 end
 
 if type -q dust
-    type -q dust && abbr --add du dust
+    abbr --add du dust
+    abbr --add duu du
 end
 
 if type -q zellij
