@@ -11,16 +11,14 @@ layout {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="3.npm" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/console-gui-software-worktree/console-gui-software" {
-
-        }
+    tab name="3.root" hide_floating_panes=true {
+        pane cwd="/home/leo/Projects/console-gui-software-worktree/console-gui-software"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="4.config" hide_floating_panes=true {
-        pane cwd="~/.config/neonav"
+    tab name="4.au" hide_floating_panes=true {
+        pane cwd="/home/leo/Projects/console-gui-software-worktree/console-gui-software/extern/console-acquisition-unit-processor"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
@@ -31,9 +29,8 @@ layout {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="6.submod" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/console-gui-software-worktree/submods" {
-        }
+    tab name="6.config" hide_floating_panes=true {
+        pane cwd="~/.config/neonav"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
@@ -45,20 +42,19 @@ layout {
         }
     }
     tab name="8.smarc" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/smarc-imx8mp-debian" {
-        }
+        pane cwd="/home/leo/Projects/smarc-imx8mp-debian"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="9.worktree" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/console-gui-software-worktree"
+    tab name="9.prompts" hide_floating_panes=true {
+        pane cwd="/home/leo/Documents/prompts"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
     }
     new_tab_template {
-        pane cwd="/home/leo/Projects/console-gui-software-worktree"
+        pane cwd="/home/leo/Projects/console-gui-software-worktree/console-gui-software"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
