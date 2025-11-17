@@ -35,14 +35,14 @@ layout {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="7.submod" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/console-gui-software-worktree/submods"
+    tab name="7.copy" hide_floating_panes=true {
+        pane cwd="/home/leo/Projects/console-gui-software-worktree/copy"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }
     }
-    tab name="8.smarc" hide_floating_panes=true {
-        pane cwd="/home/leo/Projects/smarc-imx8mp-debian"
+    tab name="8.root" hide_floating_panes=true {
+        pane cwd="/home/leo/Projects/console-gui-software-worktree/console-gui-software"
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
         }

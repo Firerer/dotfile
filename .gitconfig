@@ -16,7 +16,7 @@
 [difftool "difftastic"]
   cmd = difft "$LOCAL" "$REMOTE"
 [pager]
-  difftoll = true
+  difftool = true
 
 # https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [column]

@@ -41,3 +41,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 alias claude="/home/leo/.claude/local/claude"
+
+# uv
+export PATH="/home/leo/.local/bin:$PATH"
