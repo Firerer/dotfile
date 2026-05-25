@@ -60,7 +60,8 @@
 # a matter of taste (uncomment if you dare)
 
 [core]
-	commentChar = auto
+  # 'core.commentChar=auto' is deprecated
+	commentChar = //
         # fsmonitor = true
         # untrackedCache = true
 [merge]
