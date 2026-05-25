@@ -62,6 +62,7 @@ type -q code && set -Ux VISUAL 'code --wait'
 fish_add_path -p ~/.bin \
     ~/.local/bin \
     ~/.cargo/bin \
+    ~/.bun/bin \
     ~/Applications
 set -Ux PYTHONPATH "."
 

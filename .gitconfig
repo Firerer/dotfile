@@ -60,6 +60,7 @@
 # a matter of taste (uncomment if you dare)
 
 [core]
+	commentChar = auto
         # fsmonitor = true
         # untrackedCache = true
 [merge]

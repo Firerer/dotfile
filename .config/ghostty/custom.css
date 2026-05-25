@@ -1,0 +1,4 @@
+revealer.raised.top-bar {
+  background: alpha(@view_bg_color, 0.75);
+  box-shadow: none;
+}

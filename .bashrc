@@ -36,11 +36,21 @@ else
   PS1='[\u@\h \W]\$ '
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if command -v nvm &>/dev/null; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+fi
 
-alias claude="/home/leo/.claude/local/claude"
+if command -v claude &>/dev/null; then
+  alias claude="/home/leo/.claude/local/claude"
+fi
 
 # uv
-export PATH="/home/leo/.local/bin:$PATH"
+if command -v uv &>/dev/null; then
+  export PATH="/home/leo/.local/bin:$PATH"
+fi
+
+if command -v nvim &>/dev/null; then
+  export EDITOR=nvim
+fi

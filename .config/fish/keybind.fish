@@ -1,5 +1,7 @@
 fish_hybrid_key_bindings
-type -q fzf && fzf_key_bindings
+if functions -q fzf_key_bindings
+    fzf_key_bindings
+end
 
 function reload_config
     source ~/.config/fish/config.fish
