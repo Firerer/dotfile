@@ -61,7 +61,7 @@
 
 [core]
   # 'core.commentChar=auto' is deprecated
-	commentChar = //
+	commentChar = auto
         # fsmonitor = true
         # untrackedCache = true
 [merge]
