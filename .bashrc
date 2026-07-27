@@ -7,6 +7,9 @@ export PYTHONPATH="."
 GPG_TTY=$(tty)
 export GPG_TTY
 
+# Make Nix-installed terminal definitions visible to system ncurses apps.
+export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+
 ### ALIASES ###
 # vim and emacs
 alias cp="cp -i"     # confirm before overwriting something

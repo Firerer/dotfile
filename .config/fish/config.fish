@@ -82,3 +82,7 @@ if type -q glab
 end
 
 source ~/.config/fish/keybind.fish
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/home/leo/.local/bin" $PATH

@@ -1,22 +1,15 @@
 {
   description = "A flake for my profile";
   nixConfig = {
-    # pi agent https://github.com/lukasl-dev/pi.nix
-    extra-substituters = [ "https://pi.cachix.org" ];
-    extra-trusted-public-keys = [
-      "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
-    ];
   };
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b";
-    pi.url = "github:lukasl-dev/pi.nix";
   };
-  outputs = { self, nixpkgs, pi }:
+  outputs = { self, nixpkgs }:
     let
       # https://nixos.org/manual/nixpkgs/stable/
       system = "x86_64-linux";
       p = nixpkgs.legacyPackages.${system};
-      piPackage = pi.packages.${system}.default;
     in
     {
       formatter.${system} = p.nixpkgs-fmt;
@@ -51,7 +44,6 @@
 
             # tools
             p.stow
-            piPackage
           ];
         };
       };

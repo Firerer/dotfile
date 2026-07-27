@@ -53,6 +53,8 @@ addpath "$HOME/.bin" \
 
 # for nix profile
 XDG_DATA_DIRS="$HOME/.nix-profile/share/:$XDG_DATA_DIRS"
+export XDG_DATA_DIRS
+export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
 # from https://nixos.wiki/wiki/Locales
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 

@@ -35,3 +35,7 @@ bindkey -s '^o' 'nvim $(fzf)^M'
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/leo/.local/bin:$PATH"
