@@ -7,10 +7,6 @@ stow .
 
 #### list of used programs
 
-- xmonad
-- rofi
-- polybar
-
 - alacritty
 - zellij
 - nvim
@@ -19,6 +15,3 @@ stow .
 
 ##### optional
 - starship
-
-<!--screenshot-->
-- maim

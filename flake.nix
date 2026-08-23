@@ -38,10 +38,6 @@
             p.starship
             p.fish
 
-            # apps
-            # WARN: use flatpak instead
-            # p.logseq
-
             # tools
             p.stow
           ];
