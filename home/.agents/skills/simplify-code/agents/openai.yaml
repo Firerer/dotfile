@@ -1,0 +1,4 @@
+interface:
+  display_name: "Simplify Code"
+  short_description: "Find and safely remove accidental codebase complexity"
+  default_prompt: "Use $simplify-code to audit this repository for evidence-backed simplifications and rank the safest cuts."
