@@ -18,6 +18,9 @@ family = "Hack Nerd Font"
 [font.offset]
 y = 1
 
+[terminal.shell]
+program = "fish"
+
 [[keyboard.bindings]]
 action = "ResetFontSize"
 key = "Key0"
