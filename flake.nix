@@ -2,8 +2,12 @@
   description = "Portable personal environment and live dotfile links";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b";
+  inputs.nixgl = {
+    url = "github:nix-community/nixGL";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-  outputs = { nixpkgs, ... }:
+  outputs = { nixpkgs, nixgl, ... }:
     let
       systems = [
         "x86_64-linux"
@@ -12,7 +16,22 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
       perSystem = system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ nixgl.overlay ];
+          };
+          alacrittyWithNixGL = pkgs.runCommand "alacritty-with-nixgl"
+            {
+              nativeBuildInputs = [ pkgs.makeWrapper ];
+            }
+            ''
+              mkdir -p "$out/bin" "$out/share"
+              makeWrapper \
+                ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel \
+                "$out/bin/alacritty" \
+                --add-flags ${pkgs.alacritty}/bin/alacritty
+              cp -rs ${pkgs.alacritty}/share/* "$out/share/"
+            '';
           dotfiles = pkgs.buildEnv {
             name = "dotfiles";
             paths = with pkgs; [
@@ -38,7 +57,7 @@
               zoxide
               difftastic
               tealdeer
-              alacritty
+              alacrittyWithNixGL
               fcitx5
               fcitx5-gtk
               qt6Packages.fcitx5-chinese-addons
