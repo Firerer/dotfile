@@ -13,18 +13,8 @@ else
 	superfile_source="$repo/superfile/theme/catppuccin-latte.toml"
 fi
 
-update_file() {
-	source_file=$1
-	target_file=$2
-	temporary_file="${target_file}.tmp"
+cp "$alacritty_source" "$repo/alacritty/current-theme.toml.tmp"
+mv "$repo/alacritty/current-theme.toml.tmp" "$repo/alacritty/current-theme.toml"
 
-	if [ -f "$target_file" ] && cmp -s "$source_file" "$target_file"; then
-		return
-	fi
-
-	cp "$source_file" "$temporary_file"
-	mv "$temporary_file" "$target_file"
-}
-
-update_file "$alacritty_source" "$repo/alacritty/current-theme.toml"
-update_file "$superfile_source" "$repo/superfile/theme/auto.toml"
+cp "$superfile_source" "$repo/superfile/theme/auto.toml.tmp"
+mv "$repo/superfile/theme/auto.toml.tmp" "$repo/superfile/theme/auto.toml"

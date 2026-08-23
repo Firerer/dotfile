@@ -76,7 +76,6 @@
               htop
               fastfetch
               trash-cli
-              util-linux
               man-db
               man-pages
               fontconfig

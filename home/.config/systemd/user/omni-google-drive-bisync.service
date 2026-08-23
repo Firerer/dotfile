@@ -7,4 +7,14 @@ ConditionPathIsDirectory=%h/Documents/Omni
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/omni-google-drive-bisync
+ExecStart=%h/.nix-profile/bin/rclone bisync %h/Documents/Omni gdrive:Obsidian/Omni \
+    --exclude=/.git/** \
+    --exclude=/.trash/** \
+    --check-access \
+    --check-filename=.rclone-sync-check \
+    --create-empty-src-dirs \
+    --conflict-resolve=newer \
+    --conflict-loser=num \
+    --resilient \
+    --recover \
+    --stats-one-line
