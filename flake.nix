@@ -51,7 +51,6 @@
               gcc
               gnumake
               curl
-              llama-cpp
               rclone
               rustc
               cargo
