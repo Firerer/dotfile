@@ -1,0 +1,8 @@
+[Unit]
+Description=Synchronize the Omni vault with Google Drive
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/omni-google-drive-bisync

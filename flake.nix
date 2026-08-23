@@ -44,6 +44,8 @@
               gcc
               gnumake
               curl
+              llama-cpp
+              rclone
               rustc
               cargo
               tree-sitter
@@ -68,6 +70,7 @@
               htop
               fastfetch
               trash-cli
+              util-linux
               man-db
               man-pages
               fontconfig

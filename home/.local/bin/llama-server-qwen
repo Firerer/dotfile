@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+models_dir="${HOME}/.local/share/llama.cpp/models"
+
+if [[ ! -d "$models_dir" ]]; then
+    printf 'Models directory missing: %s\n' "$models_dir" >&2
+    exit 1
+fi
+
+exec llama-server \
+    --host 127.0.0.1 \
+    --port 8080 \
+    --models-dir "$models_dir" \
+    --no-models-autoload \
+    --jinja \
+    --metrics \
+    -c 32768

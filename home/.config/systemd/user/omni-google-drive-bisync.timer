@@ -1,0 +1,11 @@
+[Unit]
+Description=Synchronize the Omni vault every five minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+RandomizedDelaySec=15s
+
+[Install]
+WantedBy=timers.target
