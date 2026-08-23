@@ -38,26 +38,21 @@ fi
 # font
 paru -S --needed ttf-hack-nerd noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji
 # apps
-paru -S --needed firefox stow
+paru -S --needed stow
 # input
 paru -S --needed fcitx5 fcitx5-gtk fcitx5-qt fcitx5-chinese-addons fcitx5-configtool
 # terminal related
 paru -S --needed alacritty fish starship zellij neovim fzf exa zoxide fd
 # helpful tools
-paru -S --needed btop htop man neofetch cronie trash-cli
+paru -S --needed btop htop man fastfetch trash-cli
 paru -S --needed fd ripgrep ripgrep-all tealdeer difftastic
 # ocr
 # paru -S --needed tesseract tesseract-data-chi-sim tesseract-data-chi-tra tesseract-data-eng
 #sys tools
-paru -S --needed lxappearance xclip xorg-xclipboard playerctl blueman
+# paru -S --needed lxappearance xclip xorg-xclipboard playerctl blueman
 ## audio
-paru -S --needed pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulsemixer # pavucontrol
+# paru -S --needed pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulsemixer # pavucontrol
 # optional NTFS fs
 # paru -S --needed ntfs-3g
 #theme
-paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme
-# xmonad
-paru -S --needed xmonad xmonad-contrib xmonad-extras dunst feh polybar maim rofi
-# KDE & tiling
-# paru -S --needed bismuth
-# xorg-server-xephyr # dbug tool
+# paru -S --needed catppuccin-gtk-theme-mocha papirus-icon-theme

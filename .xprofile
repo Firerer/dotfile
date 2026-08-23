@@ -45,9 +45,7 @@ join_paths() {
 ### PATH
 addpath "$HOME/.bin" \
     "$HOME/.local/bin" \
-    "$HOME/.emacs.d/bin" \
-    "$HOME/.cargo/bin" \
-    "$HOME/.config/emacs/bin"
+    "$HOME/.cargo/bin"
 
 
 
@@ -65,7 +63,7 @@ then
 else
     export EDITOR='vim'
 fi
-export ALTERNATE_EDITOR="nano"                        # setting for emacsclient
+export TERMINAL="alacritty"
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ "$xrdbpid" != "" ] && wait "$xrdbpid"

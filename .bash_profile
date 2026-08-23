@@ -1,7 +1,15 @@
-if [[ -z $DISPLAY ]] && [[ $(tty) = "/dev/tty1" ]];
-then
-  exec startx >> /tmp/xlog-"$(date +%F-%T)" 2>&1
-fi
+#
+# ~/.bash_profile
+#
 
-# uv
-export PATH="/home/leo/.local/bin:$PATH"
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+
+export PATH="$HOME/.local/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/di/.local/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/di/.lmstudio/bin"
+# End of LM Studio CLI section
