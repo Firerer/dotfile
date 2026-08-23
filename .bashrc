@@ -1,59 +1,79 @@
-[[ $- != *i* ]] && return # If not running interactively, do nothing
+#
+# ~/.bashrc
+#
 
-### enviroment ###
-# add working dir to PYTHONPATH
-export PYTHONPATH="."
-# recommnaded by `man gpg-agent`
-GPG_TTY=$(tty)
-export GPG_TTY
 
-# Make Nix-installed terminal definitions visible to system ncurses apps.
-export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-### ALIASES ###
-# vim and emacs
-alias cp="cp -i"     # confirm before overwriting something
-alias df='df -h'     # human-readable sizes
-alias free='free -h' # show sizes in MB
-alias rustrepl='evcxr'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias cp='cp -i'
+alias df='df -h'
+alias free='free -h'
 
-# Changing "ls" to "exa"
 if command -v exa &>/dev/null; then
-  alias ls='exa --color=always --group-directories-first --icons'     # my preferred listing
-  alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
-  alias ll='exa -la --color=always --group-directories-first --icons' # long format
-  alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-  alias l.='exa -a --icons| egrep "^\."'
+  alias ls='exa --color=always --group-directories-first --icons'
+  alias la='exa -a --color=always --group-directories-first --icons'
+  alias ll='exa -la --color=always --group-directories-first --icons'
+  alias lt='exa -aT --color=always --group-directories-first --icons'
 else
-  alias la='ls -a --color=always --group-directories-first --icons'  # all files and dirs
-  alias ll='ls -la --color=always --group-directories-first --icons' # long format
-  alias lt='ls -aT --color=always --group-directories-first --icons' # tree listing
-  alias l.='ls -a --icons| egrep "^\."'
+  alias la='ls -A --color=auto'
+  alias ll='ls -Al --color=auto'
 fi
 
-### PROMPT ###
 if command -v starship &>/dev/null; then
-  shell=$(ps -p $$ -o comm=)
-  eval "$(starship init "${shell}")"
+  eval "$(starship init bash)"
 else
   PS1='[\u@\h \W]\$ '
 fi
 
-if command -v nvm &>/dev/null; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"
+export TERMINAL="alacritty"
+
+if [ -d "$HOME/.xberg/bin" ]; then
+  export PATH="$HOME/.xberg/bin:$PATH"
 fi
 
-if command -v claude &>/dev/null; then
-  alias claude="/home/leo/.claude/local/claude"
-fi
+# pnpm
+export PNPM_HOME="/home/di/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
 
-# uv
-if command -v uv &>/dev/null; then
-  export PATH="/home/leo/.local/bin:$PATH"
-fi
+# Replace rm with trash, use rmm for permanent deletion
+alias rm='gio trash'
+alias rmm='/usr/bin/rm'
+
+command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
+
+export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}."
+export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+export GPG_TTY
+GPG_TTY=$(tty)
 
 if command -v nvim &>/dev/null; then
   export EDITOR=nvim
 fi
+
+if command -v nvm &>/dev/null; then
+  export NVM_DIR="$HOME/.nvm"
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+fi
+
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+[[ -r "$HOME/.grok/completions/bash/grok.bash" ]] && source "$HOME/.grok/completions/bash/grok.bash"
+# <<< grok installer <<<
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/di/.local/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/di/.lmstudio/bin"
+# End of LM Studio CLI section

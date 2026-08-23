@@ -1,70 +1,56 @@
 [user]
-	email = leo@navitechnologies.com
-	name = Leo Liu
+	name = Di Liu
+	email = liud12631@gmail.com
+	signingkey = /home/di/.ssh/id_ed25519.pub
 [alias]
 	uncommit = reset HEAD^
-  dft = difftool
-[core]
-	autocrlf = input
-	editor = nvim
-
-# https://difftastic.wilfred.me.uk/git.html
-[diff]
-	tool = difftastic
-[difftool]
-  prompt = false
-[difftool "difftastic"]
-  cmd = difft "$LOCAL" "$REMOTE"
-[pager]
-  difftool = true
-
-# https://blog.gitbutler.com/how-git-core-devs-configure-git/
-[column]
-        ui = auto
-[branch]
-        sort = -committerdate
-[tag]
-        sort = version:refname
+	dft = difftool
 [init]
-        defaultBranch = main
-[diff]
-        algorithm = histogram
-        colorMoved = plain
-        mnemonicPrefix = true
-        renames = true
-[push]
-        default = simple
-        autoSetupRemote = true
-        followTags = true
-[fetch]
-        prune = true
-        pruneTags = true
-        all = true
-
-# why the hell not?
-
-[help]
-        autocorrect = prompt
-[commit]
-        verbose = true
-[rerere]
-        enabled = true
-        autoupdate = true
-[core]
-        excludesfile = ~/.gitignore
-[rebase]
-        autoSquash = true
-        autoStash = true
-        updateRefs = true
-
-# a matter of taste (uncomment if you dare)
-
-[core]
-  # 'core.commentChar=auto' is deprecated
-        # fsmonitor = true
-        # untrackedCache = true
-[merge]
-        # (just 'diff3' if git version < 2.3)
-        # conflictstyle = zdiff3 
+	defaultBranch = main
 [pull]
-        # rebase = true
+	rebase = true
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = true
+[core]
+	editor = nvim
+	autocrlf = input
+	excludesfile = ~/.gitignore
+[color]
+	ui = auto
+[diff]
+	colorMoved = zebra
+	algorithm = histogram
+	mnemonicPrefix = true
+	renames = true
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+	difftool = true
+[merge]
+	conflictstyle = zdiff3
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+	sort = version:refname
+[branch]
+	sort = -committerdate
+[help]
+	autocorrect = prompt
+[rerere]
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	updateRefs = true
