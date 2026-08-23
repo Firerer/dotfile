@@ -40,6 +40,11 @@
               zellij
               neovim
               helix
+              nixd
+              nixfmt
+              shellcheck
+              shfmt
+              statix
               git
               gcc
               gnumake
