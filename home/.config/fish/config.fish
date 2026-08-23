@@ -4,7 +4,6 @@ abbr --add free 'free -h' # show sizes in MB
 # sed strip color, example `ssh | teelog`
 abbr --add teelog 'sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,3})?)?[mGK]//g" | tee'
 abbr --add rmm rm
-abbr --add mg 'magit.sh' # .bin/magit.sh
 abbr --add sds 'systemd status '
 abbr --add np 'nix profile'
 abbr --add nf 'nix flake'
@@ -59,8 +58,7 @@ if type -q nvim
 end
 type -q code && set -gx VISUAL 'code --wait'
 
-fish_add_path -p ~/.bin \
-    ~/.local/state/nix/profiles/dotfiles/bin \
+fish_add_path -p ~/.local/state/nix/profiles/dotfiles/bin \
     ~/.local/bin \
     ~/.cargo/bin \
     ~/.bun/bin \

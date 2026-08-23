@@ -1,7 +1,3 @@
-set -o errexit
-set -o nounset
-set -o pipefail
-
 readonly repo_root="$HOME/dotfile"
 readonly manifest="$repo_root/nix/dotfiles.conf"
 readonly state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
@@ -109,9 +105,7 @@ while (($#)); do
   shift
 done
 
-[[ $(uname -s) == Linux ]] || fail "only Linux is supported"
 command -v nix >/dev/null || fail "nix is required"
-command -v systemd-tmpfiles >/dev/null || fail "systemd-tmpfiles is required"
 [[ -d "$repo_root/.git" ]] || fail "expected the repository at $repo_root"
 [[ -f "$manifest" ]] || fail "missing manifest: $manifest"
 

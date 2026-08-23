@@ -12,10 +12,7 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
       perSystem = system:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
+          pkgs = import nixpkgs { inherit system; };
           profile = pkgs.buildEnv {
             name = "dotfiles-profile";
             paths = import ./nix/packages.nix { inherit pkgs; };
@@ -32,15 +29,9 @@
     {
       packages = forAllSystems (system: {
         default = (perSystem system).profile;
-        apply = (perSystem system).apply;
       });
 
       apps = forAllSystems (system: {
-        default = {
-          type = "app";
-          program = "${(perSystem system).apply}/bin/dotfiles-apply";
-          meta.description = "Safely build and activate the personal environment";
-        };
         apply = {
           type = "app";
           program = "${(perSystem system).apply}/bin/dotfiles-apply";
@@ -53,8 +44,9 @@
           inherit (perSystem system) apply pkgs profile;
           manifest = pkgs.runCommand "dotfiles-manifest-check"
             {
-              nativeBuildInputs = [ pkgs.systemd ];
+              nativeBuildInputs = [ pkgs.shellcheck pkgs.systemd ];
             } ''
+            shellcheck ${./home/.local/bin/qmk-flash}
             systemd-tmpfiles --user --dry-run --create ${./nix/dotfiles.conf}
             touch "$out"
           '';

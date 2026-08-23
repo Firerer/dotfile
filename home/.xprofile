@@ -36,8 +36,7 @@ join_paths() {
     echo "$result"
 }
 ### PATH
-addpath "$HOME/.bin" \
-    "$HOME/.local/bin" \
+addpath "$HOME/.local/bin" \
     "$HOME/.cargo/bin"
 
 

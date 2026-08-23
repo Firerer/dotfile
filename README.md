@@ -40,8 +40,8 @@ check again. Existing Stow links into `~/dotfile` are recognized and migrated.
 - `nix/packages.nix`: packages in the dedicated profile
 - `nix/dotfiles.conf`: declarative link and parent-directory rules
 - `nix/apply.nix` and `nix/apply.sh`: checked activation command
-- `.bin/`: legacy personal scripts, intentionally unchanged and unmanaged
-- `notes/` and `others/`: personal material outside package management
+- `home/.local/bin/`: personal commands linked individually into `~/.local/bin`
+- `others/`: personal material outside package management
 
 ## Updating and rollback
 

@@ -14,6 +14,7 @@ with pkgs; [
   cargo
   tree-sitter
   lazygit
+  qmk
   fzf
   ripgrep
   ripgrep-all

@@ -1,2 +1,7 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
 cd ~/qmk_firmware/keyboards/ergodox_ez/keymaps/firerrd
 qmk json2c firerrd.json -o keymap.c && qmk flash
