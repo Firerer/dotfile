@@ -19,6 +19,7 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [ nixgl.overlay ];
+            config.allowUnfree = true;
           };
           alacrittyWithNixGL = pkgs.runCommand "alacritty-with-nixgl"
             {
@@ -36,6 +37,7 @@
             name = "dotfiles";
             paths = with pkgs; [
               fish
+              brave
               starship
               zellij
               neovim

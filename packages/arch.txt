@@ -1,0 +1,2 @@
+# Linux applications unavailable from the portable Nix package set.
+openai-codex-desktop
