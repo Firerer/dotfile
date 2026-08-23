@@ -2,6 +2,8 @@
 Description=Synchronize the Omni vault with Google Drive
 After=network-online.target
 Wants=network-online.target
+ConditionPathExists=%h/.config/rclone/rclone.conf
+ConditionPathIsDirectory=%h/Documents/Omni
 
 [Service]
 Type=oneshot

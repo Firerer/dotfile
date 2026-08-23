@@ -7,32 +7,32 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, nixgl, ... }:
+  outputs =
+    { nixpkgs, nixgl, ... }:
     let
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
+      systems = [ "x86_64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-      perSystem = system:
+      perSystem =
+        system:
         let
           pkgs = import nixpkgs {
             inherit system;
             overlays = [ nixgl.overlay ];
             config.allowUnfree = true;
           };
-          alacrittyWithNixGL = pkgs.runCommand "alacritty-with-nixgl"
-            {
-              nativeBuildInputs = [ pkgs.makeWrapper ];
-            }
-            ''
-              mkdir -p "$out/bin" "$out/share"
-              makeWrapper \
-                ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel \
-                "$out/bin/alacritty" \
-                --add-flags ${pkgs.alacritty}/bin/alacritty
-              cp -rs ${pkgs.alacritty}/share/* "$out/share/"
-            '';
+          alacrittyWithNixGL =
+            pkgs.runCommand "alacritty-with-nixgl"
+              {
+                nativeBuildInputs = [ pkgs.makeWrapper ];
+              }
+              ''
+                mkdir -p "$out/bin" "$out/share"
+                makeWrapper \
+                  ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel \
+                  "$out/bin/alacritty" \
+                  --add-flags ${pkgs.alacritty}/bin/alacritty
+                cp -rs ${pkgs.alacritty}/share/* "$out/share/"
+              '';
           dotfiles = pkgs.buildEnv {
             name = "dotfiles";
             paths = with pkgs; [
@@ -89,32 +89,50 @@
               "/bin"
               "/share"
             ];
-            ignoreCollisions = true;
           };
         in
-        { inherit dotfiles pkgs; };
+        {
+          inherit dotfiles pkgs;
+        };
     in
     {
       packages = forAllSystems (system: {
         default = (perSystem system).dotfiles;
       });
 
-      checks = forAllSystems (system:
+      checks = forAllSystems (
+        system:
         let
           inherit (perSystem system) dotfiles pkgs;
-          manifest = pkgs.runCommand "dotfiles-manifest-check"
-            {
-              nativeBuildInputs = [ pkgs.shellcheck pkgs.systemd ];
-            } ''
-            shellcheck ${./home/.local/bin/qmk-flash}
-            systemd-tmpfiles --user --dry-run --create ${./dotfiles.conf}
-            touch "$out"
-          '';
+          manifest =
+            pkgs.runCommand "dotfiles-manifest-check"
+              {
+                nativeBuildInputs = [
+                  pkgs.fastfetch
+                  pkgs.lazygit
+                  pkgs.shellcheck
+                  pkgs.shfmt
+                  pkgs.starship
+                  pkgs.systemd
+                ];
+              }
+              ''
+                for script in ${./home/.local/bin}/*; do
+                  shellcheck "$script"
+                  shfmt -d "$script"
+                done
+                systemd-tmpfiles --user --dry-run --create ${./dotfiles.conf}
+                fastfetch --config ${./home/.config/fastfetch/config.jsonc} --pipe >/dev/null
+                lazygit --use-config-file ${./home/.config/lazygit/config.yml} --version >/dev/null
+                STARSHIP_CONFIG=${./home/.config/starship/starship.toml} starship explain >/dev/null
+                touch "$out"
+              '';
         in
         {
           inherit manifest;
           profile = dotfiles;
-        });
+        }
+      );
 
       formatter = forAllSystems (system: (perSystem system).pkgs.nixpkgs-fmt);
     };
