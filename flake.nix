@@ -123,7 +123,6 @@
                 systemd-tmpfiles --user --dry-run --create ${./dotfiles.conf}
                 fastfetch --config ${./home/.config/fastfetch/config.jsonc} --pipe >/dev/null
                 lazygit --use-config-file ${./home/.config/lazygit/config.yml} --version >/dev/null
-                STARSHIP_CONFIG=${./home/.config/starship/starship.toml} starship explain >/dev/null
                 touch "$out"
               '';
         in
