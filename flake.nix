@@ -1,47 +1,68 @@
 {
-  description = "A flake for my profile";
-  nixConfig = {
-  };
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b";
-  };
-  outputs = { self, nixpkgs }:
+  description = "Portable personal environment and live dotfile links";
+
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b";
+
+  outputs = { nixpkgs, ... }:
     let
-      # https://nixos.org/manual/nixpkgs/stable/
-      system = "x86_64-linux";
-      p = nixpkgs.legacyPackages.${system};
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      perSystem = system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          profile = pkgs.buildEnv {
+            name = "dotfiles-profile";
+            paths = import ./nix/packages.nix { inherit pkgs; };
+            pathsToLink = [
+              "/bin"
+              "/share"
+            ];
+            ignoreCollisions = true;
+          };
+          apply = import ./nix/apply.nix { inherit pkgs; };
+        in
+        { inherit apply pkgs profile; };
     in
     {
-      formatter.${system} = p.nixpkgs-fmt;
-      packages.${system} = {
-        # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/buildenv/default.nix
-        default = p.buildEnv {
-          name = "my-profile_";
-          paths = [
-            # lazyvim
-            p.neovim # Make sure this is latest version for LazyVim
-            p.git # Required for LazyVim plugins
-            p.gcc # For treesitter
-            p.gnumake # Build system
-            p.curl # For nvim-cmp
-            p.lazygit # For Git integration
-            p.fzf # For fuzzy finding
-            p.ripgrep # For live grep
-            p.fd # For find files
-            p.tree-sitter
-            # p.nerdfonts # For icons support (too big)
-            # p.jetbrains-mono
-            p.xclip # For clipboard support
+      packages = forAllSystems (system: {
+        default = (perSystem system).profile;
+        apply = (perSystem system).apply;
+      });
 
-            # terminal
-            p.zellij
-            p.starship
-            p.fish
-
-            # tools
-            p.stow
-          ];
+      apps = forAllSystems (system: {
+        default = {
+          type = "app";
+          program = "${(perSystem system).apply}/bin/dotfiles-apply";
+          meta.description = "Safely build and activate the personal environment";
         };
-      };
+        apply = {
+          type = "app";
+          program = "${(perSystem system).apply}/bin/dotfiles-apply";
+          meta.description = "Safely build and activate the personal environment";
+        };
+      });
+
+      checks = forAllSystems (system:
+        let
+          inherit (perSystem system) apply pkgs profile;
+          manifest = pkgs.runCommand "dotfiles-manifest-check"
+            {
+              nativeBuildInputs = [ pkgs.systemd ];
+            } ''
+            systemd-tmpfiles --user --dry-run --create ${./nix/dotfiles.conf}
+            touch "$out"
+          '';
+        in
+        {
+          inherit apply manifest profile;
+        });
+
+      formatter = forAllSystems (system: (perSystem system).pkgs.nixpkgs-fmt);
     };
 }

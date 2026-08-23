@@ -1,0 +1,42 @@
+{ pkgs }:
+
+with pkgs; [
+  fish
+  starship
+  zellij
+  neovim
+  helix
+  git
+  gcc
+  gnumake
+  curl
+  rustc
+  cargo
+  tree-sitter
+  lazygit
+  fzf
+  ripgrep
+  ripgrep-all
+  fd
+  eza
+  zoxide
+  difftastic
+  tealdeer
+  alacritty
+  fcitx5
+  fcitx5-gtk
+  qt6Packages.fcitx5-chinese-addons
+  qt6Packages.fcitx5-configtool
+  xclip
+  btop
+  htop
+  fastfetch
+  trash-cli
+  man-db
+  man-pages
+  fontconfig
+  nerd-fonts.hack
+  noto-fonts
+  noto-fonts-cjk-sans
+  noto-fonts-color-emoji
+]

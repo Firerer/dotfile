@@ -1,7 +1,7 @@
 [user]
 	name = Di Liu
 	email = liud12631@gmail.com
-	signingkey = /home/di/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 [alias]
 	uncommit = reset HEAD^
 	dft = difftool

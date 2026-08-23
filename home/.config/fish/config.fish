@@ -42,9 +42,9 @@ if type -q fzf
     type -q fd && abbr --add zdd 'cd (fd --type directory -u | fzf)'
 end
 
-# replace ls with exa
-if type -q exa
-    alias ls "exa --icons --sort=type --group-directories-first "
+# replace ls with eza
+if type -q eza
+    alias ls "eza --icons --sort=type --group-directories-first "
     abbr --add lt 'ls -T --level 3' # tree listing
 else
     type -q tree && abbr --add lt 'tree -L 3'
@@ -54,17 +54,19 @@ abbr --add ll "ls -hla"
 abbr --add l. 'ls -a | rg "\.\w*"'
 
 if type -q nvim
-    set -Ux EDITOR nvim
-    set -Ux VISUAL nvim
+    set -gx EDITOR nvim
+    set -gx VISUAL nvim
 end
-type -q code && set -Ux VISUAL 'code --wait'
+type -q code && set -gx VISUAL 'code --wait'
 
 fish_add_path -p ~/.bin \
+    ~/.local/state/nix/profiles/dotfiles/bin \
     ~/.local/bin \
     ~/.cargo/bin \
     ~/.bun/bin \
     ~/Applications
-set -Ux PYTHONPATH "."
+set -gx PYTHONPATH "."
+set -gx XDG_DATA_DIRS "$HOME/.local/state/nix/profiles/dotfiles/share" /usr/local/share /usr/share
 
 if type -q starship
     source (starship init fish --print-full-init | psub)
@@ -82,7 +84,3 @@ if type -q glab
 end
 
 source ~/.config/fish/keybind.fish
-
-
-# Added by Antigravity CLI installer
-set -gx PATH "/home/leo/.local/bin" $PATH

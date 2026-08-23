@@ -12,11 +12,11 @@ alias cp='cp -i'
 alias df='df -h'
 alias free='free -h'
 
-if command -v exa &>/dev/null; then
-  alias ls='exa --color=always --group-directories-first --icons'
-  alias la='exa -a --color=always --group-directories-first --icons'
-  alias ll='exa -la --color=always --group-directories-first --icons'
-  alias lt='exa -aT --color=always --group-directories-first --icons'
+if command -v eza &>/dev/null; then
+  alias ls='eza --color=always --group-directories-first --icons'
+  alias la='eza -a --color=always --group-directories-first --icons'
+  alias ll='eza -la --color=always --group-directories-first --icons'
+  alias lt='eza -aT --color=always --group-directories-first --icons'
 else
   alias la='ls -A --color=auto'
   alias ll='ls -Al --color=auto'
@@ -28,7 +28,8 @@ else
   PS1='[\u@\h \W]\$ '
 fi
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/state/nix/profiles/dotfiles/bin:$HOME/.local/bin:$PATH"
+export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export TERMINAL="alacritty"
 
 if [ -d "$HOME/.xberg/bin" ]; then
@@ -36,7 +37,7 @@ if [ -d "$HOME/.xberg/bin" ]; then
 fi
 
 # pnpm
-export PNPM_HOME="/home/di/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
@@ -50,7 +51,7 @@ alias rmm='/usr/bin/rm'
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 
 export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}."
-export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+export TERMINFO_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
 export GPG_TTY
 GPG_TTY=$(tty)
 
@@ -71,9 +72,4 @@ export PATH="$HOME/.grok/bin:$PATH"
 # <<< grok installer <<<
 
 
-# Added by Antigravity CLI installer
-export PATH="/home/di/.local/bin:$PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/di/.lmstudio/bin"
-# End of LM Studio CLI section
+export PATH="$PATH:$HOME/.lmstudio/bin"
