@@ -48,6 +48,7 @@
               cargo
               tree-sitter
               lazygit
+              superfile
               qmk
               fzf
               ripgrep

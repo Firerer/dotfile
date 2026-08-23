@@ -68,11 +68,8 @@ set -gx XDG_DATA_DIRS "$HOME/.nix-profile/share" /usr/local/share /usr/share
 set -gx TERMINFO_DIRS "$HOME/.nix-profile/share/terminfo" /usr/share/terminfo
 
 if type -q starship
+    set -gx STARSHIP_CONFIG ~/.config/starship/starship.toml
     source (starship init fish --print-full-init | psub)
-end
-
-if type -q atuin
-    atuin init fish | source
 end
 
 if type -q glab

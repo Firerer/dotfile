@@ -1,0 +1,13 @@
+gui:
+  nerdFontsVersion: "3"
+  showCommandLog: false
+  border: rounded
+git:
+  paging:
+    colorArg: always
+    externalDiffCommand: "difft --color=always"
+  autoFetch: true
+  autoRefresh: true
+os:
+  editPreset: nvim
+promptToReturnFromSubprocess: false
