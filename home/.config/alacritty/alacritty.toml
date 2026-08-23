@@ -47,4 +47,4 @@ y = 0
 
 [general]
 live_config_reload = true
-import = ["./theme.yml"]
+import = ["./current-theme.toml"]

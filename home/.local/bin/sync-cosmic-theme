@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -eu
+
+repo="$HOME/dotfile/home/.config"
+mode="$HOME/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark"
+
+if [ "$(tr -d '[:space:]' < "$mode")" = true ]; then
+    alacritty_source="$repo/alacritty/themes/dark.toml"
+    superfile_source="$repo/superfile/theme/catppuccin-mocha.toml"
+else
+    alacritty_source="$repo/alacritty/themes/light.toml"
+    superfile_source="$repo/superfile/theme/catppuccin-latte.toml"
+fi
+
+update_file() {
+    source_file=$1
+    target_file=$2
+    temporary_file="${target_file}.tmp"
+
+    if [ -f "$target_file" ] && cmp -s "$source_file" "$target_file"; then
+        return
+    fi
+
+    cp "$source_file" "$temporary_file"
+    mv "$temporary_file" "$target_file"
+}
+
+update_file "$alacritty_source" "$repo/alacritty/current-theme.toml"
+update_file "$superfile_source" "$repo/superfile/theme/auto.toml"

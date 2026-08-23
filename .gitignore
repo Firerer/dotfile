@@ -5,3 +5,7 @@ tmp/
 
 fish_variables
 vifminfo.json
+
+# Runtime-selected light/dark themes.
+home/.config/alacritty/current-theme.toml
+home/.config/superfile/theme/auto.toml

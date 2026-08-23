@@ -1,0 +1,6 @@
+[Unit]
+Description=Synchronize terminal themes with COSMIC appearance
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/sync-cosmic-theme
