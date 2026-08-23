@@ -9,3 +9,4 @@ vifminfo.json
 # Runtime-selected light/dark themes.
 home/.config/alacritty/current-theme.toml
 home/.config/superfile/theme/auto.toml
+home/.config/cosmic/com.system76.CosmicBackground/v1/all

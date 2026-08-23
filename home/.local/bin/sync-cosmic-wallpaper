@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+target="$HOME/dotfile/home/.config/cosmic/com.system76.CosmicBackground/v1/all"
+wallpaper="$HOME/dotfile/home/.local/share/wallpapers/cosmic.jpg"
+temporary="${target}.tmp"
+
+{
+    printf '%s\n' '('
+    printf '    output: "all",\n'
+    printf '    source: Path("%s"),\n' "$wallpaper"
+    printf '%s\n' '    filter_by_theme: true,'
+    printf '%s\n' '    rotation_frequency: 300,'
+    printf '%s\n' '    filter_method: Lanczos,'
+    printf '%s\n' '    scaling_mode: Zoom,'
+    printf '%s\n' '    sampling_method: Alphanumeric,'
+    printf '%s\n' ')'
+} > "$temporary"
+
+mv "$temporary" "$target"
