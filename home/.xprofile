@@ -41,11 +41,11 @@ addpath "$HOME/.local/bin" \
 
 
 
-# for the repository-owned Nix profile
-addpath "$HOME/.local/state/nix/profiles/dotfiles/bin"
-XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+# for the default Nix profile
+addpath "$HOME/.nix-profile/bin"
+XDG_DATA_DIRS="$HOME/.nix-profile/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_DATA_DIRS
-export TERMINFO_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
 
 if command -v nvim > /dev/null
 then

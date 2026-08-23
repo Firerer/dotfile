@@ -4,4 +4,4 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-export PATH="$HOME/.local/state/nix/profiles/dotfiles/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.nix-profile/bin:$HOME/.local/bin:$PATH"

@@ -28,8 +28,8 @@ else
   PS1='[\u@\h \W]\$ '
 fi
 
-export PATH="$HOME/.local/state/nix/profiles/dotfiles/bin:$HOME/.local/bin:$PATH"
-export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export PATH="$HOME/.nix-profile/bin:$HOME/.local/bin:$PATH"
+export XDG_DATA_DIRS="$HOME/.nix-profile/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export TERMINAL="alacritty"
 
 if [ -d "$HOME/.xberg/bin" ]; then
@@ -51,7 +51,7 @@ alias rmm='/usr/bin/rm'
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 
 export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}."
-export TERMINFO_DIRS="$HOME/.local/state/nix/profiles/dotfiles/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
+export TERMINFO_DIRS="$HOME/.nix-profile/share/terminfo:/usr/share/terminfo${TERMINFO_DIRS:+:$TERMINFO_DIRS}"
 export GPG_TTY
 GPG_TTY=$(tty)
 

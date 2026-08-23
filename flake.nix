@@ -13,46 +13,78 @@
       perSystem = system:
         let
           pkgs = import nixpkgs { inherit system; };
-          profile = pkgs.buildEnv {
-            name = "dotfiles-profile";
-            paths = import ./nix/packages.nix { inherit pkgs; };
+          dotfiles = pkgs.buildEnv {
+            name = "dotfiles";
+            paths = with pkgs; [
+              fish
+              starship
+              zellij
+              neovim
+              helix
+              git
+              gcc
+              gnumake
+              curl
+              rustc
+              cargo
+              tree-sitter
+              lazygit
+              qmk
+              fzf
+              ripgrep
+              ripgrep-all
+              fd
+              eza
+              zoxide
+              difftastic
+              tealdeer
+              alacritty
+              fcitx5
+              fcitx5-gtk
+              qt6Packages.fcitx5-chinese-addons
+              qt6Packages.fcitx5-configtool
+              xclip
+              btop
+              htop
+              fastfetch
+              trash-cli
+              man-db
+              man-pages
+              fontconfig
+              nerd-fonts.hack
+              noto-fonts
+              noto-fonts-cjk-sans
+              noto-fonts-color-emoji
+            ];
             pathsToLink = [
               "/bin"
               "/share"
             ];
             ignoreCollisions = true;
           };
-          apply = import ./nix/apply.nix { inherit pkgs; };
         in
-        { inherit apply pkgs profile; };
+        { inherit dotfiles pkgs; };
     in
     {
       packages = forAllSystems (system: {
-        default = (perSystem system).profile;
-      });
-
-      apps = forAllSystems (system: {
-        apply = {
-          type = "app";
-          program = "${(perSystem system).apply}/bin/dotfiles-apply";
-          meta.description = "Safely build and activate the personal environment";
-        };
+        default = (perSystem system).dotfiles;
       });
 
       checks = forAllSystems (system:
         let
-          inherit (perSystem system) apply pkgs profile;
+          inherit (perSystem system) dotfiles pkgs;
           manifest = pkgs.runCommand "dotfiles-manifest-check"
             {
               nativeBuildInputs = [ pkgs.shellcheck pkgs.systemd ];
             } ''
             shellcheck ${./home/.local/bin/qmk-flash}
-            systemd-tmpfiles --user --dry-run --create ${./nix/dotfiles.conf}
+            systemd-tmpfiles --user --dry-run --create ${./dotfiles.conf}
             touch "$out"
           '';
         in
         {
-          inherit apply manifest profile;
+          inherit manifest;
+          profile = dotfiles;
         });
 
       formatter = forAllSystems (system: (perSystem system).pkgs.nixpkgs-fmt);

@@ -58,13 +58,14 @@ if type -q nvim
 end
 type -q code && set -gx VISUAL 'code --wait'
 
-fish_add_path -p ~/.local/state/nix/profiles/dotfiles/bin \
+fish_add_path -p ~/.nix-profile/bin \
     ~/.local/bin \
     ~/.cargo/bin \
     ~/.bun/bin \
     ~/Applications
 set -gx PYTHONPATH "."
-set -gx XDG_DATA_DIRS "$HOME/.local/state/nix/profiles/dotfiles/share" /usr/local/share /usr/share
+set -gx XDG_DATA_DIRS "$HOME/.nix-profile/share" /usr/local/share /usr/share
+set -gx TERMINFO_DIRS "$HOME/.nix-profile/share/terminfo" /usr/share/terminfo
 
 if type -q starship
     source (starship init fish --print-full-init | psub)
