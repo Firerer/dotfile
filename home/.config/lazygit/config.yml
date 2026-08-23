@@ -3,9 +3,9 @@ gui:
   showCommandLog: false
   border: rounded
 git:
-  paging:
-    colorArg: always
-    externalDiffCommand: "difft --color=always"
+  pagers:
+    - colorArg: always
+      externalDiffCommand: "difft --color=always"
   autoFetch: true
   autoRefresh: true
 os:
