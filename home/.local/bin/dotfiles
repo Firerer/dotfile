@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo="${HOME}/dotfile"
+manifest="${repo}/dotfiles.conf"
+
+usage() {
+	printf 'Usage: dotfiles {check|apply|bootstrap}\n' >&2
+	exit 2
+}
+
+check_links() {
+	local failures=0
+	local kind path target
+
+	while read -r kind path _ _ _ _ target; do
+		[[ "$kind" == L ]] || continue
+		path=${path//%h/$HOME}
+		target=${target//%h/$HOME}
+
+		if [[ -L "$path" ]]; then
+			if [[ "$(readlink "$path")" != "$target" ]]; then
+				printf 'wrong link: %s -> %s (expected %s)\n' \
+					"$path" "$(readlink "$path")" "$target" >&2
+				failures=1
+			elif [[ ! -e "$path" ]]; then
+				printf 'broken link: %s -> %s\n' "$path" "$target" >&2
+				failures=1
+			fi
+		elif [[ -e "$path" ]]; then
+			printf 'conflict: %s exists and is not managed\n' "$path" >&2
+			failures=1
+		else
+			printf 'missing link: %s\n' "$path" >&2
+			failures=1
+		fi
+	done <"$manifest"
+
+	return "$failures"
+}
+
+check_packages() {
+	local failures=0
+	local command_name
+
+	for command_name in \
+		alacritty btop fastfetch fd fish fzf git lazygit nixd nvim \
+		rclone rg shellcheck shfmt spf starship statix zellij; do
+		if ! command -v "$command_name" >/dev/null 2>&1; then
+			printf 'missing command: %s\n' "$command_name" >&2
+			failures=1
+		fi
+	done
+
+	if command -v pacman >/dev/null 2>&1; then
+		while IFS= read -r package_name; do
+			[[ -n "$package_name" && "$package_name" != \#* ]] || continue
+			if ! pacman -Q "$package_name" >/dev/null 2>&1; then
+				printf 'missing Arch package: %s\n' "$package_name" >&2
+				failures=1
+			fi
+		done <"${repo}/packages/arch.txt"
+	fi
+
+	return "$failures"
+}
+
+check() {
+	local failures=0
+
+	[[ "$repo" == "${HOME}/dotfile" && -f "$manifest" ]] || {
+		printf 'repository must be cloned at %s\n' "$repo" >&2
+		return 1
+	}
+
+	check_links || failures=1
+	check_packages || failures=1
+	systemd-tmpfiles --user --dry-run --create "$manifest" >/dev/null 2>&1 || failures=1
+	nix flake check --no-build "$repo" || failures=1
+
+	if ((failures)); then
+		printf 'dotfiles check failed\n' >&2
+		return 1
+	fi
+
+	printf 'dotfiles check passed\n'
+}
+
+apply() {
+	systemd-tmpfiles --user --create "$manifest"
+	"$HOME/.local/bin/sync-cosmic-theme"
+	"$HOME/.local/bin/sync-cosmic-wallpaper"
+	xdg-user-dirs-update
+	systemctl --user daemon-reload
+	systemctl --user enable --now dotfiles-theme-sync.path
+	printf 'dotfiles applied\n'
+}
+
+bootstrap() {
+	if nix profile list --json | grep -q '"dotfile"'; then
+		nix profile upgrade dotfile
+	else
+		nix profile install "$repo"
+	fi
+
+	if command -v paru >/dev/null 2>&1 && command -v pacman >/dev/null 2>&1; then
+		mapfile -t arch_packages < <(
+			sed -e '/^[[:space:]]*#/d' -e '/^[[:space:]]*$/d' \
+				"${repo}/packages/arch.txt"
+		)
+		if ((${#arch_packages[@]})); then
+			paru -S --needed -- "${arch_packages[@]}"
+		fi
+	fi
+
+	apply
+	check
+}
+
+case "${1:-}" in
+check) check ;;
+apply) apply ;;
+bootstrap) bootstrap ;;
+*) usage ;;
+esac
